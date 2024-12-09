@@ -1,73 +1,60 @@
 <?php
 
 class Utilisateur {
-    // Declarer les attributs :
-    private string $login;
-    private string $mdp;
-    private string $nom;
-    private string $prenom;
-    private string $email;
+    private int $user_id;
+    private string $user_mail;
+    private string $user_mdp;
+    private string $user_prenom;
+    private string $user_nom;
+    private int $adr_id;
 
-    // Declarer le GET et SET :
+    // GET et SET
     public function get($attribut) {
-    return $this->$attribut;
+        return $this->$attribut;
     }
     
-    public function set($attribut,$valeur) {
+    public function set($attribut, $valeur) {
         $this->$attribut = $valeur;
     }
 
-
-    // Declarer le constructeur :
-    public function __construct(string $login=NULL, string $mdp=NULL, string $nom=NULL, string $prenom=NULL, string $email=NULL) {
-      if (!is_null($login)){
-        $this->login = $login;
-        $this->mdp = $mdp;
-        $this->nom = $nom;
-        $this->prenom = $prenom;
-        $this->email = $email;
+    // Constructeur
+    public function __construct(int $user_id = NULL, string $user_mail = NULL, string $user_mdp = NULL, string $user_prenom = NULL, string $user_nom = NULL, int $adr_id = NULL) {
+        if (!is_null($user_id)) {
+            $this->user_id = $user_id;
+            $this->user_mail = $user_mail;
+            $this->user_mdp = $user_mdp;
+            $this->user_prenom = $user_prenom;
+            $this->user_nom = $user_nom;
+            $this->adr_id = $adr_id;
+        }
     }
-  }
 
-
-    // Déclarer une méthode d'afficher
+    // Méthode afficher
     public function afficher() {
-        echo 'utilisateur ',$this->get("login"), ' (', $this->get("prenom"),' ',$this->get("nom"), '), email = ', $this->get("email") ;
-
+        echo 'utilisateur ', $this->get("user_id"), ' (', $this->get("user_prenom"), ' ', $this->get("user_nom"), '), email = ', $this->get("user_mail");
     }
-    
 
+    // Récupérer tous les utilisateurs
     public static function getAllUtilisateur() {
-      $requete = "SELECT * FROM utilisateur1;";
-
-      $resultat = connexion::pdo()->query($requete);
-      
-      $resultat->setFetchmode(PDO::FETCH_CLASS,"utilisateur");
-
-      $mesUser = $resultat->fetchAll();
-
-      return $mesUser;
-    
+        $requete = "SELECT * FROM utilisateur";
+        $resultat = connexion::pdo()->query($requete);
+        $resultat->setFetchMode(PDO::FETCH_CLASS, "Utilisateur");
+        return $resultat->fetchAll();
     }
 
-
+    // Récupérer un utilisateur par son mail
     public static function getUtilisateurByLogin($l) {
-      try {
-        $requete = "SELECT * FROM utilisateur1 WHERE login = :login";
-        $stmt = connexion::pdo()->prepare($requete);
-        $stmt->execute(['login' => $l]);
-        
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'utilisateur');
-        $voiture = $stmt->fetch();
-    
-        return $voiture;
-      } catch (PDOException $e) {
-        echo 'Erreur : ' . $e->getMessage();
-        return null;
-      }
+        try {
+            $requete = "SELECT * FROM utilisateur WHERE user_id = :user_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['user_id' => $l]);
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Utilisateur');
+            return $stmt->fetch();
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
     }
-    
-
 }
-?>
 
+?>
