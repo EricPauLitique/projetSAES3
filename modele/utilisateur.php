@@ -1,12 +1,12 @@
 <?php
 
 class Utilisateur {
-    private int $user_id;
-    private string $user_mail;
-    private string $user_mdp;
-    private string $user_prenom;
-    private string $user_nom;
-    private int $adr_id;
+    protected int $user_id;
+    protected string $user_mail;
+    protected string $user_mdp;
+    protected string $user_prenom;
+    protected string $user_nom;
+    protected int $adr_id;
 
     // GET et SET
     public function get($attribut) {

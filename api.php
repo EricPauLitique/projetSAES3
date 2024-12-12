@@ -19,6 +19,7 @@ class UtilisateurController {
             $utilisateur = Utilisateur::getUtilisateurByLogin($login);
 
             // Vérifier si l'utilisateur existe et renvoyer la réponse
+            
             if ($utilisateur) {
                 // Utilisateur trouvé, renvoyer les données
                 echo json_encode([
@@ -36,12 +37,36 @@ class UtilisateurController {
             echo json_encode(['message' => 'Login manquant ou invalide']);
         }
     }
+    public function listGet() {
+            
+            // Se connecter à la base de données
+            Connexion::connect();
+
+            // Appeler la méthode pour récupérer un utilisateur par login
+            $tab_u = Utilisateur::getAllUtilisateur();
+
+            // Vérifier si l'utilisateur existe et renvoyer la réponse
+
+            foreach ($tab_u as $u) {
+
+
+                // Utilisateur trouvé, renvoyer les données
+                echo json_encode([
+                    'user_id' => $u->get('user_id'),
+                    'prenom' => $u->get('user_prenom'),
+                    'nom' => $u->get('user_nom'),
+                    'email' => $u->get('user_mail')
+                ]);
+
+            }
+         } 
+
 
     // Méthode pour gérer les autres types de requêtes HTTP
     public function handleRequest() {
         // Vérifier la méthode HTTP
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            $this->handleGetRequest();
+            $this->listGet();
         } else {
             // Méthode non autorisée
             echo json_encode(['message' => 'Méthode non autorisée']);
@@ -49,7 +74,9 @@ class UtilisateurController {
     }
 }
 
+
 // Créer une instance du contrôleur et traiter la requête
 $controller = new UtilisateurController();
 $controller->handleRequest();
+//$controller->listGet();
 ?>
