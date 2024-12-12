@@ -1,7 +1,7 @@
 <?php
 // Inclure la connexion et le modèle
-require_once 'config/connexion.php';
-require_once 'modele/utilisateur.php';
+require_once '../config/connexion.php';
+require_once '../modele/utilisateur.php';
 
 // Classe contrôleur pour la gestion des utilisateurs
 class UtilisateurController {
@@ -53,9 +53,11 @@ class UtilisateurController {
                 // Utilisateur trouvé, renvoyer les données
                 echo json_encode([
                     'user_id' => $u->get('user_id'),
+                    'email' => $u->get('user_mail'),
+                    'email' => $u->get('user_mdp'),
                     'prenom' => $u->get('user_prenom'),
                     'nom' => $u->get('user_nom'),
-                    'email' => $u->get('user_mail')
+                    'adr_id' => $u->get('adr_id')
                 ]);
 
             }
