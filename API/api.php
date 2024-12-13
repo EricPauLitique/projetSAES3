@@ -6,7 +6,7 @@ require_once '../modele/utilisateur.php';
 // Classe contrôleur pour la gestion des utilisateurs
 class UtilisateurController {
 
-    // Méthode pour gérer les requêtes GET
+    /* // Méthode pour gérer les requêtes GET
     public function handleGetRequest() {
         // Vérifier si un login a été fourni dans l'URL
         if (isset($_GET['user_id']) && !empty($_GET['user_id'])) {
@@ -37,6 +37,9 @@ class UtilisateurController {
             echo json_encode(['message' => 'Login manquant ou invalide']);
         }
     }
+        */
+
+        
     public function listGet() {
             
             // Se connecter à la base de données
