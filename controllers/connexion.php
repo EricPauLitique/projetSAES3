@@ -5,22 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>connexion</title>
     <!-- Lien vers une feuille de style externe -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles/styles.css">
 </head>
 <body>
     <main>
 	<h1>Voix</h1>
 	<h1>Citoyenne</h1>
 	<h4><i>Chaque voix compte</i></h4>
-        <form>
-				<label for="email"></label>
-				<input type="email" id="email" name="email" placeholder="Adresse e-mail" required>
-				<br>
-				<label for="password"></label>
-				<input type="password" id="password" name="password" placeholder="Mot de passe" required>
-				<br>
-				<button type="submit">Connexion</button>
-		</form>
+    <form action="connexion.php" method="POST"></form>
+        <label for="email"></label>
+        <input type="email" id="email" name="email" placeholder="Adresse e-mail" required>
+        <br>
+        <label for="password"></label>
+        <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+        <br>
+        <button type="submit">Connexion</button>
+    </form>
 		<a href="creacompte.html"><p>Créer un compte</p></a>
     </main>
     
