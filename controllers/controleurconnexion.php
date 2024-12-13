@@ -5,20 +5,32 @@ require_once("../modele/utilisateur.php");
 Connexion::connect();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
+    $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
     $password = $_POST['password'];
 
-    // Rechercher l'utilisateur dans la base de données
-    $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE user_email = :email");
-    $stmt->execute(['email' => $email]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$email || empty($password)) {
+        echo "Veuillez fournir une adresse e-mail valide et un mot de passe.";
+        exit;
+    }
 
-    // Vérification du mot de passe
-    if ($user && password_verify($password, $user['password'])) {
-        echo "Connexion réussie. Bienvenue, " . htmlspecialchars($user['email']) . "!";
-    } else {
-        echo "Adresse e-mail ou mot de passe incorrect.";
+    try {
+        $pdo = Connexion::PDO();
+        $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE user_mail = :email");
+        $stmt->execute(['email' => $email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Debug : Inspecter les résultats
+        var_dump($user);
+
+        if (!$user) {
+            echo "Adresse e-mail incorrecte.,";
+        } elseif ($password==$user['user_mdp']) {
+            echo "Connexion réussie. Bienvenue, " . htmlspecialchars($user['user_prenom']) . "!";
+        } else {
+            echo "Mot de passe incorrect. " . $password . " ".$user['user_mdp'];
+        }
+    } catch (Exception $e) {
+        echo "Erreur : " . $e->getMessage();
     }
 }
-
 ?>
