@@ -19,9 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // Debug : Inspecter les résultats
+        var_dump($user);
+
         if (!$user) {
             echo "Adresse e-mail incorrecte.,";
-        } elseif (password_hash(password_hash("SophieRoche95", PASSWORD_DEFAULT), PASSWORD_DEFAULT)) {
+        } elseif ($password==$user['user_mdp']) {
             echo "Connexion réussie. Bienvenue, " . htmlspecialchars($user['user_prenom']) . "!";
         } else {
             echo "Mot de passe incorrect. " . $password . " ".$user['user_mdp'];
