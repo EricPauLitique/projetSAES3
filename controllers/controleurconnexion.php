@@ -19,15 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Debug : Inspecter les résultats
-        var_dump($user);
-
         if (!$user) {
-            echo "Adresse e-mail incorrecte.,";
-        } elseif ($password==$user['user_mdp']) {
+            echo "Adresse e-mail incorrecte.";
+        } elseif ($password == $user['user_mdp']) {
+            // Correct login
             echo "Connexion réussie. Bienvenue, " . htmlspecialchars($user['user_prenom']) . "!";
         } else {
-            echo "Mot de passe incorrect. " . $password . " ".$user['user_mdp'];
+            // Incorrect password
+            echo "Mot de passe incorrect.";
         }
     } catch (Exception $e) {
         echo "Erreur : " . $e->getMessage();
