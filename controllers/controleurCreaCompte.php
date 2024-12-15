@@ -90,6 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
 
         echo "Compte créé avec succès ! Bienvenue, $prenom.";
+        header("Location: ../vue/accueil.html");
+        exit;
     } catch (PDOException $e) {
         echo "Erreur : " . $e->getMessage();
     }
