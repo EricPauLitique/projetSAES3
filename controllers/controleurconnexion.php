@@ -41,7 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
         } else {
             // Incorrect password
-            echo "Mot de passe incorrect.";
+            echo '<p style="color: red;"><b>Mot de passe incorrect.</b></p>';
+
             include ("../vue/connexion.html");
         }
 
