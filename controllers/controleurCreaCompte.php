@@ -89,9 +89,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'idAdresse' => $resultIdAdresse
         ]);
 
-        echo "Compte créé avec succès ! Bienvenue, $prenom.";
-        header("Location: ../vue/accueil.html");
-        exit;
+
+       session_start(); // Démarre la session
+
+       // Après vérification réussie des identifiants
+       $_SESSION['prenom'] = $prenom; // Stocke le prénom dans la session
+       $_SESSION['nom'] = $nom;       // Stocke le nom dans la session
+       
+       // Redirection vers la page d'accueil
+       header("Location: ../vue/accueil.html");
+       exit;
+
     } catch (PDOException $e) {
         echo "Erreur : " . $e->getMessage();
     }
