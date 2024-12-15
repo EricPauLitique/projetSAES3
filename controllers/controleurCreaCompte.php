@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
        $_SESSION['nom'] = $nom;       // Stocke le nom dans la session
        
        // Redirection vers la page d'accueil
-       header("Location: ../vue/accueil.html");
+       header("Location: ../vue/accueil.php");
        exit;
 
     } catch (PDOException $e) {
