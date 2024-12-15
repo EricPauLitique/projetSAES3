@@ -2,6 +2,6 @@
 session_start();
 session_destroy(); // Détruit la session
 
-header("Location: connexion.php");
-exit;
+echo "<b>Vous avez été déconnectée !</b>";
+include("controleurconnexion.php");
 ?>

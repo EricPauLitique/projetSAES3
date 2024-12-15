@@ -31,7 +31,7 @@ $nom = htmlspecialchars($_SESSION['nom']);
     <main>
         <h1>Bienvenue, <?php echo $prenom . ' ' . $nom; ?> !</h1>
         <p>Vous êtes maintenant connecté.</p>
-        <a href="logout.php">Se déconnecter</a>
+        <a href="../controllers/logout.php">Se déconnecter</a>
 
         <section>
             <p>Bienvenue sur Voix Citoyenne, proposez des idées, débattez et votez ! Veillez à rester respectueux entre vous.</p>
