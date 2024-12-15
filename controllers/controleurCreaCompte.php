@@ -1,5 +1,7 @@
 <?php
 require_once("../config/connexion.php");
+include("../vue/debut.php")
+$titre = "Connexion";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupération et nettoyage des données
