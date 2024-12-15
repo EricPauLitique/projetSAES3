@@ -1,6 +1,6 @@
 <?php
 require_once("../config/connexion.php");
-include("../vue/debut.php")
+include("../vue/debut.php");
 $titre = "Inscription";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nom = filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_STRING);
     $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-    $code_postal = filter_input(INPUT_POST, 'code_postal', FILTER_SANITIZE_STRING);
+    $code_postal = filter_input(INPUT_POST, 'code_postal', FILTER_SANITIZE_INT);
     $ville = filter_input(INPUT_POST, 'ville', FILTER_SANITIZE_STRING);
     $numero_rue = filter_input(INPUT_POST, 'numero_rue', FILTER_SANITIZE_NUMBER_INT);
     $nom_rue = filter_input(INPUT_POST, 'nom_rue', FILTER_SANITIZE_STRING);
@@ -29,7 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("SELECT user_id FROM utilisateur WHERE user_mail = :email");
         $stmt->execute(['email' => $email]);
         if ($stmt->fetch()) {
-            echo '<p style="color: red;"><b>L''email existe déjà dans notre système.</b></p>';
+            echo "<p style=\"color: red;\"><b>L'email existe déjà dans notre système.</b></p>";
+            include ("../vue/creacompte.html");
             exit;
         }
 
@@ -38,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute(['prenom' => $prenom, 'nom' => $nom]);
         if ($stmt->fetch()) {
             echo '<p style="color: red;"><b>Un utilisateur avec le même prénom et nom existe déjà.</b></p>';
+            include ("../vue/creacompte.html");
             exit;
         }
 
