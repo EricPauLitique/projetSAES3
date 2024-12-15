@@ -1,9 +1,11 @@
 <?php
 require_once("../config/connexion.php");
 require_once("../modele/utilisateur.php");
+$titre = "Connexion"; 
 include("../vue/debut.php");
+  
 session_start(); // Démarre la session
-$titre = "Connexion";
+
 
 Connexion::connect();
 

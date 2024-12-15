@@ -1,7 +1,8 @@
 <?php
 require_once("../config/connexion.php");
-include("../vue/debut.php");
 $titre = "Inscription";
+include("../vue/debut.php");
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupération et nettoyage des données
