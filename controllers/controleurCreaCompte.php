@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nom = filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_STRING);
     $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-    $code_postal = filter_input(INPUT_POST, 'code_postal', FILTER_SANITIZE_INT);
+    $code_postal = filter_input(INPUT_POST, 'code_postal', FILTER_SANITIZE_NUMBER_INT);
     $ville = filter_input(INPUT_POST, 'ville', FILTER_SANITIZE_STRING);
     $numero_rue = filter_input(INPUT_POST, 'numero_rue', FILTER_SANITIZE_NUMBER_INT);
     $nom_rue = filter_input(INPUT_POST, 'nom_rue', FILTER_SANITIZE_STRING);
