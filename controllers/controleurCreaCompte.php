@@ -1,7 +1,7 @@
 <?php
 require_once("../config/connexion.php");
 include("../vue/debut.php")
-$titre = "Connexion";
+$titre = "Inscription";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupération et nettoyage des données
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("SELECT user_id FROM utilisateur WHERE user_mail = :email");
         $stmt->execute(['email' => $email]);
         if ($stmt->fetch()) {
-            echo "L'email existe déjà dans notre système.";
+            echo '<p style="color: red;"><b>L''email existe déjà dans notre système.</b></p>';
             exit;
         }
 
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("SELECT user_id FROM utilisateur WHERE user_prenom = :prenom AND user_nom = :nom");
         $stmt->execute(['prenom' => $prenom, 'nom' => $nom]);
         if ($stmt->fetch()) {
-            echo "Un utilisateur avec le même prénom et nom existe déjà.";
+            echo '<p style="color: red;"><b>Un utilisateur avec le même prénom et nom existe déjà.</b></p>';
             exit;
         }
 
