@@ -44,7 +44,8 @@ $nom = htmlspecialchars($_SESSION['nom']);
                 <li>Groupe 2 <img src="../images/logoVC.jpg" alt="Logo Groupe 2"/></li>
                 <li>Groupe 3 <img src="../images/logoVC.jpg" alt="Logo Groupe 3"/></li>
             </ul>
-            <p>Créer un groupe ici</p>
+            <img src="../images/ajouter.png" alt="Créer un groupe"/>
+            <p>Créer un groupe</p>
         </section>
 
         <section>
@@ -54,11 +55,6 @@ $nom = htmlspecialchars($_SESSION['nom']);
                 <li>Notif 2</li>
                 <li>Notif 3</li>
             </ul>
-        </section>
-
-        <section>
-            <img src="../images/ajouter.png" alt="Créer un groupe"/>
-            <p>Créer un groupe</p>
         </section>
     </main>
 
