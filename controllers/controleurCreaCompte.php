@@ -3,7 +3,6 @@ require_once("../config/connexion.php");
 $titre = "Inscription";
 include("../vue/debut.php");
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupération et nettoyage des données
     $prenom = filter_input(INPUT_POST, 'prenom', FILTER_SANITIZE_STRING);
@@ -37,7 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // 2. Vérification de l'existence de prénom + nom
         $stmt = $pdo->prepare("SELECT user_id FROM utilisateur WHERE user_prenom = :prenom AND user_nom = :nom");
-        $stmt->execute(['prenom' => $prenom, 'nom' => $nom]);
+        $stmt->execute(['prenom'
+         => $prenom, 'nom' => $nom]);
         if ($stmt->fetch()) {
             echo '<p style="color: red;"><b>Un utilisateur avec le même prénom et nom existe déjà.</b></p>';
             include ("../vue/creacompte.html");
@@ -58,6 +58,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute();
             $maxIdAdresse = $stmt->fetchColumn();
             $resultIdAdresse = $maxIdAdresse + 1;  // ID manuel (pas auto-incrémenté)
+
+            // Insertion de la nouvelle adresse
+            $stmt3 = $pdo->prepare("
+                INSERT INTO adresse (adr_id, adr_cp, adr_ville, adr_rue, adr_num)
+                VALUES (:idAdresse, :code_postal, :ville, :nom_rue, :numero_rue)
+            ");
+            $stmt3->execute([
+                'idAdresse' => $resultIdAdresse,
+                'code_postal' => $code_postal,
+                'ville' => $ville,
+                'nom_rue' => $nom_rue,
+                'numero_rue' => $numero_rue
+            ]);
         }
         
         // Calcul manuel pour l'ID utilisateur
@@ -66,21 +79,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $maxIdUtilisateur = $stmt2->fetchColumn();
         $resultIdUtilisateur = $maxIdUtilisateur + 1; // ID manuel pour utilisateur
 
+        // Hachage du mot de passe
+        $passwordHashed = password_hash($password, PASSWORD_DEFAULT);
 
-        // 5. Insertion dans la base (adresse)
-        $stmt3 = $pdo->prepare("
-            INSERT INTO adresse (adr_id, adr_cp, adr_ville, adr_rue, adr_num)
-            VALUES (:idAdresse, :code_postal, :ville, :nom_rue, :numero_rue)
-        ");
-        $stmt3->execute([
-            'idAdresse' => $resultIdAdresse,
-            'code_postal' => $code_postal,
-            'ville' => $ville,
-            'nom_rue' => $nom_rue,
-            'numero_rue' => $numero_rue
-        ]);
-
-        // 6. Insertion dans la base (utilisateur)
+        // 4. Insertion dans la base (utilisateur)
         $stmt4 = $pdo->prepare("
             INSERT INTO utilisateur(user_id, user_mail, user_mdp, user_prenom, user_nom, adr_id)
             VALUES (:user_id, :email, :password, :prenom, :nom, :idAdresse)
@@ -90,10 +92,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'prenom' => $prenom,
             'nom' => $nom,
             'email' => $email,
-            'password' => $password,
+            'password' => $passwordHashed, // Insère le mot de passe haché
             'idAdresse' => $resultIdAdresse
         ]);
-
 
        session_start(); // Démarre la session
 
