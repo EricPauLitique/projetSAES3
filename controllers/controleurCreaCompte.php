@@ -14,6 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $numero_rue = filter_input(INPUT_POST, 'numero_rue', FILTER_SANITIZE_NUMBER_INT);
     $nom_rue = filter_input(INPUT_POST, 'nom_rue', FILTER_SANITIZE_STRING);
 
+    ucfirst(strtolower(string: $prenom));
+    ucfirst(strtolower(string: $nom));
+
     // Validation des champs
     if (!$prenom || !$nom || !$email || !$password || !$code_postal || !$ville || !$numero_rue || !$nom_rue) {
         echo "Tous les champs doivent être remplis correctement.";
