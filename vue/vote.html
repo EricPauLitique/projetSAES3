@@ -33,12 +33,16 @@
             </ul>
         </aside>
         <section>
-            <p>Dernières décisions prises</p>
-            <ul>
-                <li>vote 1 : décision prise = pour</li>
-                <li>vote 2 : décision prise = contre</li>
-                <li>vote 3 : décision prise = en faveur de Anakin</li>
-            </ul>
+            <p>Vote X</p>
+            <form action="../controllers/controleurvote.php" method="POST">
+                <label for="choix1"></label>
+                <input type="radio" id="choix1" name="choix1" placeholder="choix1">
+                <br>
+                <label for="choix2"></label>
+                <input type="radio" id="choix2" name="choix2" placeholder="choix2">
+                <br>
+                <button type="submit">Voter</button>
+            </form>
         </section>
     </main>
     
