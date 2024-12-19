@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Groupe</title>
+    <title>Création de proposition</title>
     <link href="../images/logoVC.ico" rel="shortcut icon" type="image/x-icon" />
     <!-- Lien vers une feuille de style externe -->
     <link rel="stylesheet" href="styles.css">
@@ -32,14 +32,24 @@
                 <li><img src = "../images/user.png" />nom prénom 3</li>
             </ul>
         </aside>
-        <section>
-            <p>Dernières décisions prises</p>
-            <ul>
-                <li>vote 1 : décision prise = pour</li>
-                <li>vote 2 : décision prise = contre</li>
-                <li>vote 3 : décision prise = en faveur de Anakin</li>
-            </ul>
-        </section>
+        <p>Créer la proposition :</p>
+            <form action="../controllers/controleurCreaProp.php" method="POST">
+            <label for="intitulé"></label>
+            <input type="intitulé" id="intitulé" name="intitulé" placeholder="intitulé" required>
+            <br>
+            <label for="descriptif"></label>
+            <input type="descriptif" id="descriptif" name="descriptif" placeholder="descriptif" required>
+            <br>
+            <label for="theme">Choisir un thème:</label>
+            <select name="theme" id="theme" required>
+                <option value="">--Please choose an option--</option>
+                <option value="theme 1">theme1</option>
+                <option value="theme 2">theme2</option>
+                <option value="theme 3">theme3</option>
+            </select>
+            <br>
+            <button type="submit">Créer la proposition</button>
+        </form>
     </main>
     
     <footer>
