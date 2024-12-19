@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // 2. Vérification de l'existence de prénom + nom
-        $stmt = $pdo->prepare("SELECT user_id FROM utilisateur WHERE user_prenom = :prenom AND user_nom = :nom");
+        $stmt = $pdo->prepare("SELECT DISTINCT user_id FROM utilisateur WHERE user_prenom = :prenom AND user_nom = :nom");
         $stmt->execute(['prenom'
          => $prenom, 'nom' => $nom]);
         if ($stmt->fetch()) {
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // 3. Vérification de l'existence de l'adresse
-        $cptIdAdresse = $pdo->prepare("SELECT COUNT(*) FROM adresse WHERE adr_num = :numero_rue AND adr_rue = :nom_rue");
+        $cptIdAdresse = $pdo->prepare("SELECT distinct adr_id FROM adresse WHERE adr_num = :numero_rue AND adr_rue = :nom_rue");
         $cptIdAdresse->execute([
             'numero_rue' => $numero_rue,
             'nom_rue' => $nom_rue
