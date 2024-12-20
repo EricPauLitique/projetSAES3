@@ -57,6 +57,6 @@ class Vote {
     }
 }
 
-Vote::getAllUtilisateur();
+Vote::getUtilisateurByLogin(1);
 
 ?>
