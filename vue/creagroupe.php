@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+// Vérifie si l'utilisateur est connecté
+if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
+    // Redirige vers la page de connexion si non connecté
+    header("Location: connexion.html");
+    exit;
+}
+
+$prenom = htmlspecialchars($_SESSION['prenom']);
+$nom = htmlspecialchars($_SESSION['nom']);
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
