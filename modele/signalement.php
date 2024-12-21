@@ -1,13 +1,13 @@
 <?php
+require_once("../config/connexion.php");
 
 class Signalement {
     protected int $sig_id;
     protected string $sig_nature;
-    protected ?int $prop_id; // Peut être NULL
-    protected ?int $com_id;  // Peut être NULL
+    protected ?int $prop_id;
+    protected ?int $com_id;
     protected int $user_id;
 
-    // GET et SET
     public function get($attribut) {
         return $this->$attribut;
     }
@@ -16,7 +16,6 @@ class Signalement {
         $this->$attribut = $valeur;
     }
 
-    // Constructeur
     public function __construct(
         int $sig_id = NULL,
         string $sig_nature = NULL,
@@ -33,14 +32,17 @@ class Signalement {
         }
     }
 
-    // Méthode pour afficher un signalement
     public function afficher() {
         echo 'Signalement ', $this->get("sig_id"), 
              ' : ', $this->get("sig_nature"), 
              ' (Utilisateur ', $this->get("user_id"), ')';
     }
 
-    // Récupérer tous les signalements
+    // Nouvelle méthode adresse()
+    public function adresse() {
+        return 'Adresse liée au signalement ' . $this->sig_id;
+    }
+
     public static function getAllSignalement() {
         $requete = "SELECT * FROM signalement";
         try {
@@ -53,7 +55,6 @@ class Signalement {
         }
     }
 
-    // Récupérer un signalement par son ID
     public static function getSignalementById($id) {
         try {
             $requete = "SELECT * FROM signalement WHERE sig_id = :sig_id";
@@ -67,5 +68,6 @@ class Signalement {
         }
     }
 }
+
 
 ?>

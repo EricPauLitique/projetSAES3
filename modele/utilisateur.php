@@ -1,4 +1,5 @@
 <?php
+require_once("../config/connexion.php");
 
 class Utilisateur {
     protected int $user_id;

@@ -1,54 +1,71 @@
 <?php
+require_once("../config/connexion.php");
 
 class Vote {
-    protected int $user_id;
-    protected string $user_mail;
-    protected string $user_mdp;
-    protected string $user_prenom;
-    protected string $user_nom;
-    protected int $adr_id;
+    protected int $vote_id;
+    protected string $vote_type_scrutin;
+    protected int $vote_duree;
+    protected ?int $vote_valide; // Peut être NULL
+    protected int $prop_id;
 
-    // GET et SET
-    public function get($attribut) {
-        return $this->$attribut;
+    // Constructeur
+    public function __construct(
+        int $vote_id = NULL,
+        string $vote_type_scrutin = NULL,
+        int $vote_duree = NULL,
+        ?int $vote_valide = NULL,
+        int $prop_id = NULL
+    ) {
+        if (!is_null($vote_id)) {
+            $this->vote_id = $vote_id;
+            $this->vote_type_scrutin = $vote_type_scrutin;
+            $this->vote_duree = $vote_duree;
+            $this->vote_valide = $vote_valide;
+            $this->prop_id = $prop_id;
+        }
     }
-    
+
+    // Méthodes GET et SET
+    public function get($attribut) {
+        return $this->$attribut ?? null;
+    }
+
     public function set($attribut, $valeur) {
         $this->$attribut = $valeur;
     }
 
-    // Constructeur
-    public function __construct(int $user_id = NULL, string $user_mail = NULL, string $user_mdp = NULL, string $user_prenom = NULL, string $user_nom = NULL, int $adr_id = NULL) {
-        if (!is_null($user_id)) {
-            $this->user_id = $user_id;
-            $this->user_mail = $user_mail;
-            $this->user_mdp = $user_mdp;
-            $this->user_prenom = $user_prenom;
-            $this->user_nom = $user_nom;
-            $this->adr_id = $adr_id;
+    // Méthode magique __toString
+    public function __toString() {
+        return sprintf(
+            "Vote ID: %d, Type: %s, Durée: %d, Valide: %s, Proposition ID: %d",
+            $this->vote_id,
+            $this->vote_type_scrutin,
+            $this->vote_duree,
+            is_null($this->vote_valide) ? "NULL" : ($this->vote_valide ? "Oui" : "Non"),
+            $this->prop_id
+        );
+    }
+
+    // Récupérer tous les votes
+    public static function getAllVote() {
+        $requete = "SELECT * FROM vote";
+        try {
+            $resultat = connexion::pdo()->query($requete);
+            $resultat->setFetchMode(PDO::FETCH_CLASS, "Vote");
+            return $resultat->fetchAll();
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
         }
     }
 
-    // Méthode afficher
-    public function afficher() {
-        echo 'utilisateur ', $this->get("user_id"), ' (', $this->get("user_prenom"), ' ', $this->get("user_nom"), '), email = ', $this->get("user_mail");
-    }
-
-    // Récupérer tous les utilisateurs
-    public static function getAllUtilisateur() {
-        $requete = "SELECT * FROM utilisateur";
-        $resultat = connexion::pdo()->query($requete);
-        $resultat->setFetchMode(PDO::FETCH_CLASS, "Utilisateur");
-        return $resultat->fetchAll();
-    }
-
-    // Récupérer un utilisateur par son mail
-    public static function getUtilisateurByLogin($l) {
+    // Récupérer un vote par son ID
+    public static function getVoteById($id) {
         try {
-            $requete = "SELECT * FROM utilisateur WHERE user_id = :user_id";
+            $requete = "SELECT * FROM vote WHERE vote_id = :vote_id";
             $stmt = connexion::pdo()->prepare($requete);
-            $stmt->execute(['user_id' => $l]);
-            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Utilisateur');
+            $stmt->execute(['vote_id' => $id]);
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Vote');
             return $stmt->fetch();
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();
@@ -56,7 +73,5 @@ class Vote {
         }
     }
 }
-
-Vote::getUtilisateurByLogin(1);
 
 ?>
