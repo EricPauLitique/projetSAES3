@@ -45,6 +45,8 @@ $nom = htmlspecialchars($_SESSION['nom']);
                 <li>Groupe 3 <img src="../images/logoVC.jpg" alt="Logo Groupe 3"/></li>
             </ul>
             <img src="../images/ajouter.png" alt="Créer un groupe"/>
+            <a href="creagroupe.php">Creer un groupe</a>
+
             <p>Créer un groupe</p>
         </section>
 

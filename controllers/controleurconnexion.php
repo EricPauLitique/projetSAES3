@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
+        
         $pdo = Connexion::PDO();
 
         // Recherche de l'utilisateur par e-mail
@@ -31,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Connexion réussie
             $_SESSION['prenom'] = $user['user_prenom'];
             $_SESSION['nom'] = $user['user_nom'];
+            $_SESSION['id'] = $user['user_id'];
             
             // Redirection vers la page d'accueil
             header("Location: ../vue/accueil.php");

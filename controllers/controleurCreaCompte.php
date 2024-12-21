@@ -104,6 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
        // Après vérification réussie des identifiants
        $_SESSION['prenom'] = $prenom; // Stocke le prénom dans la session
        $_SESSION['nom'] = $nom;       // Stocke le nom dans la session
+       $_SESSION['id'] = $resultIdUtilisateur;
        
        // Redirection vers la page d'accueil
        header("Location: ../vue/accueil.php");
