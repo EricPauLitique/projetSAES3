@@ -3,3 +3,11 @@
     height: auto; /* Garde les proportions de l'image */
     object-fit: cover; /* Optionnel : ajuste la façon dont l'image s'adapte */
 }
+
+a img {
+    width: 100px; /* Exemple de redimensionnement */
+}
+
+a:hover img {
+    opacity: 0.7; /* Exemple d'effet lors du survol */
+}

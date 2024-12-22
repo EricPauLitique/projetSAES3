@@ -57,8 +57,9 @@ $id = htmlspecialchars($_SESSION['id']);
 
                 ?>
             </ul>
-            <img src="../images/ajouter.png" alt="Créer un groupe" href="creagroupe.php"/>
-            <a href="creagroupe.php">Creer un groupe</a>
+            <a href="creagroupe.php">
+                <img src="../images/ajouter.png" alt="Créer un groupe" />
+            </a>    
 
             <p>Créer un groupe</p>
         </section>
