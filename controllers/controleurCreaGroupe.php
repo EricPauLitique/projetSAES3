@@ -14,8 +14,9 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Récupération des données du formulaire avec validation/sécurisation
 $nomGroupe = filter_input(INPUT_POST, 'nom_du_groupe', FILTER_SANITIZE_STRING);
+$nomGroupe = ucfirst($nomGroupe);
 $themeId = filter_input(INPUT_POST, 'theme_id', FILTER_VALIDATE_INT);
-$couleur = filter_input(INPUT_POST, 'couleur', FILTER_SANITIZE_STRING);
+$couleur = filter_input(INPUT_POST, 'color', FILTER_SANITIZE_STRING);
 $limiteAnnuelle = filter_input(INPUT_POST, 'limite_annuelle', FILTER_VALIDATE_INT);
 $idUtilisateur = htmlspecialchars($_SESSION['id']);
 $sommeMonetaire = 0;
@@ -47,7 +48,6 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
             exit;
         }
 
-        // Gestion du téléchargement de l'image
         $imagePath = null;
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
             $image = $_FILES['image'];
@@ -72,7 +72,8 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
             // Créer un dossier pour stocker les images des groupes
             $groupFolder = '../images/groupes/' . preg_replace('/[^a-zA-Z0-9_]/', '_', $nomGroupe);
             if (!is_dir($groupFolder)) {
-                mkdir($groupFolder, 0755, true);
+                // Créer le répertoire avec les permissions adéquates (rwx pour le groupe)
+                mkdir($groupFolder, 0775, true);
             }
 
             // Générer un chemin unique pour l'image
@@ -83,7 +84,35 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
                 echo "<p style='color: red;'>Erreur lors du téléchargement de l'image.</p>";
                 exit;
             }
+
+            // Modifier les permissions du fichier pour que le groupe ait 'rw'
+            chmod($imagePath, 0664);
         }
+
+        // Suppression de l'image après vérification des droits
+        if ($imagePath && file_exists($imagePath)) {
+            // Vérifier les permissions actuelles
+            if (is_writable($imagePath)) {
+                // Si le fichier est accessible en écriture, le supprimer
+                if (unlink($imagePath)) {
+                    echo "<p style='color: green;'>L'image a été supprimée avec succès.</p>";
+                } else {
+                    echo "<p style='color: red;'>Erreur lors de la suppression de l'image.</p>";
+                }
+            } else {
+                // Si le fichier n'est pas accessible en écriture, modifier les permissions
+                if (chmod($imagePath, 0664)) {
+                    // Réessayer la suppression après avoir modifié les permissions
+                    if (unlink($imagePath)) {
+                        echo "<p style='color: green;'>L'image a été supprimée avec succès.</p>";
+                    } else {
+                        echo "<p style='color: red;'>Erreur lors de la suppression de l'image après modification des droits.</p>";
+                    }
+                } else {
+                    echo "<p style='color: red;'>Impossible de modifier les droits du fichier.</p>";
+                }
+            }
+        }                       
 
         // Générer un nouvel ID pour le groupe
         $stmt = $pdo->query("SELECT MAX(grp_id) FROM groupe");

@@ -10,6 +10,7 @@ if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
 // Ajouter un thème à la session si le formulaire est soumis
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nom_du_theme']) && isset($_POST['limite_theme'])) {
     $nom_du_theme = htmlspecialchars($_POST['nom_du_theme']);
+    $nom_du_theme = ucfirst($nom_du_theme);
     $limite_theme = (int)$_POST['limite_theme'];
 
     $_SESSION['themes'][] = [

@@ -64,6 +64,37 @@ class Groupe {
         return $stmt->fetchAll(PDO::FETCH_CLASS, 'Groupe'); // Retourne un tableau d'objets Groupe
     }
 
+    public static function deleteGroupById($groupId) {
+        $db = Connexion::pdo();  // Obtenez la connexion à la base de données
+    
+        try {
+            // Démarrer la transaction
+            $db->beginTransaction();
+    
+            // Supprimer les lignes associées au groupe dans la table 'comporte'
+            $stmt = $db->prepare("DELETE FROM comporte WHERE grp_id = :grp_id");
+            $stmt->bindParam(':grp_id', $groupId, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            // Supprimer le groupe dans la table 'groupe'
+            $stmt = $db->prepare("DELETE FROM groupe WHERE grp_id = :grp_id");
+            $stmt->bindParam(':grp_id', $groupId, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            // Commit de la transaction si tout s'est bien passé
+            $db->commit();
+            
+            return true; // Suppression réussie
+        } catch (PDOException $e) {
+            // En cas d'erreur, annuler les changements
+            $db->rollBack();
+            error_log("Erreur lors de la suppression du groupe: " . $e->getMessage());
+            return false; // Échec de la suppression
+        }
+    }
+
+
+
 }   
         
 

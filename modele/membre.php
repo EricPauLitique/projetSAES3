@@ -71,6 +71,19 @@ class Membre {
         }
     }
 
+    public static function getGrpById(int $user_id) {
+        try {
+            $requete = "SELECT * FROM membre m INNER JOIN utilisateur u ON u.user_id = m.user_id INNER JOIN groupe g ON g.grp_id = m.grp_id WHERE u.user_id = :user_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['user_id' => $user_id]);
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Membre');
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
+    }
+
     // Ajouter un nouveau membre
     public static function addMembre(array $data) {
         try {
