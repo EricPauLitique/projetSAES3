@@ -67,10 +67,11 @@ $id = htmlspecialchars($_SESSION['id']);
                 ?>
             </ul>
             <a href="creagroupe.php">
+                <p>Créer un groupe : </p>
                 <img src="../images/ajouter.png" alt="Créer un groupe" />
             </a>    
 
-            <p>Créer un groupe</p>
+            
         </section>
 
         <section>

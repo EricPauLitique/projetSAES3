@@ -24,14 +24,17 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Création du groupe</title>
     <link href="../images/logoVC.ico" rel="shortcut icon" type="image/x-icon" />
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles/creagroup.css">
+
 </head>
 <body>
     <header>
         <a href="../controllers/logout.php">Se déconnecter</a>
         <img src="../images/logoVC.jpg" alt="Logo Voix Citoyenne" />
         <h1>Voix Citoyenne</h1>
-        <img src="../images/parametres.png" alt="Paramètres" />
+        <div class="menu-parametres">
+            <img src="../images/parametres.png" alt="Paramètres" class="parametres-icon"/>
+            <ul class="menu-options">
     </header>
     
     <main>
@@ -95,8 +98,10 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
                     <?php endforeach; ?>
                 </select>
                 <br>
-                <label for="couleur">Couleur du groupe :</label>
-                <input type="color" id="couleur" name="couleur" value="#ffffff">
+                <div class="form-group couleur-container">
+                <label for="color">Couleur : </label>
+                <input type="color" id="color" name="color" value="#ff0000"> <!-- Valeur par défaut -->
+                </div>
                 <br>
                 <label for="image">Image du groupe :</label>
                 <input type="file" id="image" name="image" accept="image/png, image/jpeg">

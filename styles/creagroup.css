@@ -1,0 +1,320 @@
+/* Styles généraux */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+    position: relative;
+}
+
+header img {
+    width: 50px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+header h1 {
+    display: inline;
+    font-size: 2em;
+}
+
+header a {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+/* Contenu principal */
+main {
+    width: 80%;
+    max-width: 900px;
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+    font-size: 1.8em;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h3 {
+    color: #555;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-size: 1em;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+select,
+input[type="color"],
+input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+form .form-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+form .form-group label {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+form .form-group input[type="color"] {
+    width: 100px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+form .form-group .color-preview {
+    width: 30px;
+    height: 30px;
+    background-color: #ff0000; /* couleur par défaut */
+    border: 1px solid #ccc;
+    display: inline-block;
+    margin-left: 10px;
+}
+/* Section pour l'aperçu couleur */
+.couleur-container {
+    display: flex;
+    align-items: center;
+}
+
+.couleur-container label {
+    margin-right: 10px;
+}
+
+.couleur-container input[type="color"] {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ccc;
+    padding: 0;
+    cursor: pointer;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1em;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Tableaux */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #f4f4f4;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table button {
+    padding: 5px 10px;
+    background-color: #e74c3c;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+table button:hover {
+    background-color: #c0392b;
+}
+
+/* Ajout de media queries pour la version mobile */
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    main {
+        width: 95%;
+    }
+
+    table {
+        font-size: 0.9em;
+    }
+
+    footer {
+        font-size: 0.9em;
+    }
+}
+
+/* Style pour le conteneur du menu des paramètres */
+.menu-parametres {
+    position: relative;
+    display: inline-block;
+}
+
+/* Icone des paramètres */
+.parametres-icon {
+    width: 40px;  /* Taille de l'icône des paramètres */
+    cursor: pointer;  /* Pointeur pour l'icône */
+    transition: transform 0.3s ease;  /* Effet de rotation pour l'icône au survol */
+}
+
+.parametres-icon:hover {
+    transform: rotate(180deg); /* Rotation de l'icône au survol */
+}
+
+/* Menu déroulant caché par défaut */
+/* Style pour le conteneur du menu des paramètres */
+/* Style pour le conteneur du menu des paramètres */
+/* Style pour le conteneur du menu des paramètres */
+/* Style pour le conteneur du menu des paramètres */
+.menu-parametres {
+    position: relative;
+    display: inline-block;
+}
+
+/* Icone des paramètres */
+.parametres-icon {
+    width: 40px;  /* Taille de l'icône des paramètres */
+    cursor: pointer;  /* Pointeur pour l'icône */
+    transition: transform 0.3s ease;  /* Effet de rotation pour l'icône au survol */
+}
+
+.parametres-icon:hover {
+    transform: rotate(180deg); /* Rotation de l'icône au survol */
+}
+
+/* Menu déroulant caché par défaut */
+.menu-options {
+    display: none;
+    position: absolute;
+    top: 200%;  /* Positionne le menu au centre vertical de l'icône */
+    left: 50%;  /* Positionne le menu à 50% de la largeur de l'icône */
+    transform: translate(-50%, -50%);  /* Centrer le menu par rapport à l'icône */
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    list-style: none;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;  /* Menu invisible par défaut */
+    transition: opacity 0.3s ease, visibility 0s 0.3s;  /* Transition fluide */
+
+    /* Forcer l'affichage horizontal pur */
+    display: flex;
+    flex-direction: row;  /* Alignement horizontal */
+    justify-content: flex-start; /* Aligner à gauche les éléments */
+    gap: 10px;  /* Espacement entre les éléments */
+    align-items: center;  /* Assurez-vous que les éléments sont bien alignés au centre */
+}
+
+/* Style pour chaque option du menu */
+.menu-options li {
+    margin: 0;  /* Suppression de l'espace vertical */
+}
+
+.menu-options li a {
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    transition: color 0.3s ease;
+    display: block;
+    text-align: center;  /* Centrer le texte à l'intérieur des liens */
+    padding: 5px 10px; /* Un peu de padding pour améliorer l'apparence des liens */
+}
+
+.menu-options li a:hover {
+    color: #ffcc00; /* Changement de couleur au survol */
+}
+
+/* Afficher le menu au survol de l'icône avec animation */
+.menu-parametres:hover .menu-options {
+    display: flex; /* Le menu devient visible avec un affichage horizontal */
+    opacity: 1;
+    visibility: visible;  /* Rendre le menu visible */
+    transition: opacity 0.3s ease, visibility 0s 0s;  /* Transition fluide */
+}
