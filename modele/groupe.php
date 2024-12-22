@@ -38,8 +38,8 @@ class Groupe {
     }
 
     // Méthode magique __toString
-    public function __toString() {
-        return "Groupe {$this->grp_id} : {$this->grp_nom}, Couleur : {$this->grp_couleur}, Image : {$this->grp_img}, Limite annuelle : {$this->grp_lim_an}, Utilisateur : {$this->user_id}";
+    public function afficher() {
+        echo "Groupe {$this->grp_nom} Couleur : {$this->grp_couleur}, Image : {$this->grp_img}, Limite annuelle : {$this->grp_lim_an}, Utilisateur : {$this->user_id}";
     }
 
     // Récupérer tous les groupes
@@ -56,20 +56,16 @@ class Groupe {
     }
 
     // Récupérer un groupe par son ID
-    public static function getGroupeById($id) {
-        try {
-            $requete = "SELECT * FROM groupe WHERE grp_id = :grp_id";
-            $stmt = connexion::pdo()->prepare($requete);
-            $stmt->execute(['grp_id' => $id]);
-            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Groupe');
-            return $stmt->fetch();
-        } catch (PDOException $e) {
-            echo 'Erreur : ' . $e->getMessage();
-            return null;
-        }
+    public static function getGroupeById($user_id) {
+        $requete = "SELECT * FROM groupe WHERE user_id = :user_id";
+        $stmt = connexion::pdo()->prepare($requete);
+        $stmt->execute(['user_id' => $user_id]);
+    
+        return $stmt->fetchAll(PDO::FETCH_CLASS, 'Groupe'); // Retourne un tableau d'objets Groupe
     }
-}
 
+}   
+        
 
 
 ?>

@@ -1,1 +1,5 @@
-di
+.image-small {
+    width: 150px;
+    height: auto; /* Garde les proportions de l'image */
+    object-fit: cover; /* Optionnel : ajuste la façon dont l'image s'adapte */
+}

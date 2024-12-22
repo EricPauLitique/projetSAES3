@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once("../config/connexion.php");
+require_once("../modele/groupe.php");
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
@@ -10,6 +12,7 @@ if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
 
 $prenom = htmlspecialchars($_SESSION['prenom']);
 $nom = htmlspecialchars($_SESSION['nom']);
+$id = htmlspecialchars($_SESSION['id']);
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +22,7 @@ $nom = htmlspecialchars($_SESSION['nom']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil</title>
     <link href="../images/logoVC.ico" rel="shortcut icon" type="image/x-icon" />
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles/accueil.css">
 </head>
 <body>
     <header>
@@ -40,11 +43,21 @@ $nom = htmlspecialchars($_SESSION['nom']);
         <section>
             <h3>Liste de vos groupes :</h3>
             <ul>
-                <li>Groupe 1 <img src="../images/logoVC.jpg" alt="Logo Groupe 1"/></li>
-                <li>Groupe 2 <img src="../images/logoVC.jpg" alt="Logo Groupe 2"/></li>
-                <li>Groupe 3 <img src="../images/logoVC.jpg" alt="Logo Groupe 3"/></li>
+                <?php
+                Connexion::connect();
+                $grp = Groupe::getGroupeById($id);
+                
+                if (!empty($grp)) {
+                    foreach ($grp as $listGrp) {
+                        echo '<li>' . $listGrp->get('grp_nom') .'  '. '<img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '"class="image-small" /></li>';
+                    }
+                } else {
+                    echo 'Aucun groupe trouvé.';
+                }
+
+                ?>
             </ul>
-            <img src="../images/ajouter.png" alt="Créer un groupe"/>
+            <img src="../images/ajouter.png" alt="Créer un groupe" href="creagroupe.php"/>
             <a href="creagroupe.php">Creer un groupe</a>
 
             <p>Créer un groupe</p>
