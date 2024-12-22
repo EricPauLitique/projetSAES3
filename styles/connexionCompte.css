@@ -44,10 +44,8 @@ h4 {
     margin-bottom: 15px;
 }
 
-input[type="text"],
 input[type="email"],
-input[type="password"],
-input[type="number"] {
+input[type="password"] {
     width: 100%;
     padding: 10px;
     margin: 5px 0;
@@ -70,17 +68,18 @@ button:hover {
     background-color: #555;
 }
 
-/* Lien vers la connexion */
-p {
+/* Lien vers la création de compte */
+.register-link {
     text-align: center;
+    margin-top: 10px;
 }
 
-a {
+.register-link a {
     color: #333;
     text-decoration: none;
 }
 
-a:hover {
+.register-link a:hover {
     text-decoration: underline;
 }
 

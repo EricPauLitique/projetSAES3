@@ -4,43 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer votre compte</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles/creacompte.css">
 </head>
 <body>
-    <main>
+    <header>
+        <img src="../images/logoVC.jpg" alt="Logo" />
         <h1>Voix Citoyenne</h1>
+    </header>
+
+    <main>
         <h4><i>Chaque voix compte</i></h4>
         <form action="../controllers/controleurCreaCompte.php" method="POST">
-            <label for="prenom"></label>
-            <input type="text" id="prenom" name="prenom" placeholder="Prénom" required>
-            <br>
-            <label for="nom"></label>
-            <input type="text" id="nom" name="nom" placeholder="Nom" required>
-            <br>
-            <label for="email"></label>
-            <input type="email" id="email" name="email" placeholder="Adresse e-mail" required>
-            <br>
-            <label for="password"></label>
-            <input type="password" id="password" name="password" placeholder="Mot de passe" required>
-            <br>
-            <label for="code_postal"></label>
-            <input type="number" id="code_postal" name="code_postal" placeholder="Code postal" required>
-            <br>
-            <label for="ville"></label>
-            <input type="text" id="ville" name="ville" placeholder="Ville" required>
-            <br>
-            <label for="numero_rue"></label>
-            <input type="number" id="numero_rue" name="numero_rue" placeholder="Numéro de rue" required>
-            <br>
-            <label for="nom_rue"></label>
-            <input type="text" id="nom_rue" name="nom_rue" placeholder="Nom de la rue" required>
-            <br>
+            <div class="form-group">
+                <input type="text" id="prenom" name="prenom" placeholder="Prénom" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="nom" name="nom" placeholder="Nom" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" name="email" placeholder="Adresse e-mail" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+            </div>
+            <div class="form-group">
+                <input type="number" id="code_postal" name="code_postal" placeholder="Code postal" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="ville" name="ville" placeholder="Ville" required>
+            </div>
+            <div class="form-group">
+                <input type="number" id="numero_rue" name="numero_rue" placeholder="Numéro de rue" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="nom_rue" name="nom_rue" placeholder="Nom de la rue" required>
+            </div>
             <button type="submit">Créer le compte</button>
-
             <p>Vous avez un compte ? <a href="/saes3-ese/projetSAES3/vue/connexion.html">Connectez-vous</a></p>
-
         </form>
     </main>
+
     <footer>
         <p>© 2024 Voix Citoyenne. Tous droits réservés.</p>
     </footer>

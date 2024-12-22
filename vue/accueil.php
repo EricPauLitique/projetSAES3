@@ -28,13 +28,22 @@ $id = htmlspecialchars($_SESSION['id']);
     <header>
         <img src="../images/logoVC.jpg" alt="Logo Voix Citoyenne"/>
         <h1>Voix Citoyenne</h1>
-        <img src="../images/parametres.png" alt="Paramètres"/>
+
+        <!-- Menu des paramètres -->
+        <div class="menu-parametres">
+            <img src="../images/parametres.png" alt="Paramètres" class="parametres-icon"/>
+            <ul class="menu-options">
+                <li><a href="../controllers/logout.php">Se déconnecter</a></li>
+                <li><a href="supprimer-compte.php">Supprimer mon compte</a></li>
+                <li><a href="modifier-parametres.php">Modifier mes paramètres</a></li>
+            </ul>
+        </div>
     </header>
 
     <main>
         <h1>Bienvenue, <?php echo $prenom . ' ' . $nom; ?> !</h1>
         <p>Vous êtes maintenant connecté.</p>
-        <a href="../controllers/logout.php">Se déconnecter</a>
+
 
         <section>
             <p>Bienvenue sur Voix Citoyenne, proposez des idées, débattez et votez ! Veillez à rester respectueux entre vous.</p>

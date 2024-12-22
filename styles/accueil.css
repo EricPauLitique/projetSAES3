@@ -1,13 +1,229 @@
+/* Redimensionnement des images dans les groupes */
 .image-small {
     width: 150px;
     height: auto; /* Garde les proportions de l'image */
-    object-fit: cover; /* Optionnel : ajuste la façon dont l'image s'adapte */
+    object-fit: cover; /* Ajuste la façon dont l'image s'adapte */
 }
 
+/* Effet sur les images dans les liens */
 a img {
     width: 100px; /* Exemple de redimensionnement */
 }
 
 a:hover img {
-    opacity: 0.7; /* Exemple d'effet lors du survol */
+    opacity: 0.7; /* Effet lors du survol */
+}
+
+/* Styles généraux pour la page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+header img {
+    width: 50px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+h1 {
+    display: inline;
+    font-size: 2em;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Section principale */
+main {
+    margin: 20px;
+}
+
+main h1 {
+    font-size: 1.8em;
+    color: #333;
+}
+
+main p {
+    color: #555;
+}
+
+/* Liste des groupes */
+section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+section ul li {
+    padding: 10px;
+    background-color: #fff;
+    margin: 5px 0;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+section ul li img {
+    max-width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* Lien pour ajouter un groupe avec petite image */
+a img {
+    max-width: 30px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+a:hover img {
+    opacity: 0.8;
+}
+
+p {
+    color: #333;
+}
+
+/* Styles des notifications */
+section ul {
+    padding-left: 20px;
+}
+
+section ul li {
+    background-color: #e2e2e2;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Class pour réduire la taille des images */
+.image-small {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+}
+
+/* Style pour le conteneur du menu des paramètres */
+.menu-parametres {
+    position: relative;
+    display: inline-block;
+}
+
+/* Icone des paramètres */
+.parametres-icon {
+    width: 40px;  /* Taille de l'icône des paramètres */
+    cursor: pointer;  /* Pointeur pour l'icône */
+    transition: transform 0.3s ease;  /* Effet de rotation pour l'icône au survol */
+}
+
+.parametres-icon:hover {
+    transform: rotate(180deg); /* Rotation de l'icône au survol */
+}
+
+/* Menu déroulant caché par défaut */
+/* Style pour le conteneur du menu des paramètres */
+/* Style pour le conteneur du menu des paramètres */
+/* Style pour le conteneur du menu des paramètres */
+/* Style pour le conteneur du menu des paramètres */
+.menu-parametres {
+    position: relative;
+    display: inline-block;
+}
+
+/* Icone des paramètres */
+.parametres-icon {
+    width: 40px;  /* Taille de l'icône des paramètres */
+    cursor: pointer;  /* Pointeur pour l'icône */
+    transition: transform 0.3s ease;  /* Effet de rotation pour l'icône au survol */
+}
+
+.parametres-icon:hover {
+    transform: rotate(180deg); /* Rotation de l'icône au survol */
+}
+
+/* Menu déroulant caché par défaut */
+.menu-options {
+    display: none;
+    position: absolute;
+    top: 200%;  /* Positionne le menu au centre vertical de l'icône */
+    left: 50%;  /* Positionne le menu à 50% de la largeur de l'icône */
+    transform: translate(-50%, -50%);  /* Centrer le menu par rapport à l'icône */
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    list-style: none;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;  /* Menu invisible par défaut */
+    transition: opacity 0.3s ease, visibility 0s 0.3s;  /* Transition fluide */
+
+    /* Forcer l'affichage horizontal pur */
+    display: flex;
+    flex-direction: row;  /* Alignement horizontal */
+    justify-content: flex-start; /* Aligner à gauche les éléments */
+    gap: 10px;  /* Espacement entre les éléments */
+    align-items: center;  /* Assurez-vous que les éléments sont bien alignés au centre */
+}
+
+/* Style pour chaque option du menu */
+.menu-options li {
+    margin: 0;  /* Suppression de l'espace vertical */
+}
+
+.menu-options li a {
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    transition: color 0.3s ease;
+    display: block;
+    text-align: center;  /* Centrer le texte à l'intérieur des liens */
+    padding: 5px 10px; /* Un peu de padding pour améliorer l'apparence des liens */
+}
+
+.menu-options li a:hover {
+    color: #ffcc00; /* Changement de couleur au survol */
+}
+
+/* Afficher le menu au survol de l'icône avec animation */
+.menu-parametres:hover .menu-options {
+    display: flex; /* Le menu devient visible avec un affichage horizontal */
+    opacity: 1;
+    visibility: visible;  /* Rendre le menu visible */
+    transition: opacity 0.3s ease, visibility 0s 0s;  /* Transition fluide */
 }
