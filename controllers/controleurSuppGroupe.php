@@ -63,9 +63,10 @@ if (isset($_POST['group_id'])) {
             exit();
         } else {
             echo 'Erreur lors de la suppression du groupe.';
-        } 
+        }
+        
     } else {
         echo 'Groupe introuvable.';
-    }
-} 
+}
+
 ?>
