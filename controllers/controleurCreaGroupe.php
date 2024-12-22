@@ -15,7 +15,6 @@ if (session_status() === PHP_SESSION_NONE) {
 // Récupération des données du formulaire avec validation/sécurisation
 $nomGroupe = filter_input(INPUT_POST, 'nom_du_groupe', FILTER_SANITIZE_STRING);
 $nomGroupe = ucfirst($nomGroupe);
-$themeId = filter_input(INPUT_POST, 'theme_id', FILTER_VALIDATE_INT);
 $couleur = filter_input(INPUT_POST, 'color', FILTER_SANITIZE_STRING);
 $limiteAnnuelle = filter_input(INPUT_POST, 'limite_annuelle', FILTER_VALIDATE_INT);
 $idUtilisateur = htmlspecialchars($_SESSION['id']);
@@ -43,8 +42,8 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
 
         // Vérifie si la somme des thèmes dépasse la limite annuelle
         if ($sommeMonetaire > $limiteAnnuelle) {
-            include("../vue/creagroupe.php");
             echo '<p style="color: red;"><b>Vous dépassez les fonds monétaires du groupe. Merci de modifier les fonds des thèmes !</b></p>';
+            include("../vue/creagroupe.php");
             exit;
         }
 
@@ -88,32 +87,7 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
             // Modifier les permissions du fichier pour que le groupe ait 'rw'
             chmod($imagePath, 0664);
         }
-
-        // Suppression de l'image après vérification des droits
-        if ($imagePath && file_exists($imagePath)) {
-            // Vérifier les permissions actuelles
-            if (is_writable($imagePath)) {
-                // Si le fichier est accessible en écriture, le supprimer
-                if (unlink($imagePath)) {
-                    echo "<p style='color: green;'>L'image a été supprimée avec succès.</p>";
-                } else {
-                    echo "<p style='color: red;'>Erreur lors de la suppression de l'image.</p>";
-                }
-            } else {
-                // Si le fichier n'est pas accessible en écriture, modifier les permissions
-                if (chmod($imagePath, 0664)) {
-                    // Réessayer la suppression après avoir modifié les permissions
-                    if (unlink($imagePath)) {
-                        echo "<p style='color: green;'>L'image a été supprimée avec succès.</p>";
-                    } else {
-                        echo "<p style='color: red;'>Erreur lors de la suppression de l'image après modification des droits.</p>";
-                    }
-                } else {
-                    echo "<p style='color: red;'>Impossible de modifier les droits du fichier.</p>";
-                }
-            }
-        }                       
-
+        
         // Générer un nouvel ID pour le groupe
         $stmt = $pdo->query("SELECT MAX(grp_id) FROM groupe");
         $maxIdGrp = $stmt->fetchColumn();

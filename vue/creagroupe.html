@@ -95,6 +95,16 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
                 <label for="nom_du_groupe">Nom du groupe :</label>
                 <input type="text" id="nom_du_groupe" name="nom_du_groupe" placeholder="Nom du groupe" required>
                 <br>
+                <label for="theme_id">Sélectionnez un thème :</label>
+                <select id="theme_id" name="theme_id" required>
+                    <option value="" disabled selected>-- Choisir un thème --</option>
+                    <?php foreach ($themes as $theme) : ?>
+                        <option value="<?= htmlspecialchars($theme['theme_nom']) ?>">
+                            <?= htmlspecialchars($theme['theme_nom']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <br>
                 <div class="form-group couleur-container">
                 <label for="color">Couleur : </label>
                 <input type="color" id="color" name="color" value="#ff0000"> <!-- Valeur par défaut -->

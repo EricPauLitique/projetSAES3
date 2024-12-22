@@ -19,6 +19,17 @@ header {
     position: relative;
 }
 
+.accueil {
+    background-color: #333;
+    color: #fff;
+    width: 100%;
+    margin: 0 auto;
+    padding: 15px 0;
+    text-align: center;
+    position: relative;
+}
+
+
 header img {
     width: 50px;
     vertical-align: middle;
@@ -32,7 +43,6 @@ header h1 {
 
 header a {
     position: absolute;
-    top: 15px;
     right: 20px;
     color: #fff;
     text-decoration: none;
@@ -229,6 +239,13 @@ table button:hover {
     }
 }
 
+/* Class pour réduire la taille des images */
+.image-small {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+}
+
 /* Style pour le conteneur du menu des paramètres */
 .menu-parametres {
     position: relative;
@@ -294,7 +311,9 @@ table button:hover {
 
 /* Style pour chaque option du menu */
 .menu-options li {
-    margin: 0;  /* Suppression de l'espace vertical */
+    margin: 0;  /* Supprimer la marge par défaut */
+    padding: 5px 10px;  /* Ajouter du padding pour espacer les éléments */
+    display: inline-block;  /* Assurez-vous que les éléments sont séparés en ligne */
 }
 
 .menu-options li a {
@@ -317,4 +336,4 @@ table button:hover {
     opacity: 1;
     visibility: visible;  /* Rendre le menu visible */
     transition: opacity 0.3s ease, visibility 0s 0s;  /* Transition fluide */
-}
+}   
