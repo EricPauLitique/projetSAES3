@@ -31,7 +31,11 @@ $id = htmlspecialchars($_SESSION['id']);
         <img src="../images/logoVC.jpg" alt="Logo Voix Citoyenne"/>
         <h1>Voix Citoyenne</h1>
         
-        <!-- Menu des paramètres -->
+
+        
+    </div>
+    
+    <!-- Menu des paramètres -->
         <div class="menu-parametres">
             <img src="../images/parametres.png" alt="Paramètres" class="parametres-icon"/>
             <ul class="menu-options">
@@ -40,8 +44,6 @@ $id = htmlspecialchars($_SESSION['id']);
                 <li><a href="modifier-parametres.php">Modifier mes paramètres</a></li>
             </ul>
         </div>
-    </div>
-        
     </header>
 
     <main>

@@ -25,8 +25,10 @@ body {
 header {
     background-color: #3a1768;
     color: #fff;
-    text-align: center;
-    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
 }
 
 header img {
@@ -35,9 +37,15 @@ header img {
     margin-right: 10px;
 }
 
+.accueil {
+    display: flex;
+    align-items: center;
+}
+
 h1 {
     display: inline;
     font-size: 2em;
+    margin: 0;
 }
 
 img {
@@ -177,7 +185,7 @@ footer p {
     display: none;
     position: absolute;
     top: 200%;  /* Positionne le menu au centre vertical de l'icône */
-    left: 50%;  /* Positionne le menu à 50% de la largeur de l'icône */
+    left: -200%;  /* Positionne le menu à 50% de la largeur de l'icône */
     transform: translate(-50%, -50%);  /* Centrer le menu par rapport à l'icône */
     background-color: #3a1768;
     color: white;
