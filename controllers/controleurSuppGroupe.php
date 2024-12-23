@@ -1,72 +1,55 @@
 <?php
-// Assurez-vous d'avoir bien connecté votre base de données
+session_start();
 require_once("../config/connexion.php");
 require_once("../modele/groupe.php");
 
-Connexion::connect();
-// Vérifier si la demande de suppression a été soumise
+// Vérification si le groupe ID est passé dans la requête POST
 if (isset($_POST['group_id'])) {
     $groupId = $_POST['group_id'];
 
-    echo $groupId ;
-
-    // Récupérer les informations du groupe, y compris le chemin de l'image
+    // Connexion à la base de données
+    Connexion::connect();
     $db = Connexion::pdo();
 
-    // Récupérer les informations du groupe, y compris le chemin de l'image
+    // Récupérer les informations du groupe
     $requete = "SELECT * FROM groupe WHERE grp_id = :grp_id";
     $stmt = $db->prepare($requete);
     $stmt->execute(['grp_id' => $groupId]);
-
-    // Vérifier si un groupe a été trouvé
     $group = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($group) {
         // Récupérer le chemin de l'image
         $imagePath = $group['grp_img'];
 
-        // Vérifier si l'image existe et la supprimer
+        // Supprimer l'image si elle existe
         if (file_exists($imagePath)) {
-            // Supprimer le fichier
             if (unlink($imagePath)) {
-                echo 'L\'image a été supprimée avec succès.<br>';
-        
-                // Récupérer le chemin du répertoire parent
+                // Optionnel: Supprimer le répertoire parent si vide
                 $directoryPath = dirname($imagePath);
-        
-                // Vérifier si le répertoire est vide
-                if (is_dir($directoryPath) && count(scandir($directoryPath)) == 2) { // `.` et `..` uniquement
-                    // Supprimer le répertoire
-                    if (rmdir($directoryPath)) {
-                        echo 'Le répertoire a été supprimé avec succès.<br>';
-                    } else {
-                        echo 'Erreur lors de la suppression du répertoire.<br>';
-                    }
-                } else {
-                    echo 'Le répertoire n\'est pas vide ou n\'existe pas.<br>';
+                if (is_dir($directoryPath) && count(scandir($directoryPath)) == 2) { // Seuls '.' et '..' dans le dossier
+                    rmdir($directoryPath);
                 }
-            } else {
-                echo 'Erreur lors de la suppression de l\'image.<br>';
             }
-        } else {
-            echo 'Le fichier n\'existe pas.<br>';
-        }
         }
 
-        // Appeler une méthode pour supprimer le groupe de la base de données
+        // Suppression du groupe de la base de données
         $result = Groupe::deleteGroupById($groupId);
 
+        // Afficher un message selon le succès ou l'échec de la suppression
         if ($result) {
-            echo 'Le groupe a été supprimé avec succès.';
-            // Redirection après la suppression (optionnel)
-            header('Location: ../vue/accueil.php');
-            exit();
+            $_SESSION['message'] = '<span style="color: green; font-weight: bold;">Le groupe ' . htmlspecialchars($group['grp_nom']) . ' a été supprimé avec succès.</span>';
         } else {
-            echo 'Erreur lors de la suppression du groupe.';
+            $_SESSION['message'] = '<b><i style="color: red;">Erreur lors de la suppression du groupe.</i></b>';
         }
-        
     } else {
-        echo 'Groupe introuvable.';
-}
+        $_SESSION['message'] = '<b><i style="color: red;">Groupe introuvable.</i></b>';
+    }
 
-?>
+    // Redirection vers la page d'accueil après suppression
+    header("Location: ../vue/accueil.php");
+    exit();
+} else {
+    $_SESSION['message'] = '<b><i style="color: red;">ID du groupe manquant.</i></b>';
+    header("Location: ../vue/accueil.php");
+    exit();
+}

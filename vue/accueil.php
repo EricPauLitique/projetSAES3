@@ -55,24 +55,39 @@ $id = htmlspecialchars($_SESSION['id']);
         <section>
             <h3>Liste de vos groupes :</h3>
             <ul>
+                
                 <?php
                 Connexion::connect();
                 $myGrp = Groupe::getGroupeById($id);
                 $grp = Membre::getGrpById($id);
-                
+                ?>
+                <?php
+                if (isset($_SESSION['message'])) {
+                    echo $_SESSION['message'] .'<br>'.'<br>';
+                    // Une fois le message affiché, vous pouvez supprimer la session pour éviter qu'il s'affiche plusieurs fois
+                    unset($_SESSION['message']);
+                }
+            ?>
+
+                <?php
                 // La liste de groupe dont il est propriétaire
                 if (!empty($myGrp)) {
                     foreach ($myGrp as $listGrp) {
-                        echo '<li>' . $listGrp->get('grp_nom') . '  ' . 
+                        echo '<li>' . $listGrp->get('grp_nom') . ' ' . 
                              '<img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '" class="image-small" />' .
-                             // Formulaire pour supprimer
-                             '<form method="POST" action="../controllers/controleurSuppGroupe.php" style="display:inline;">
-                                <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') . '" />
-                                <button type="submit" name="delete_group" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce groupe ?\');">Supprimer</button>
-                             </form>
+                             '<div class="boutons-container">
+                                 <form method="POST" action="../controllers/controleurSuppGroupe.php" style="display:inline;">
+                                    <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') . '" />
+                                    <button type="submit" name="delete_group" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce groupe ?\');">Supprimer</button>
+                                 </form>
+                                 <form method="GET" action="modifierGroupe.php" style="display:inline;">
+                                    <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') . '" />
+                                    <button type="submit" name="modify_group">Modifier</button>
+                                 </form>
+                             </div>
                              </li>';
                     }
-                } 
+                }
                 // La liste groupe en étant membre ou modérateur
                 if (!empty($grp)) {
                     foreach ($grp as $listGrp) {

@@ -194,7 +194,7 @@ form {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre douce */
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Espace entre les champs */
+    gap: 10px; /* Espace entre les champs */
 }
 
 input[type="text"],
@@ -278,4 +278,27 @@ footer p {
     .menu-options li {
         margin: 10px 0;
     }
+}
+
+.retour {
+    display: flex;
+    align-items: center; /* Aligne l'image et le texte verticalement */
+    gap: 10px; /* Espacement entre l'image et le texte */
+}
+
+.retour-icon {
+    width: 20px; /* Taille de l'icône */
+    height: auto;
+}
+
+.retour a {
+    text-decoration: none; /* Supprime la décoration de lien */
+    color: #3a1768; /* Couleur du texte */
+    font-size: 16px; /* Taille du texte */
+    font-weight: bold; /* Met le texte en gras */
+    transition: color 0.3s ease; /* Ajoute un effet de transition pour la couleur */
+}
+
+.retour a:hover {
+    color: #ffcc00; /* Change la couleur du texte lors du survol */
 }

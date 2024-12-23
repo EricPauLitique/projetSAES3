@@ -47,6 +47,18 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
     
     <main>
         <section>
+        <div class="retour">    
+            <img src="../images/retour.png" alt="retour" class="retour-icon"/>
+            <a href="accueil.php">Retour</a>
+        </div>
+
+            <?php
+                if (isset($_SESSION['messageC'])) {
+                    echo $_SESSION['messageC'];
+                    // Une fois le message affiché, vous pouvez supprimer la session pour éviter qu'il s'affiche plusieurs fois
+                    unset($_SESSION['messageC']);
+                }
+            ?>
             <!-- Formulaire pour créer un thème -->
             <h2>Créer un thème : </h2>
             <form action="../controllers/controleurCreaTheme.php" method="POST">
@@ -93,23 +105,29 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
         <section>
             <h2>Créer un groupe : </h2>
             <form action="../controllers/controleurCreaGroupe.php" method="POST" enctype="multipart/form-data">
-                <label for="nom_du_groupe">Nom du groupe :</label>
-                <input type="text" id="nom_du_groupe" name="nom_du_groupe" placeholder="Nom du groupe" value="<?php echo isset($nomGroupe) ? htmlspecialchars($nomGroupe) : ''; ?>" required>
-                <br>
-                <div class="form-group couleur-container">
+            <label for="nom_du_groupe">Nom du groupe :</label>
+            <input type="text" id="nom_du_groupe" name="nom_du_groupe" placeholder="Nom du groupe" 
+                value="<?php echo isset($_SESSION['nomGroupe']) ? htmlspecialchars($_SESSION['nomGroupe']) : ''; ?>" required>
+            <br>
+            
+            <div class="form-group couleur-container">
                 <label for="color">Couleur : </label>
-                <input type="color" id="color" name="color" value="<?php echo isset($couleur) ? htmlspecialchars($couleur) : ''; ?>"> <!-- Valeur par défaut -->
-                </div>
-                <br>
-                <label for="image">Image du groupe :</label>
-                <input type="file" id="image" name="image" accept="image/png, image/jpeg">
-                <br>
-                <label for="limite_annuelle">Limite annuelle :</label>
-                <input type="number" id="limite_annuelle" name="limite_annuelle" placeholder="Limite annuelle" value="<?php echo isset($limiteAnnuelle) ? htmlspecialchars($limiteAnnuelle) : ''; ?>" required>
-                <br>
-                <button type="submit">Créer le groupe</button>
-            </form>
-
+                <input type="color" id="color" name="color" 
+                    value="<?php echo isset($_SESSION['couleur']) ? htmlspecialchars($_SESSION['couleur']) : ''; ?>"> 
+            </div>
+            <br>
+            
+            <label for="image">Image du groupe :</label>
+            <input type="file" id="image" name="image" accept="image/png, image/jpeg">
+            <br>
+            
+            <label for="limite_annuelle">Limite annuelle :</label>
+            <input type="number" id="limite_annuelle" name="limite_annuelle" placeholder="Limite annuelle" 
+                value="<?php echo isset($_SESSION['limiteAnnuelle']) ? htmlspecialchars($_SESSION['limiteAnnuelle']) : ''; ?>" required>
+            <br>
+            
+            <button type="submit">Créer le groupe</button>
+        </form>
         </section>
     </main>
     

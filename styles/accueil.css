@@ -46,6 +46,7 @@ h1 {
     display: inline;
     font-size: 2em;
     margin: 0;
+    color-text : #3a1768;
 }
 
 img {
@@ -60,7 +61,7 @@ main {
 
 main h1 {
     font-size: 1.8em;
-    color: #333;
+    color: #3a1768;
 }
 
 main p {
@@ -95,6 +96,7 @@ a img {
     max-width: 30px;
     height: 30px;
     border-radius: 5px;
+    padding-right: 100px;
 }
 
 a {
@@ -212,6 +214,7 @@ footer p {
 }
 
 h2, h3 {
+    color: #3a1768;
     position: relative; /* Pour permettre de positionner la puce */
     padding-left: 30px; /* Crée un espace pour la puce à gauche */
 }
@@ -223,4 +226,29 @@ h3::before {
     top: 47%; /* Centre verticalement la puce */
     transform: translateY(-50%); /* Ajuste verticalement la position de la puce */
     font-size: 1.8em; /* Taille de la puce */
+}
+
+.boutons-container {
+    display: flex;
+    flex-direction: column; /* Organiser les boutons en colonne */
+    gap: 10px; /* Pas d'espacement entre les boutons */
+    align-items: stretch; /* Les boutons prennent toute la largeur du conteneur */
+}
+
+.boutons-container button {
+    padding: 10px;
+    background-color: #3a1768;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%; /* Les boutons prennent toute la largeur disponible */
+    height: 35px; /* Fixer la même hauteur pour tous les boutons */
+    box-sizing: border-box; /* Prendre en compte les paddings dans la largeur totale */
+}
+
+.boutons-container button:hover {
+    background-color: #ffcc00;
+    color: #3a1768;
 }

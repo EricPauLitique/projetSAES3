@@ -20,14 +20,18 @@ $limiteAnnuelle = filter_input(INPUT_POST, 'limite_annuelle', FILTER_VALIDATE_IN
 $idUtilisateur = htmlspecialchars($_SESSION['id']);
 $sommeMonetaire = 0;
 
+$_SESSION['nomGroupe'] = $nomGroupe;
+$_SESSION['couleur'] = $couleur;
+$_SESSION['limiteAnnuelle'] = $limiteAnnuelle;
+
 $stmt = $pdo->prepare("SELECT count(*) FROM groupe WHERE grp_nom = :grp_nom");
 $stmt->execute(['grp_nom' => $nomGroupe]);
 $resultNameExists = $stmt->fetchColumn();
 
 if ($resultNameExists > 0) {
-    include("../vue/creagroupe.php");
-    echo '<p style="color: red;"><b>Désoler le nom du groupe, existe !</b></p>';
-    echo '<p style="color: red;"><b>Merci de modifier : le nom du groupe. </b></p>';
+    $messageC = '<p style="color: red;"><b>Désoler le nom du groupe, existe ! <br> Merci de modifier : le nom du groupe.  </b></p>';
+    $_SESSION['messageC'] = $messageC;
+    header("Location: ../vue/creagroupe.php");
     exit;
 }
 
@@ -42,8 +46,9 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
 
         // Vérifie si la somme des thèmes dépasse la limite annuelle
         if ($sommeMonetaire > $limiteAnnuelle) {
-            echo '<p style="color: red;"><b>Vous dépassez les fonds monétaires du groupe. Merci de modifier les fonds des thèmes !</b></p>';
-            include("../vue/creagroupe.php");
+            $messageC = '<p style="color: red;"><b>Vous dépassez les fonds monétaires du groupe, les thèmes font une somme de ' . $sommeMonetaire . '€ alors que le groupe en possède que ' . $limiteAnnuelle . '€. Merci d\'en supprimer les fonds du thème !</b></p>';
+            $_SESSION['messageC'] = $messageC;
+            header("Location: ../vue/creagroupe.php");
             exit;
         }
 
@@ -57,14 +62,18 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
             // Valider l'extension de l'image
             $allowedExtensions = ['jpg', 'jpeg', 'png'];
             if (!in_array($imageExtension, $allowedExtensions)) {
-                echo "<p style='color: red;'>Format d'image non valide. Formats acceptés : jpg, jpeg, png.</p>";
+                $messageC =  "<p style='color: red;'>Format d'image non valide. Formats acceptés : jpg, jpeg, png.</p>";
+                $_SESSION['messageC'] = $messageC;
+                header("Location: ../vue/creagroupe.php");
                 exit;
             }
 
             // Vérifier la taille de l'image
             $maxSize = 5 * 1024 * 1024; // 5 MB
             if ($image['size'] > $maxSize) {
-                echo "<p style='color: red;'>L'image est trop grande. La taille maximale est de 5 Mo.</p>";
+                $messageC =  "<p style='color: red;'>L'image est trop grande. La taille maximale est de 5 Mo.</p>";
+                $_SESSION['messageC'] = $messageC;
+                header("Location: ../vue/creagroupe.php");
                 exit;
             }
 
@@ -80,7 +89,9 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
 
             // Déplacer l'image téléchargée
             if (!move_uploaded_file($imageTmpPath, $imagePath)) {
-                echo "<p style='color: red;'>Erreur lors du téléchargement de l'image.</p>";
+                $messageC =  "<p style='color: red;'>Erreur lors du téléchargement de l'image.</p>";
+                $_SESSION['messageC'] = $messageC;
+                header("Location: ../vue/creagroupe.php");
                 exit;
             }
 
@@ -139,16 +150,25 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
             ]);
         }
 
-        echo "<p style='color: green;'>Le groupe a été créé avec succès.</p>";
+        $message = "<p style='color: green;'>Le groupe " . $nomGroupe . " a été créé avec succès.</p>";
+        $_SESSION['message'] = $message;
+        $_SESSION['nomGroupe'] = null;
+        $_SESSION['couleur'] = null;
+        $_SESSION['limiteAnnuelle'] = null;
         header("Location: ../vue/accueil.php");
         exit;
 
     } catch (Exception $e) {
-        echo "<p style='color: red;'>Erreur lors de la création du groupe : " . $e->getMessage() . "</p>";
+        $message = "<p style='color: red;'>Erreur lors de la création du groupe : " . $e->getMessage() . "</p>";
+        $_SESSION['message'] = $message;
+        header("Location: ../vue/accueil.php");
+        exit;
+
     }
 } else {
-    echo '<p style="color: red;"><b>Merci de remplir les thèmes.</b></p>';
-    include("../vue/creagroupe.php");
+    $message = '<p style="color: red;"><b>Merci de remplir les thèmes.</b></p>';
+    $_SESSION['messageC'] = $messageC;
+    header("Location: ../vue/creagroupe.php");
     exit;
 }
 ?>
