@@ -85,8 +85,6 @@ table td {
     background-color: #e2e2e2;
 }
 
-td {}
-
 table th {
     background-color: #3a1768;
     color: white;
@@ -97,8 +95,6 @@ table th {
 table td {
     border-bottom: 1px solid #e6e6e6; /* Ligne séparatrice entre les lignes */
 }
-
-td {}
 
 table td:last-child {
     text-align: center; /* Centre le contenu de la dernière colonne */
