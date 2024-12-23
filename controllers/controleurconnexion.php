@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if (!$email || empty($password)) {
-        echo '<p style="color: red;"><b>Veuillez fournir une adresse e-mail valide et un mot de passe.</b></p>';
-        include("../vue/connexion.html");
+        $error = 'Veuillez fournir une adresse e-mail valide et un mot de passe.';
+        include("../vue/connexion.php");
         exit;
     }
 
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && password_verify($password, $user['user_mdp']) || $password == $user['user_mdp']) {
+        if ($user && (password_verify($password, $user['user_mdp']) || $password === $user['user_mdp'])) {
             // Connexion réussie
             $_SESSION['prenom'] = $user['user_prenom'];
             $_SESSION['nom'] = $user['user_nom'];
@@ -39,13 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         } else {
             // Email ou mot de passe incorrect
-            echo '<p style="color: red;"><b>Email ou mot de passe incorrect.</b></p>';
-            include("../vue/connexion.html");
-            exit;
+            $error = 'Email ou mot de passe incorrect.';
+            include("../vue/connexion.php");
         }
     } catch (Exception $e) {
         error_log("Erreur de connexion : " . $e->getMessage());
-        echo '<p style="color: red;"><b>Une erreur est survenue. Veuillez réessayer plus tard.</b></p>';
+        $error = 'Une erreur est survenue. Veuillez réessayer plus tard.';
     }
 }
 ?>

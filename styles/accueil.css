@@ -23,7 +23,7 @@ body {
 }
 
 header {
-    background-color: #333;
+    background-color: #3a1768;
     color: #fff;
     text-align: center;
     padding: 10px 0;
@@ -100,10 +100,6 @@ a:hover img {
     opacity: 0.8;
 }
 
-p {
-    color: #333;
-}
-
 /* Styles des notifications */
 section ul {
     padding-left: 20px;
@@ -119,7 +115,7 @@ section ul li {
 /* Footer */
 footer {
     text-align: center;
-    background-color: #333;
+    background-color: #3a1768;
     color: #fff;
     padding: 10px;
     position: fixed;
@@ -183,7 +179,7 @@ footer p {
     top: 200%;  /* Positionne le menu au centre vertical de l'icône */
     left: 50%;  /* Positionne le menu à 50% de la largeur de l'icône */
     transform: translate(-50%, -50%);  /* Centrer le menu par rapport à l'icône */
-    background-color: #333;
+    background-color: #3a1768;
     color: white;
     padding: 10px;
     list-style: none;

@@ -15,9 +15,12 @@
 
     <main>
         <h4><i>Chaque voix compte</i></h4>
+        <?php if (!empty($error)): ?>
+            <p style="color: red;"><b><?php echo htmlspecialchars($error); ?></b></p>
+        <?php endif; ?>
         <form action="../controllers/controleurconnexion.php" method="POST">
             <div class="form-group">
-                <input type="email" id="email" name="email" placeholder="Adresse e-mail" required>
+                <input type="email" id="email" name="email" placeholder="Adresse e-mail" value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>" required>
             </div>
             <div class="form-group">
                 <input type="password" id="password" name="password" placeholder="Mot de passe" required>

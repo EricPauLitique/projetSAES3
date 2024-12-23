@@ -27,9 +27,10 @@ $id = htmlspecialchars($_SESSION['id']);
 </head>
 <body>
     <header>
+    <div class="accueil" onclick="window.location.href='accueil.php';" style="cursor: pointer;">
         <img src="../images/logoVC.jpg" alt="Logo Voix Citoyenne"/>
         <h1>Voix Citoyenne</h1>
-
+        
         <!-- Menu des paramètres -->
         <div class="menu-parametres">
             <img src="../images/parametres.png" alt="Paramètres" class="parametres-icon"/>
@@ -39,6 +40,8 @@ $id = htmlspecialchars($_SESSION['id']);
                 <li><a href="modifier-parametres.php">Modifier mes paramètres</a></li>
             </ul>
         </div>
+    </div>
+        
     </header>
 
     <main>
@@ -104,7 +107,7 @@ $id = htmlspecialchars($_SESSION['id']);
     </main>
 
     <footer>
-        <p>© 2024 MonSite. Tous droits réservés.</p>
+        <p>© 2024 Voix Citoyenne. Tous droits réservés.</p>
     </footer>
 
     <script src="script.js"></script>

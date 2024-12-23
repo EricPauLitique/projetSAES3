@@ -147,8 +147,8 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
         echo "<p style='color: red;'>Erreur lors de la création du groupe : " . $e->getMessage() . "</p>";
     }
 } else {
-    include("../vue/creagroupe.php");
     echo '<p style="color: red;"><b>Merci de remplir les thèmes.</b></p>';
+    include("../vue/creagroupe.php");
     exit;
 }
 ?>

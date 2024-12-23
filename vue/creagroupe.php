@@ -29,19 +29,18 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
 </head>
 <body>
     <header>
-        <a class="accueil" href="accueil.php">
+    <div class="accueil" onclick="window.location.href='accueil.php';" style="cursor: pointer;">
         <img src="../images/logoVC.jpg" alt="Logo Voix Citoyenne" />
         <h1>Voix Citoyenne</h1>
-        </a>    
+    </div>
         <div class="menu-parametres">
-            <img src="../images/parametres.png" alt="Paramètres" class="parametres-icon"/>
+           value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>" <img src="../images/parametres.png" alt="Paramètres" class="parametres-icon"/>
             <ul class="menu-options">
                 <li><a href="../controllers/logout.php">Se déconnecter</a></li>
                 <li><a href="supprimer-compte.php">Supprimer mon compte</a></li>
                 <li><a href="modifier-parametres.php">Modifier mes paramètres</a></li>
             </ul>
         </div>
-
     </header>
     
     <main>
@@ -93,18 +92,18 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
             <h2>Créer un groupe</h2>
             <form action="../controllers/controleurCreaGroupe.php" method="POST" enctype="multipart/form-data">
                 <label for="nom_du_groupe">Nom du groupe :</label>
-                <input type="text" id="nom_du_groupe" name="nom_du_groupe" placeholder="Nom du groupe" required>
+                <input type="text" id="nom_du_groupe" name="nom_du_groupe" placeholder="Nom du groupe" value="<?php echo isset($nomGroupe) ? htmlspecialchars($nomGroupe) : ''; ?>" required>
                 <br>
                 <div class="form-group couleur-container">
                 <label for="color">Couleur : </label>
-                <input type="color" id="color" name="color" value="#ff0000"> <!-- Valeur par défaut -->
+                <input type="color" id="color" name="color" value="<?php echo isset($couleur) ? htmlspecialchars($couleur) : ''; ?>"> <!-- Valeur par défaut -->
                 </div>
                 <br>
                 <label for="image">Image du groupe :</label>
                 <input type="file" id="image" name="image" accept="image/png, image/jpeg">
                 <br>
                 <label for="limite_annuelle">Limite annuelle :</label>
-                <input type="number" id="limite_annuelle" name="limite_annuelle" placeholder="Limite annuelle" required>
+                <input type="number" id="limite_annuelle" name="limite_annuelle" placeholder="Limite annuelle" value="<?php echo isset($limiteAnnuelle) ? htmlspecialchars($limiteAnnuelle) : ''; ?>" required>
                 <br>
                 <button type="submit">Créer le groupe</button>
             </form>
