@@ -48,7 +48,7 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
     <main>
         <section>
             <!-- Formulaire pour créer un thème -->
-            <h2>Créer un thème</h2>
+            <h2>Créer un thème : </h2>
             <form action="../controllers/controleurCreaTheme.php" method="POST">
                 <label for="nom_du_theme">Nom du thème :</label>
                 <input type="text" id="nom_du_theme" name="nom_du_theme" placeholder="Nom du thème" required>
@@ -91,7 +91,7 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
         </section>
 
         <section>
-            <h2>Créer un groupe</h2>
+            <h2>Créer un groupe : </h2>
             <form action="../controllers/controleurCreaGroupe.php" method="POST" enctype="multipart/form-data">
                 <label for="nom_du_groupe">Nom du groupe :</label>
                 <input type="text" id="nom_du_groupe" name="nom_du_groupe" placeholder="Nom du groupe" value="<?php echo isset($nomGroupe) ? htmlspecialchars($nomGroupe) : ''; ?>" required>
