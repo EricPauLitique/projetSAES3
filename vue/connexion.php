@@ -9,8 +9,10 @@
 </head> 
 <body>
     <header>
-        <img src="../images/logoVC.jpg" alt="Logo" />
-        <h1>Voix Citoyenne</h1>
+        <div class="connexion" onclick="window.location.href='connexion.php';" style="cursor: pointer;">
+            <img src="../images/logoVC.jpg" alt="Logo Voix Citoyenne"/>
+            <h1>Voix Citoyenne</h1>
+        </div>
     </header>
 
     <main>

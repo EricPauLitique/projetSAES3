@@ -1,10 +1,11 @@
-/* Styles gÃ©nÃ©raux */
+/* Styles gÃƒÂ©nÃƒÂ©raux */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
     color: #333;
+    font-weight: bold;
 }
 
 header {
@@ -48,7 +49,7 @@ h1 {
     margin: 0;
 }
 
-/* Menu dÃ©roulant des paramÃ¨tres */
+/* Menu dÃƒÂ©roulant des paramÃƒÂ¨tres */
 .menu-parametres {
     position: relative;
     display: inline-block;
@@ -64,11 +65,62 @@ h1 {
     transform: rotate(180deg);
 }
 
+table {
+    width: 100%;
+    max-width: 800px; /* Pour limiter la taille de la table */
+    margin: 20px auto; /* Ajoute un espacement avec le reste de la page */
+    border-collapse: separate; /* Sépare les bordures des cellules */
+    border-spacing: 10px; /* Ajoute de l'espace entre les cellules */
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; /* Arrondit les bords de la table */
+}
+
+table th,
+table td {
+    text-align: center;
+    padding: 10px 15px; /* Ajoute un padding pour aérer les cellules */
+    vertical-align: middle; /* Centre verticalement le texte */
+    font-weight: bold;
+    background-color: #e2e2e2;
+}
+
+td {}
+
+table th {
+    background-color: #3a1768;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px 8px 0 0; /* Coin supérieur arrondi */
+}
+
+table td {
+    border-bottom: 1px solid #e6e6e6; /* Ligne séparatrice entre les lignes */
+}
+
+td {}
+
+table td:last-child {
+    text-align: center; /* Centre le contenu de la dernière colonne */
+}
+
+@media screen and (max-width: 768px) {
+    table {
+        display: block; /* Rend la table défilable horizontalement */
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    table th, table td {
+        padding: 8px 10px; /* Réduit l'espacement pour les petits écrans */
+    }
+}
+
 .menu-options {
     display: none;
     position: absolute;
-    top: 75%; /* DÃ©cale le menu en dessous */
-    left: -225%;
+    top: 75%; /* DÃƒÂ©cale le menu en dessous */
+    left: -250%;
     transform: translateX(-50%);
     background-color: #3a1768;
     color: white;
@@ -123,13 +175,25 @@ h2, h3 {
     font-size: 1.8em;
     color: #3a1768;
     margin-bottom: 20px;
+    position: relative; /* Pour permettre de positionner la puce */
+    padding-left: 30px; /* Crée un espace pour la puce à gauche */
+}
+
+h2::before, h3::before {
+    content: "\2022"; /* Code Unicode pour la puce */
+    position: absolute;
+    left: 0; /* Positionne la puce à gauche du titre */
+    top: 50%; /* Centre verticalement la puce */
+    transform: translateY(-50%); /* Ajuste verticalement la position de la puce */
+    font-size: 1.8em; /* Taille de la puce */
+    color: #3a1768; /* Couleur de la puce */
 }
 form {
-    width: 100%; /* S'adapte Ã  la largeur de son conteneur */
-    max-width: 500px; /* Largeur maximale pour Ã©viter qu'il ne devienne trop grand */
+    /* width: 100%; */ /* S'adapte ÃƒÂ  la largeur de son conteneur */
+    max-width: 500px; /* Largeur maximale pour ÃƒÂ©viter qu'il ne devienne trop grand */
     margin: 0 auto; /* Centre le formulaire horizontalement */
-    padding: 20px; /* Ajoute de l'espace Ã  l'intÃ©rieur du formulaire */
-    background-color: #ffffff; /* Fond blanc pour le contraste */
+    padding: 20px; /* Ajoute de l'espace ÃƒÂ  l'intÃƒÂ©rieur du formulaire */
+    background-color: #e2e2e2; /* Fond blanc pour le contraste */
     border-radius: 8px; /* Coins arrondis */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre douce */
     display: flex;
@@ -159,7 +223,7 @@ input[type="password"]:focus,
 select:focus,
 textarea:focus {
     border-color: #3a1768; /* Couleur de bordure au focus */
-    outline: none; /* Supprime le contour par dÃ©faut */
+    outline: none; /* Supprime le contour par dÃƒÂ©faut */
 }
 
 button {
@@ -182,10 +246,12 @@ footer {
     background-color: #3a1768;
     color: #fff;
     padding: 15px;
-    position: fixed;
+    position: sticky;
+    /* position: fixed; */
     bottom: 0;
-    width: 100%;
+    /* width: auto; */
     text-align: center;
+    font-weight: normal;
 }
 
 footer p {

@@ -7,7 +7,7 @@ body {
 }
 
 header {
-    background-color: #333;
+    background-color: #3a1768;
     color: #fff;
     padding: 15px 0;
     text-align: center;
@@ -48,7 +48,7 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="number"] {
-    width: 100%;
+    width: 96%;
     padding: 10px;
     margin: 5px 0;
     border-radius: 5px;
@@ -58,7 +58,7 @@ input[type="number"] {
 button {
     width: 100%;
     padding: 12px;
-    background-color: #333;
+    background-color: #3a1768;
     color: white;
     border: none;
     border-radius: 5px;
@@ -67,7 +67,7 @@ button {
 }
 
 button:hover {
-    background-color: #555;
+    background-color: #3a1768;
 }
 
 /* Lien vers la connexion */
@@ -87,7 +87,7 @@ a:hover {
 /* Footer */
 footer {
     text-align: center;
-    background-color: #333;
+    background-color: #3a1768;
     color: #fff;
     padding: 10px;
     position: fixed;

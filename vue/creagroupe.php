@@ -32,9 +32,6 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
     <div class="accueil" onclick="window.location.href='accueil.php';" style="cursor: pointer;">
         <img src="../images/logoVC.jpg" alt="Logo Voix Citoyenne"/>
         <h1>Voix Citoyenne</h1>
-        
-
-        
     </div>
     
     <!-- Menu des paramètres -->

@@ -2,7 +2,7 @@
 .image-small {
     width: 150px;
     height: auto; /* Garde les proportions de l'image */
-    object-fit: cover; /* Ajuste la façon dont l'image s'adapte */
+    object-fit: cover; /* Ajuste la faÃ§on dont l'image s'adapte */
 }
 
 /* Effet sur les images dans les liens */
@@ -14,7 +14,7 @@ a:hover img {
     opacity: 0.7; /* Effet lors du survol */
 }
 
-/* Styles généraux pour la page */
+/* Styles gÃ©nÃ©raux pour la page */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -136,38 +136,38 @@ footer p {
     margin: 0;
 }
 
-/* Class pour réduire la taille des images */
+/* Class pour rÃ©duire la taille des images */
 .image-small {
     width: 50px;
     height: 50px;
     border-radius: 5px;
 }
 
-/* Style pour le conteneur du menu des paramètres */
+/* Style pour le conteneur du menu des paramÃ¨tres */
 
 .menu-parametres {
     position: relative;
     display: inline-block;
 }
 
-/* Icone des paramètres */
+/* Icone des paramÃ¨tres */
 .parametres-icon {
-    width: 40px;  /* Taille de l'icône des paramètres */
-    cursor: pointer;  /* Pointeur pour l'icône */
-    transition: transform 0.3s ease;  /* Effet de rotation pour l'icône au survol */
+    width: 40px;  /* Taille de l'icÃ´ne des paramÃ¨tres */
+    cursor: pointer;  /* Pointeur pour l'icÃ´ne */
+    transition: transform 0.3s ease;  /* Effet de rotation pour l'icÃ´ne au survol */
 }
 
 .parametres-icon:hover {
-    transform: rotate(180deg); /* Rotation de l'icône au survol */
+    transform: rotate(180deg); /* Rotation de l'icÃ´ne au survol */
 }
 
-/* Menu déroulant caché par défaut */
+/* Menu dÃ©roulant cachÃ© par dÃ©faut */
 .menu-options {
     display: none;
     position: absolute;
-    top: 200%;  /* Positionne le menu au centre vertical de l'icône */
-    left: -200%;  /* Positionne le menu à 50% de la largeur de l'icône */
-    transform: translate(-50%, -50%);  /* Centrer le menu par rapport à l'icône */
+    top: 200%;  /* Positionne le menu au centre vertical de l'icÃ´ne */
+    left: -200%;  /* Positionne le menu Ã  50% de la largeur de l'icÃ´ne */
+    transform: translate(-50%, -50%);  /* Centrer le menu par rapport Ã  l'icÃ´ne */
     background-color: #3a1768;
     color: white;
     padding: 10px;
@@ -175,15 +175,15 @@ footer p {
     border-radius: 5px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     opacity: 0;
-    visibility: hidden;  /* Menu invisible par défaut */
+    visibility: hidden;  /* Menu invisible par dÃ©faut */
     transition: opacity 0.3s ease, visibility 0s 0.3s;  /* Transition fluide */
 
     /* Forcer l'affichage horizontal pur */
     display: flex;
     flex-direction: row;  /* Alignement horizontal */
-    justify-content: flex-start; /* Aligner à gauche les éléments */
-    gap: 10px;  /* Espacement entre les éléments */
-    align-items: center;  /* Assurez-vous que les éléments sont bien alignés au centre */
+    justify-content: flex-start; /* Aligner Ã  gauche les Ã©lÃ©ments */
+    gap: 10px;  /* Espacement entre les Ã©lÃ©ments */
+    align-items: center;  /* Assurez-vous que les Ã©lÃ©ments sont bien alignÃ©s au centre */
 }
 
 .menu-options li {
@@ -209,4 +209,18 @@ footer p {
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease, visibility 0s 0s;
+}
+
+h2, h3 {
+    position: relative; /* Pour permettre de positionner la puce */
+    padding-left: 30px; /* Crée un espace pour la puce à gauche */
+}
+
+h3::before {
+    content: "\2022"; /* Code Unicode pour la puce */
+    position: absolute;
+    left: 0; /* Positionne la puce à gauche du titre */
+    top: 47%; /* Centre verticalement la puce */
+    transform: translateY(-50%); /* Ajuste verticalement la position de la puce */
+    font-size: 1.8em; /* Taille de la puce */
 }
