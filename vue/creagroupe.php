@@ -28,13 +28,18 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
 
 </head>
 <body>
-    <header>
+<header>
     <div class="accueil" onclick="window.location.href='accueil.php';" style="cursor: pointer;">
-        <img src="../images/logoVC.jpg" alt="Logo Voix Citoyenne" />
+        <img src="../images/logoVC.jpg" alt="Logo Voix Citoyenne"/>
         <h1>Voix Citoyenne</h1>
+        
+
+        
     </div>
+    
+    <!-- Menu des paramètres -->
         <div class="menu-parametres">
-           value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>" <img src="../images/parametres.png" alt="Paramètres" class="parametres-icon"/>
+            <img src="../images/parametres.png" alt="Paramètres" class="parametres-icon"/>
             <ul class="menu-options">
                 <li><a href="../controllers/logout.php">Se déconnecter</a></li>
                 <li><a href="supprimer-compte.php">Supprimer mon compte</a></li>

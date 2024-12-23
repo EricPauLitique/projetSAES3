@@ -1,4 +1,4 @@
-/* Styles généraux */
+/* Styles gÃ©nÃ©raux */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -10,9 +10,10 @@ body {
 header {
     background-color: #3a1768;
     color: #fff;
-    text-align: center;
-    padding: 15px 0;
-    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
 }
 
 header img {
@@ -21,120 +22,33 @@ header img {
     margin-right: 10px;
 }
 
+.accueil {
+    display: flex;
+    align-items: center;
+}
+
+a img {
+    width: 100px; /* Exemple de redimensionnement */
+}
+
+a:hover img {
+    opacity: 0.7; /* Effet lors du survol */
+}
+a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #333;
+    text-align : center;
+}
+
 h1 {
     display: inline;
-    font-size: 2.2em;
+    font-size: 2em;
+    margin: 0;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* Contenu principal */
-main {
-    margin: 20px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-h2, h3 {
-    font-size: 1.8em;
-    color: #3a1768;
-    margin-bottom: 20px;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-label {
-    font-size: 1em;
-    font-weight: bold;
-}
-
-input[type="text"],
-input[type="number"],
-input[type="email"],
-input[type="password"],
-select,
-input[type="color"],
-input[type="file"] {
-    width: 100%;
-    padding: 12px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 1em;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-}
-
-input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-select:focus,
-input[type="color"]:focus {
-    border-color: #3a1768;
-    outline: none;
-}
-
-button {
-    padding: 15px;
-    background-color: #3a1768;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #6a2a88;
-}
-
-/* Tableaux */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 30px;
-}
-
-table th,
-table td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
-
-table th {
-    background-color: #f4f4f4;
-}
-
-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-table button {
-    padding: 5px 10px;
-    background-color: #e74c3c;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-table button:hover {
-    background-color: #c0392b;
-}
-
-/* Menu déroulant */
+/* Menu dÃ©roulant des paramÃ¨tres */
 .menu-parametres {
     position: relative;
     display: inline-block;
@@ -153,21 +67,26 @@ table button:hover {
 .menu-options {
     display: none;
     position: absolute;
-    top: 50px;
-    left: 50%;
+    top: 75%; /* DÃ©cale le menu en dessous */
+    left: -225%;
     transform: translateX(-50%);
     background-color: #3a1768;
     color: white;
     padding: 10px 20px;
     list-style: none;
     border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0s 0.3s;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
 }
 
 .menu-options li {
-    margin: 0 10px;
+    margin: 0;
 }
 
 .menu-options li a {
@@ -185,9 +104,77 @@ table button:hover {
 }
 
 .menu-parametres:hover .menu-options {
+    display: flex;
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease, visibility 0s 0s;
+}
+
+/* Section principale */
+main {
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+    font-size: 1.8em;
+    color: #3a1768;
+    margin-bottom: 20px;
+}
+form {
+    width: 100%; /* S'adapte Ã  la largeur de son conteneur */
+    max-width: 500px; /* Largeur maximale pour Ã©viter qu'il ne devienne trop grand */
+    margin: 0 auto; /* Centre le formulaire horizontalement */
+    padding: 20px; /* Ajoute de l'espace Ã  l'intÃ©rieur du formulaire */
+    background-color: #ffffff; /* Fond blanc pour le contraste */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espace entre les champs */
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+    width: 100%; /* Prend toute la largeur disponible */
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #3a1768; /* Couleur de bordure au focus */
+    outline: none; /* Supprime le contour par dÃ©faut */
+}
+
+button {
+    padding: 15px;
+    background-color: #3a1768;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #6a2a88;
 }
 
 /* Footer */
@@ -220,19 +207,10 @@ footer p {
         padding: 15px;
     }
 
-    table {
-        font-size: 0.9em;
-    }
-
-    footer {
-        font-size: 0.9em;
-    }
-
     .menu-options {
         flex-direction: column;
         width: 100%;
         padding: 15px;
-        box-shadow: none;
     }
 
     .menu-options li {

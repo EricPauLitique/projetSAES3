@@ -102,6 +102,7 @@ a {
     margin-top: 10px;
     text-decoration: none;
     color: #333;
+    text-align: center;
 }
 
 a:hover img {
@@ -143,27 +144,7 @@ footer p {
 }
 
 /* Style pour le conteneur du menu des paramètres */
-.menu-parametres {
-    position: relative;
-    display: inline-block;
-}
 
-/* Icone des paramètres */
-.parametres-icon {
-    width: 40px;  /* Taille de l'icône des paramètres */
-    cursor: pointer;  /* Pointeur pour l'icône */
-    transition: transform 0.3s ease;  /* Effet de rotation pour l'icône au survol */
-}
-
-.parametres-icon:hover {
-    transform: rotate(180deg); /* Rotation de l'icône au survol */
-}
-
-/* Menu déroulant caché par défaut */
-/* Style pour le conteneur du menu des paramètres */
-/* Style pour le conteneur du menu des paramètres */
-/* Style pour le conteneur du menu des paramètres */
-/* Style pour le conteneur du menu des paramètres */
 .menu-parametres {
     position: relative;
     display: inline-block;
@@ -205,29 +186,27 @@ footer p {
     align-items: center;  /* Assurez-vous que les éléments sont bien alignés au centre */
 }
 
-/* Style pour chaque option du menu */
 .menu-options li {
-    margin: 0;  /* Suppression de l'espace vertical */
+    margin: 0;
 }
 
 .menu-options li a {
     text-decoration: none;
     color: white;
     font-size: 14px;
-    transition: color 0.3s ease;
-    display: block;
-    text-align: center;  /* Centrer le texte à l'intérieur des liens */
-    padding: 5px 10px; /* Un peu de padding pour améliorer l'apparence des liens */
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .menu-options li a:hover {
-    color: #ffcc00; /* Changement de couleur au survol */
+    background-color: #ffcc00;
+    color: #3a1768;
 }
 
-/* Afficher le menu au survol de l'icône avec animation */
 .menu-parametres:hover .menu-options {
-    display: flex; /* Le menu devient visible avec un affichage horizontal */
+    display: flex;
     opacity: 1;
-    visibility: visible;  /* Rendre le menu visible */
-    transition: opacity 0.3s ease, visibility 0s 0s;  /* Transition fluide */
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0s 0s;
 }
