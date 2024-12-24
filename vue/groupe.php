@@ -61,6 +61,7 @@ if (Membre::siMembreInconnu($id, $groupeId) == 0 && Groupe::siProprioInconnu($id
     Connexion::connect()?>
 
     <main>
+        <h1><?php echo htmlspecialchars($groupe->get('grp_nom')); ?></h1>
         <aside>
             <h3>Liste des membres :</h3>
             <table>
