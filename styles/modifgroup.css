@@ -1,4 +1,4 @@
-/* Styles gÃƒÂ©nÃƒÂ©raux */
+/* Styles gÃƒÆ’Ã‚Â©nÃƒÆ’Ã‚Â©raux */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -10,6 +10,7 @@ body {
 label {
     font-weight: bold;
 }
+
 
 header {
     background-color: #3a1768;
@@ -24,10 +25,6 @@ header img {
     width: 50px;
     vertical-align: middle;
     margin-right: 10px;
-}
-
-#titre {
-    color: rgb(130, 157, 238);
 }
 
 .accueil {
@@ -51,12 +48,14 @@ a {
 }
 
 h1 {
-    display: inline;
+    text-align: center;
+    /* display: inline; */
     font-size: 2em;
     margin: 0;
+    /* color: #3a1768; */
 }
 
-/* Menu dÃƒÂ©roulant des paramÃƒÂ¨tres */
+/* Menu dÃƒÆ’Ã‚Â©roulant des paramÃƒÆ’Ã‚Â¨tres */
 .menu-parametres {
     position: relative;
     display: inline-block;
@@ -76,7 +75,7 @@ table {
     width: 100%;
     max-width: 800px; /* Pour limiter la taille de la table */
     margin: 20px auto; /* Ajoute un espacement avec le reste de la page */
-    border-collapse: separate; /* Sépare les bordures des cellules */
+    border-collapse: separate; /* SÃ©pare les bordures des cellules */
     border-spacing: 10px; /* Ajoute de l'espace entre les cellules */
     background-color: #ffffff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -86,7 +85,7 @@ table {
 table th,
 table td {
     text-align: center;
-    padding: 10px 15px; /* Ajoute un padding pour aérer les cellules */
+    padding: 10px 15px; /* Ajoute un padding pour aÃ©rer les cellules */
     vertical-align: middle; /* Centre verticalement le texte */
     font-weight: bold;
     background-color: #e2e2e2;
@@ -96,33 +95,33 @@ table th {
     background-color: #3a1768;
     color: white;
     font-weight: bold;
-    border-radius: 8px 8px 0 0; /* Coin supérieur arrondi */
+    border-radius: 8px 8px 0 0; /* Coin supÃ©rieur arrondi */
 }
 
 table td {
-    border-bottom: 1px solid #e6e6e6; /* Ligne séparatrice entre les lignes */
+    border-bottom: 1px solid #e6e6e6; /* Ligne sÃ©paratrice entre les lignes */
 }
 
 table td:last-child {
-    text-align: center; /* Centre le contenu de la dernière colonne */
+    text-align: center; /* Centre le contenu de la derniÃ¨re colonne */
 }
 
 @media screen and (max-width: 768px) {
     table {
-        display: block; /* Rend la table défilable horizontalement */
+        display: block; /* Rend la table dÃ©filable horizontalement */
         overflow-x: auto;
         white-space: nowrap;
     }
 
     table th, table td {
-        padding: 8px 10px; /* Réduit l'espacement pour les petits écrans */
+        padding: 8px 10px; /* RÃ©duit l'espacement pour les petits Ã©crans */
     }
 }
 
 .menu-options {
     display: none;
     position: absolute;
-    top: 75%; /* DÃƒÂ©cale le menu en dessous */
+    top: 75%; /* DÃƒÆ’Ã‚Â©cale le menu en dessous */
     left: 60%;
     transform: translateX(-50%);
     background-color: #3a1768;
@@ -167,7 +166,7 @@ table td:last-child {
 
 /* Section principale */
 main {
-    margin: 20px;
+    margin: 12px;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
@@ -179,23 +178,23 @@ h2, h3 {
     color: #3a1768;
     margin-bottom: 20px;
     position: relative; /* Pour permettre de positionner la puce */
-    padding-left: 30px; /* Crée un espace pour la puce à gauche */
+    padding-left: 30px; /* CrÃ©e un espace pour la puce Ã  gauche */
 }
 
 h2::before, h3::before {
     content: "\2022"; /* Code Unicode pour la puce */
     position: absolute;
-    left: 0; /* Positionne la puce à gauche du titre */
+    left: 0; /* Positionne la puce Ã  gauche du titre */
     top: 50%; /* Centre verticalement la puce */
     transform: translateY(-50%); /* Ajuste verticalement la position de la puce */
     font-size: 1.8em; /* Taille de la puce */
     color: #3a1768; /* Couleur de la puce */
 }
 form {
-    /* width: 100%; */ /* S'adapte ÃƒÂ  la largeur de son conteneur */
-    max-width: 500px; /* Largeur maximale pour ÃƒÂ©viter qu'il ne devienne trop grand */
+    /* width: 100%; */ /* S'adapte ÃƒÆ’Ã‚Â  la largeur de son conteneur */
+    max-width: 500px; /* Largeur maximale pour ÃƒÆ’Ã‚Â©viter qu'il ne devienne trop grand */
     margin: 0 auto; /* Centre le formulaire horizontalement */
-    padding: 20px; /* Ajoute de l'espace ÃƒÂ  l'intÃƒÂ©rieur du formulaire */
+    padding: 20px; /* Ajoute de l'espace ÃƒÆ’Ã‚Â  l'intÃƒÆ’Ã‚Â©rieur du formulaire */
     background-color: #e2e2e2; /* Fond blanc pour le contraste */
     border-radius: 8px; /* Coins arrondis */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre douce */
@@ -226,7 +225,7 @@ input[type="password"]:focus,
 select:focus,
 textarea:focus {
     border-color: #3a1768; /* Couleur de bordure au focus */
-    outline: none; /* Supprime le contour par dÃƒÂ©faut */
+    outline: none; /* Supprime le contour par dÃƒÆ’Ã‚Â©faut */
 }
 
 button {
@@ -294,12 +293,12 @@ footer p {
 }
 
 .retour-icon {
-    width: 20px; /* Taille de l'icône */
+    width: 20px; /* Taille de l'icÃ´ne */
     height: auto;
 }
 
 .retour a {
-    text-decoration: none; /* Supprime la décoration de lien */
+    text-decoration: none; /* Supprime la dÃ©coration de lien */
     color: #3a1768; /* Couleur du texte */
     font-size: 16px; /* Taille du texte */
     font-weight: bold; /* Met le texte en gras */
@@ -314,4 +313,8 @@ footer p {
     display: inline;
     margin-right: 20px;
     margin-bottom: 100px;
+}
+
+#titre {
+    color: #3a1768;
 }

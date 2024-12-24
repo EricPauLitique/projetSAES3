@@ -55,7 +55,20 @@ class Groupe {
         }
     }
 
-    // Récupérer un groupe par son ID
+    public static function getGroupByIdUnique($groupId)
+    {
+
+        // Requête SQL pour récupérer les informations du groupe
+        $query = "SELECT * FROM groupe WHERE grp_id = :groupId";
+        $stmt = connexion::pdo()->prepare($query);
+        $stmt->bindParam(':groupId', $groupId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Retourner le groupe trouvé (ou null si non trouvé)
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
     public static function getGroupeById($user_id) {
         $requete = "SELECT * FROM groupe WHERE user_id = :user_id";
         $stmt = connexion::pdo()->prepare($requete);
@@ -64,6 +77,7 @@ class Groupe {
         return $stmt->fetchAll(PDO::FETCH_CLASS, 'Groupe'); // Retourne un tableau d'objets Groupe
     }
 
+    // Supprimer un groupe et ses associations
     public static function deleteGroupById($groupId) {
         $db = Connexion::pdo();  // Obtenez la connexion à la base de données
     
@@ -93,10 +107,61 @@ class Groupe {
         }
     }
 
-
-
-}   
-        
-
-
+    /**
+     * Gérer l'upload de l'image du groupe
+     */
+    public static function handleImageUpload($group, $file) {
+        // Vérifiez que $group est un tableau
+        if (!is_array($group)) {
+            throw new InvalidArgumentException('Le paramètre $group doit être un tableau.');
+        }
+    
+        // Vérifiez que $file est un tableau
+        if (!is_array($file)) {
+            throw new InvalidArgumentException('Le paramètre $file doit être un tableau.');
+        }
+    
+        $newImagePath = $group['grp_img']; // Par défaut, on garde l'ancienne image
+        if (isset($file) && $file['error'] == 0) {
+            $imageTmpPath = $file['tmp_name'];
+            $imageName = $file['name'];
+            $newImagePath = "../images/groupes/" . uniqid() . "_" . $imageName;
+    
+            // Déplacer l'image téléchargée
+            if (move_uploaded_file($imageTmpPath, $newImagePath)) {
+                // Supprimer l'ancienne image si elle existe et n'est pas l'image par défaut
+                if ($group['grp_img'] != '../images/groupes/groupe.png' && file_exists($group['grp_img'])) {
+                    unlink($group['grp_img']);
+                }
+            } else {
+                $_SESSION['message'] = '<b><i style="color: red;">Erreur lors de l\'upload de l\'image.</i></b>';
+                header("Location: ../vue/modifier_groupe.php?group_id=" . $group['grp_id']);
+                exit();
+            }
+        }
+        return $newImagePath;
+    }
+    
+    /**
+     * Mettre à jour les informations du groupe dans la base de données
+     */
+    public static function updateGroup($groupId, $newGroupName, $newGroupColor, $newAnnualLimit, $newImagePath) {
+        $db = Connexion::pdo(); 
+        $updateQuery = "UPDATE groupe SET 
+                            grp_nom = :nom, 
+                            grp_couleur = :couleur, 
+                            grp_lim_an = :limite, 
+                            grp_img = :image
+                        WHERE grp_id = :grp_id";
+    
+        $stmt = $db->prepare($updateQuery);
+        return $stmt->execute([
+            'nom' => $newGroupName,
+            'couleur' => $newGroupColor,
+            'limite' => $newAnnualLimit,
+            'image' => $newImagePath,
+            'grp_id' => $groupId
+        ]);
+    }
+}
 ?>

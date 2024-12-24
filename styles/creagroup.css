@@ -5,6 +5,9 @@ body {
     margin: 0;
     padding: 0;
     color: #333;
+}
+
+label {
     font-weight: bold;
 }
 
@@ -21,6 +24,10 @@ header img {
     width: 50px;
     vertical-align: middle;
     margin-right: 10px;
+}
+
+#titre {
+    color: rgb(130, 157, 238);
 }
 
 .accueil {
@@ -116,7 +123,7 @@ table td:last-child {
     display: none;
     position: absolute;
     top: 75%; /* DÃƒÂ©cale le menu en dessous */
-    left: -250%;
+    left: 47.2%;
     transform: translateX(-50%);
     background-color: #3a1768;
     color: white;
@@ -301,4 +308,10 @@ footer p {
 
 .retour a:hover {
     color: #ffcc00; /* Change la couleur du texte lors du survol */
+}
+
+.username {
+    display: inline;
+    margin-right: 20px;
+    margin-bottom: 100px;
 }

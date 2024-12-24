@@ -1,4 +1,5 @@
 <?php
+// creagroupe.php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -36,6 +37,7 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
     
     <!-- Menu des paramètres -->
         <div class="menu-parametres">
+            <?php echo '<p class="username">' . 'Vous êtes connecté sous ' . '<b>' . $prenom . ' ' . $nom . '</b> </p> ' ?>
             <img src="../images/parametres.png" alt="Paramètres" class="parametres-icon"/>
             <ul class="menu-options">
                 <li><a href="../controllers/logout.php">Se déconnecter</a></li>

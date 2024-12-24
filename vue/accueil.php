@@ -34,6 +34,8 @@ $id = htmlspecialchars($_SESSION['id']);
     
     <!-- Menu des paramètres -->
         <div class="menu-parametres">
+
+            <?php echo '<p class="username">' . 'Vous êtes connecté sous ' . '<b>' . $prenom . ' ' . $nom . '</b> </p> ' ?>
             <img src="../images/parametres.png" alt="Paramètres" class="parametres-icon"/>
             <ul class="menu-options">
                 <li><a href="../controllers/logout.php">Se déconnecter</a></li>
@@ -46,7 +48,6 @@ $id = htmlspecialchars($_SESSION['id']);
     <main>
         <h1>Bienvenue, <?php echo $prenom . ' ' . $nom; ?> !</h1>
         <p>Vous êtes maintenant connecté.</p>
-
 
         <section>
             <p>Bienvenue sur Voix Citoyenne, proposez des idées, débattez et votez ! Veillez à rester respectueux entre vous.</p>
@@ -63,7 +64,7 @@ $id = htmlspecialchars($_SESSION['id']);
                 ?>
                 <?php
                 if (isset($_SESSION['message'])) {
-                    echo $_SESSION['message'] .'<br>'.'<br>';
+                    echo $_SESSION['message'];
                     // Une fois le message affiché, vous pouvez supprimer la session pour éviter qu'il s'affiche plusieurs fois
                     unset($_SESSION['message']);
                 }
@@ -80,10 +81,10 @@ $id = htmlspecialchars($_SESSION['id']);
                                     <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') . '" />
                                     <button type="submit" name="delete_group" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce groupe ?\');">Supprimer</button>
                                  </form>
-                                 <form method="GET" action="modifierGroupe.php" style="display:inline;">
-                                    <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') . '" />
+                                 <form method="POST" action="../controllers/controleurmodifGroupe.php" style="display:inline;">
+                                    <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') .'" />
                                     <button type="submit" name="modify_group">Modifier</button>
-                                 </form>
+                                </form>
                              </div>
                              </li>';
                     }

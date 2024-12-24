@@ -23,14 +23,17 @@ if (isset($_POST['group_id'])) {
 
         // Supprimer l'image si elle existe
         if (file_exists($imagePath)) {
-            if (unlink($imagePath)) {
-                // Optionnel: Supprimer le répertoire parent si vide
-                $directoryPath = dirname($imagePath);
-                if (is_dir($directoryPath) && count(scandir($directoryPath)) == 2) { // Seuls '.' et '..' dans le dossier
-                    rmdir($directoryPath);
+            if (!$imagePath == '../images/groupes/groupe.png') {
+                if (unlink($imagePath)) {
+                    // Optionnel: Supprimer le répertoire parent si vide
+                    $directoryPath = dirname($imagePath);
+                    if (is_dir($directoryPath) && count(scandir($directoryPath)) == 2) { // Seuls '.' et '..' dans le dossier
+                        rmdir($directoryPath);
+                    }
                 }
             }
-        }
+        } 
+        
 
         // Suppression du groupe de la base de données
         $result = Groupe::deleteGroupById($groupId);

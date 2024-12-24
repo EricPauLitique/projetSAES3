@@ -1,7 +1,9 @@
 <?php
+// controleurCreaGroupe.php
 require_once("../config/connexion.php");
 $titre = "Création des groupes";
 include("../vue/debut.php");
+
 
 // Connexion à la base de données
 Connexion::connect();
@@ -14,7 +16,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Récupération des données du formulaire avec validation/sécurisation
 $nomGroupe = filter_input(INPUT_POST, 'nom_du_groupe', FILTER_SANITIZE_STRING);
-$nomGroupe = ucfirst($nomGroupe);
+$nomGroupe = ucfirst(strtolower($nomGroupe));
 $couleur = filter_input(INPUT_POST, 'color', FILTER_SANITIZE_STRING);
 $limiteAnnuelle = filter_input(INPUT_POST, 'limite_annuelle', FILTER_VALIDATE_INT);
 $idUtilisateur = htmlspecialchars($_SESSION['id']);
@@ -23,6 +25,7 @@ $sommeMonetaire = 0;
 $_SESSION['nomGroupe'] = $nomGroupe;
 $_SESSION['couleur'] = $couleur;
 $_SESSION['limiteAnnuelle'] = $limiteAnnuelle;
+
 
 $stmt = $pdo->prepare("SELECT count(*) FROM groupe WHERE grp_nom = :grp_nom");
 $stmt->execute(['grp_nom' => $nomGroupe]);
@@ -98,6 +101,10 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
             // Modifier les permissions du fichier pour que le groupe ait 'rw'
             chmod($imagePath, 0664);
         }
+
+        else {
+            $imagePath = '../images/groupes/groupe.png';
+        }
         
         // Générer un nouvel ID pour le groupe
         $stmt = $pdo->query("SELECT MAX(grp_id) FROM groupe");
@@ -155,6 +162,7 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
         $_SESSION['nomGroupe'] = null;
         $_SESSION['couleur'] = null;
         $_SESSION['limiteAnnuelle'] = null;
+        $_SESSION['themes'] = null;
         header("Location: ../vue/accueil.php");
         exit;
 
@@ -166,7 +174,7 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
 
     }
 } else {
-    $message = '<p style="color: red;"><b>Merci de remplir les thèmes.</b></p>';
+    $messageC = '<p style="color: red;"><b>Merci de remplir le(s) thème(s) !</b></p>';
     $_SESSION['messageC'] = $messageC;
     header("Location: ../vue/creagroupe.php");
     exit;

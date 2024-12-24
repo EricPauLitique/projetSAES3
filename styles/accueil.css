@@ -46,8 +46,8 @@ h1 {
     display: inline;
     font-size: 2em;
     margin: 0;
-    color : #3a1768;
 }
+
 
 img {
     max-width: 100%;
@@ -163,13 +163,19 @@ footer p {
     transform: rotate(180deg); /* Rotation de l'icÃ´ne au survol */
 }
 
+.username {
+    display: inline;
+    margin-right: 20px;
+    margin-bottom: 100px;
+}
+
 /* Menu dÃ©roulant cachÃ© par dÃ©faut */
 .menu-options {
     display: none;
     position: absolute;
-    top: 200%;  /* Positionne le menu au centre vertical de l'icÃ´ne */
-    left: -200%;  /* Positionne le menu Ã  50% de la largeur de l'icÃ´ne */
-    transform: translate(-50%, -50%);  /* Centrer le menu par rapport Ã  l'icÃ´ne */
+    top: 90%;  /* Positionne le menu au centre vertical de l'icÃ´ne */
+    /* left: -32%; */  /* Positionne le menu Ã  50% de la largeur de l'icÃ´ne */
+    /* transform: translate(-50%, -50%); */  /* Centrer le menu par rapport Ã  l'icÃ´ne */
     background-color: #3a1768;
     color: white;
     padding: 10px;
