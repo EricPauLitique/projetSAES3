@@ -94,15 +94,18 @@ class Groupe {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public static function siProprioInconnu($user_id, $groupId)
-    {
-        // Requête SQL pour vérifier si l'utilisateur est proprio du groupe
-        $query = "SELECT count(*) as count FROM groupe g inner join utilisateur u on (u.user_id = g.user_id) WHERE u.user_id = :user_id and grp_id = :groupId";
-        $stmt = Connexion::pdo()->prepare($query);
-        $stmt->execute(['user_id' => $user_id, 'groupId' => $groupId]);
-
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['count'] == 0;
+    public static function siProprioInconnu($user_id, $groupId) {
+        try {
+            $requete = "SELECT count(*) as count FROM groupe WHERE grp_id = :groupId AND user_id = :user_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['user_id' => $user_id, 'groupId' => $groupId]);
+            
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['count'];
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
     }
 
     public static function getGroupeById($user_id) {

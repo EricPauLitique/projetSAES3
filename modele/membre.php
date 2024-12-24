@@ -94,12 +94,12 @@ class Membre {
     
     public static function siMembreInconnu(int $user_id, int $grp_id) {
         try {
-            $requete = "SELECT count(*) as count FROM membre m INNER JOIN utilisateur u ON u.user_id = m.user_id WHERE m.grp_id = :grp_id AND u.user_id = :user_id";
+            $requete = "SELECT count(*) as count FROM membre m INNER JOIN utilisateur u ON u.user_id = m.user_id INNER JOIN groupe g ON g.grp_id = m.grp_id WHERE m.grp_id = :grp_id AND u.user_id = :user_id";
             $stmt = connexion::pdo()->prepare($requete);
             $stmt->execute(['user_id' => $user_id, 'grp_id' => $grp_id]);
             
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $result['count'] == 0;
+            return $result['count'];
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();
             return null;
@@ -109,7 +109,7 @@ class Membre {
     // Récupérer les membres par `grp_id`
     public static function getMembresByGroupeId(int $grp_id) {
         try {
-            $requete = "SELECT m.*, u.user_prenom, u.user_nom FROM membre m INNER JOIN utilisateur u ON u.user_id = m.user_id WHERE m.grp_id = :grp_id";
+            $requete = "SELECT m.*, u.user_prenom, u.user_nom, role FROM membre m INNER JOIN utilisateur u ON u.user_id = m.user_id WHERE m.grp_id = :grp_id";
             $stmt = connexion::pdo()->prepare($requete);
             $stmt->execute(['grp_id' => $grp_id]);
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Membre');

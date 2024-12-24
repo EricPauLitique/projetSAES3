@@ -20,6 +20,7 @@ $groupeId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($groupeId === 0) {
     // Redirige vers la page d'accueil si l'ID du groupe est invalide
+    $_SESSION['messageC'] = "L'ID du groupe est invalide.";
     header("Location: accueil.php");
     exit;
 }
@@ -31,16 +32,18 @@ Connexion::connect();
 $groupe = Groupe::getGroupByIdUnique2($groupeId);
 if (!$groupe) {
     // Redirige vers la page d'accueil si le groupe n'existe pas
+    $_SESSION['messageC']= "Le groupe n'a pas été trouvé.";
     header("Location: accueil.php");
     exit;
 }
 
-if (Membre::siMembreInconnu($id, $groupeId) == 0 || Groupe::siProprioInconnu($id, $groupeId)) {
+if (Membre::siMembreInconnu($id, $groupeId) == 0 && Groupe::siProprioInconnu($id, $groupeId) == 0) {
     // Redirige vers la page d'accueil si l'utilisateur n'est pas membre du groupe
     $message = "Vous n'êtes pas autorisé à aller dans le groupe.";
+    $_SESSION['messageC'] = $message;
     header("Location: accueil.php");
     exit;
-}
+} 
 
 ?>
 
@@ -88,13 +91,16 @@ if (Membre::siMembreInconnu($id, $groupeId) == 0 || Groupe::siProprioInconnu($id
 
                     if (!empty($membres)) {
                         foreach ($membres as $membre) {
-                            $role = $membre->get('role'); // Supposons que le rôle soit stocké dans l'attribut 'role'
-                            $roleText = ($role === 'modo') ? 'Modérateur' : 'Membre';
-                            
-                            echo '<tr>
-                                    <td><img src="../images/user.png" alt="Membre" class="image-small" /></td>
-                                    <td>' . htmlspecialchars($membre->get('user_prenom')) . ' ' . htmlspecialchars($membre->get('user_nom')) . '</td>
-                                    <td>' . $roleText . '</td>
+
+                            echo '<tr>';
+                            if ($membre->get('role') == 'Modérateur') {
+                            echo '<td><img src="../images/user.png" alt="Moderateur" class="image-small" /></td>';
+                        
+                            } else {
+                            echo '<td><img src="../images/user.png" alt="Membre" class="image-small" /></td>';
+                        }
+                            echo '<td>' . htmlspecialchars($membre->get('user_prenom')) . ' ' . htmlspecialchars($membre->get('user_nom')) . '</td>
+                                    <td>' . htmlspecialchars($membre->get('role')) . '</td>
                                   </tr>';
                         }
                     } else {
