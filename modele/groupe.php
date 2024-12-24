@@ -68,6 +68,42 @@ class Groupe {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    
+    public static function getGroupByIdUnique2($groupId)
+    {
+        // Requête SQL pour récupérer les informations du groupe
+        $query = "SELECT * FROM groupe WHERE grp_id = :groupId";
+        $stmt = Connexion::pdo()->prepare($query);
+        $stmt->bindParam(':groupId', $groupId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Retourner le groupe trouvé (ou null si non trouvé)
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Groupe');
+        return $stmt->fetch();
+    }
+
+    public static function getProprio($groupId)
+    {
+        // Requête SQL pour récupérer les informations du groupe
+        $query = "SELECT user_prenom, user_nom FROM groupe g inner join utilisateur u on (u.user_id = g.user_id) WHERE grp_id = :groupId";
+        $stmt = connexion::pdo()->prepare($query);
+        $stmt->bindParam(':groupId', $groupId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Retourner le groupe trouvé (ou null si non trouvé)
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function siProprioInconnu($user_id, $groupId)
+    {
+        // Requête SQL pour vérifier si l'utilisateur est proprio du groupe
+        $query = "SELECT count(*) as count FROM groupe g inner join utilisateur u on (u.user_id = g.user_id) WHERE u.user_id = :user_id and grp_id = :groupId";
+        $stmt = Connexion::pdo()->prepare($query);
+        $stmt->execute(['user_id' => $user_id, 'groupId' => $groupId]);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['count'] == 0;
+    }
 
     public static function getGroupeById($user_id) {
         $requete = "SELECT * FROM groupe WHERE user_id = :user_id";

@@ -43,6 +43,7 @@ $id = htmlspecialchars($_SESSION['id']);
                 Connexion::connect();
                 $myGrp = Groupe::getGroupeById($id);
                 $grp = Membre::getGrpById($id);
+                
                 ?>
 
                 <?php if (isset($_SESSION['messageC'])): ?>
@@ -60,17 +61,22 @@ $id = htmlspecialchars($_SESSION['id']);
                         </b>
                     </div>
                 <?php unset($_SESSION['message']); endif; ?>
-                
+
                 <?php
                 // La liste de groupe dont il est propriétaire
                 if (!empty($myGrp)) {
                     foreach ($myGrp as $listGrp) {
+                        $couleur = htmlspecialchars($listGrp->get('grp_couleur'));
                         echo '<li>
                                 <div class="group-item">
                                     <div class="group-image">
-                                        <img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '" class="image-small" />
+                                        <a href="groupe.php?id=' . $listGrp->get('grp_id') . '">
+                                            <img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '" class="image-small" />
+                                        </a>
                                     </div>
-                                    <div class="group-text" style="color: ' . $listGrp->get('grp_couleur') . ';"><h2>' . strtoupper($listGrp->get('grp_nom')) . '</h2></div>
+                                    <div class="group-text" style="color: ' . $couleur . ';">
+                                        <a href="groupe.php?id=' . $listGrp->get('grp_id') . '">' . strtoupper($listGrp->get('grp_nom')) . '</a>
+                                    </div>
                                 </div>
                                 <div class="boutons-container">
                                     <form method="POST" action="../controllers/controleurmodifGroupe.php" style="display:inline;">
@@ -88,12 +94,17 @@ $id = htmlspecialchars($_SESSION['id']);
                 // La liste groupe en étant membre ou modérateur
                 if (!empty($grp)) {
                     foreach ($grp as $listGrp) {
+                        $couleur = htmlspecialchars($listGrp->get('grp_couleur'));
                         echo '<li>
                                 <div class="group-item">
                                     <div class="group-image">
-                                        <img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '" class="image-small" />
+                                        <a href="groupe.php?id=' . $listGrp->get('grp_id') . '">
+                                            <img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '" class="image-small" />
+                                        </a>
                                     </div>
-                                    <div class="group-text">' . strtoupper($listGrp->get('grp_nom')) . '</div>
+                                    <div class="group-text" style="color: ' . $couleur . ';">
+                                        <a href="groupe.php?id=' . $listGrp->get('grp_id') . '">' . strtoupper($listGrp->get('grp_nom')) . '</a>
+                                    </div>
                                 </div>
                               </li>';
                     }
