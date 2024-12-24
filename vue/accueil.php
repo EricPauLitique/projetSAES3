@@ -72,9 +72,10 @@ $id = htmlspecialchars($_SESSION['id']);
 
                 <?php
                 // La liste de groupe dont il est propriétaire
+                echo '<b>';
                 if (!empty($myGrp)) {
                     foreach ($myGrp as $listGrp) {
-                        echo '<li>' . $listGrp->get('grp_nom') . ' ' . 
+                        echo '<li>' . strtoupper($listGrp->get('grp_nom')) . ' ' . 
                              '<img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '" class="image-small" />' .
                              '<div class="boutons-container">
                                  <form method="POST" action="../controllers/controleurSuppGroupe.php" style="display:inline;">
@@ -92,15 +93,15 @@ $id = htmlspecialchars($_SESSION['id']);
                 // La liste groupe en étant membre ou modérateur
                 if (!empty($grp)) {
                     foreach ($grp as $listGrp) {
-                        echo '<li>' . $listGrp->get('grp_nom') .'  '. '<img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '"class="image-small" /></li>';
+                        echo '<li>' . strtoupper($listGrp->get('grp_nom')) .'  '. '<img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '"class="image-small" /></li>';
                     }
                 } 
 
                 // Si on a aucun groupe on affiche qu'il en a pas
                 if (empty($myGrp)&&empty($grp)) {
-                echo 'Aucun groupe trouvé.';
+                    echo 'Aucun groupe trouvé.';
                 }
-
+                echo '</b>';
                 ?>
             </ul>
             <a href="creagroupe.php">
