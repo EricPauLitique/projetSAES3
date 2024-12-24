@@ -36,6 +36,15 @@ $limiteAnnuelle = isset($_SESSION['limiteAnnuelle']) ? $_SESSION['limiteAnnuelle
 
         <h1 id="titre">Modifier le groupe</h1>
         <br>
+
+        <!-- Afficher le message d'erreur s'il existe -->
+        <?php if (isset($_SESSION['messageC'])): ?>
+            <div style="color: red;">
+                <b><?php echo $_SESSION['messageC']; ?></b>
+            </div>
+            <?php unset($_SESSION['messageC']); ?>
+        <?php endif; ?>
+
         <!-- Formulaire de modification du groupe -->
         <form action="../controllers/controleurmodifGroupeModif.php" method="POST" enctype="multipart/form-data">
             <!-- Champ pour le nom du groupe -->
@@ -82,8 +91,6 @@ $limiteAnnuelle = isset($_SESSION['limiteAnnuelle']) ? $_SESSION['limiteAnnuelle
 
             <button type="submit">Valider la modification</button>
         </form>
-
-
     </main>
 
     <?php include 'footer.php'; ?>

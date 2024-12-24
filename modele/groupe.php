@@ -163,5 +163,19 @@ class Groupe {
             'grp_id' => $groupId
         ]);
     }
+
+    // Vérifier si un nom de groupe existe déjà
+    public static function groupNameExists($nomGroupe, $grpID) {
+        try {
+            $pdo = Connexion::pdo();
+            $stmt = $pdo->prepare("SELECT count(*) FROM groupe WHERE grp_nom = :grp_nom AND grp_id != :grp_id");
+            $stmt->execute(['grp_nom' => $nomGroupe, 'grp_id' => $grpID]);
+            $resultNameExists = $stmt->fetchColumn();
+            return $resultNameExists > 0;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }
 }
 ?>

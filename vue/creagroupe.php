@@ -54,6 +54,9 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
             <a href="accueil.php">Retour</a>
         </div>
 
+        <h1 id="titre">Création du groupe</h1>
+
+
             <?php
                 if (isset($_SESSION['messageC'])) {
                     echo $_SESSION['messageC'];

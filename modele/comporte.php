@@ -61,6 +61,20 @@ class Comporte {
             return null;
         }
     }
+
+    // Calculer la somme des limites des thèmes pour un groupe donné
+    public static function getSumLimiteThemeByGroupId($grp_id) {
+        try {
+            $requete = "SELECT SUM(lim_theme) as sommeMonetaire FROM comporte WHERE grp_id = :grp_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['grp_id' => $grp_id]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['sommeMonetaire'] ?? 0;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return 0;
+        }
+    }
 }
 
 ?>

@@ -8,6 +8,10 @@
     margin: 0 auto; /* Centre l'image horizontalement */
 }
 
+#titre {
+    color: #3a1768;
+}
+
 /* Effet sur les images dans les liens */
 a img {
     width: 100px; /* Exemple de redimensionnement */

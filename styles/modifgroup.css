@@ -122,7 +122,7 @@ table td:last-child {
     display: none;
     position: absolute;
     top: 75%; /* DÃ©cale le menu en dessous */
-    left: 60%;
+    left: 47%;
     transform: translateX(-50%);
     background-color: #3a1768;
     color: white;
