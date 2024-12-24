@@ -43,7 +43,25 @@ $id = htmlspecialchars($_SESSION['id']);
                 Connexion::connect();
                 $myGrp = Groupe::getGroupeById($id);
                 $grp = Membre::getGrpById($id);
+                ?>
+
+                <?php if (isset($_SESSION['messageC'])): ?>
+                    <div style="color: red;">
+                        <b>
+                        <?php echo $_SESSION['messageC']; ?>
+                        </b>
+                    </div>
+                <?php unset($_SESSION['messageC']); endif; ?>
+        
+                <?php if (isset($_SESSION['message'])): ?>
+                    <div style="color: green;">
+                        <b>
+                        <?php echo $_SESSION['message']; ?>
+                        </b>
+                    </div>
+                <?php unset($_SESSION['message']); endif; ?>
                 
+                <?php
                 // La liste de groupe dont il est propriétaire
                 if (!empty($myGrp)) {
                     foreach ($myGrp as $listGrp) {
@@ -52,18 +70,17 @@ $id = htmlspecialchars($_SESSION['id']);
                                     <div class="group-image">
                                         <img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '" class="image-small" />
                                     </div>
-                                    <div class="group-text">' . strtoupper($listGrp->get('grp_nom')) . '</div>
+                                    <div class="group-text" style="color: ' . $listGrp->get('grp_couleur') . ';"><h2>' . strtoupper($listGrp->get('grp_nom')) . '</h2></div>
                                 </div>
                                 <div class="boutons-container">
                                     <form method="POST" action="../controllers/controleurmodifGroupe.php" style="display:inline;">
                                         <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') .'" />
-                                        <button type="submit" name="modify_group">Modifier</button>
+                                        <button type="submit" name="modify_group" class="btn-modify">Modifier</button>
                                     </form>
                                     <form method="POST" action="../controllers/controleurSuppGroupe.php" style="display:inline;">
                                         <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') . '" />
-                                        <button type="submit" name="delete_group" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce groupe ?\');">Supprimer</button>
+                                        <button type="submit" name="delete_group" class="btn-delete" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce groupe ?\');">Supprimer</button>
                                     </form>
-                                    
                                 </div>
                               </li>';
                     }

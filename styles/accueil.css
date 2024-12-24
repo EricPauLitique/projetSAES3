@@ -236,7 +236,7 @@ footer p {
     transition: opacity 0.3s ease, visibility 0s 0s;
 }
 
-h2, h3 {
+h3 {
     color: #3a1768;
     position: relative; /* Pour permettre de positionner la puce */
     padding-left: 30px; /* CrÃ©e un espace pour la puce Ã  gauche */
@@ -261,18 +261,30 @@ h3::before {
 /* Styles des boutons */
 .boutons-container button {
     padding: 10px;
-    background-color: #3a1768;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     width: 100%; /* Les boutons prennent toute la largeur disponible */
-    height: 35px; /* Fixer la mÃªme hauteur pour tous les boutons */
+    height: 35px; /* Fixer la même hauteur pour tous les boutons */
     box-sizing: border-box; /* Prendre en compte les paddings dans la largeur totale */
 }
 
-.boutons-container button:hover {
-    background-color: #ffcc00;
-    color: #3a1768;
+/* Bouton pour modifier */
+.boutons-container .btn-modify {
+    background-color: #3a1768; /* Violet */
+}
+
+.boutons-container .btn-modify:hover {
+    background-color: #6a2a88; /* Violet plus clair au survol */
+}
+
+/* Bouton pour supprimer */
+.boutons-container .btn-delete {
+    background-color: #ff0000; /* Rouge */
+}
+
+.boutons-container .btn-delete:hover {
+    background-color: #cc0000; /* Rouge plus foncé au survol */
 }

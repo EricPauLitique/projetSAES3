@@ -57,7 +57,7 @@ $limiteAnnuelle = isset($_SESSION['limiteAnnuelle']) ? $_SESSION['limiteAnnuelle
                     <input type="file" id="image" name="image" accept="image/*">
                 </div>
                 <br>
-                <label for="image">Votre image actuellement dans le groupe :</label>
+                <label for="image">Actuellement, votre image dans le groupe est :</label>
                 <div class="image-upload-row">
                     
                     <br>
@@ -83,18 +83,7 @@ $limiteAnnuelle = isset($_SESSION['limiteAnnuelle']) ? $_SESSION['limiteAnnuelle
             <button type="submit">Valider la modification</button>
         </form>
 
-        <!-- Messages d'erreur ou succès -->
-        <?php if (isset($_SESSION['messageC'])): ?>
-            <div style="color: red;">
-                <?php echo $_SESSION['messageC']; ?>
-            </div>
-        <?php unset($_SESSION['messageC']); endif; ?>
 
-        <?php if (isset($_SESSION['message'])): ?>
-            <div style="color: green;">
-                <?php echo $_SESSION['message']; ?>
-            </div>
-        <?php unset($_SESSION['message']); endif; ?>
     </main>
 
     <?php include 'footer.php'; ?>
