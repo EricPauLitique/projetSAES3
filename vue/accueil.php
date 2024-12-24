@@ -26,24 +26,7 @@ $id = htmlspecialchars($_SESSION['id']);
     <link rel="stylesheet" href="../styles/accueil.css">
 </head>
 <body>
-    <header>
-    <div class="accueil" onclick="window.location.href='accueil.php';" style="cursor: pointer;">
-        <img src="../images/logoVC.jpg" alt="Logo Voix Citoyenne"/>
-        <h1>Voix Citoyenne</h1>
-    </div>
-    
-    <!-- Menu des paramètres -->
-        <div class="menu-parametres">
-
-            <?php echo '<p class="username">' . 'Vous êtes connecté sous ' . '<b>' . $prenom . ' ' . $nom . '</b> </p> ' ?>
-            <img src="../images/parametres.png" alt="Paramètres" class="parametres-icon"/>
-            <ul class="menu-options">
-                <li><a href="../controllers/logout.php">Se déconnecter</a></li>
-                <li><a href="supprimer-compte.php">Supprimer mon compte</a></li>
-                <li><a href="modifier-parametres.php">Modifier mes paramètres</a></li>
-            </ul>
-        </div>
-    </header>
+    <?php include 'header.php'; ?>
 
     <main>
         <h1>Bienvenue, <?php echo $prenom . ' ' . $nom; ?> !</h1>
@@ -56,60 +39,59 @@ $id = htmlspecialchars($_SESSION['id']);
         <section>
             <h3>Liste de vos groupes :</h3>
             <ul>
-                
                 <?php
                 Connexion::connect();
                 $myGrp = Groupe::getGroupeById($id);
                 $grp = Membre::getGrpById($id);
-                ?>
-                <?php
-                if (isset($_SESSION['message'])) {
-                    echo $_SESSION['message'];
-                    // Une fois le message affiché, vous pouvez supprimer la session pour éviter qu'il s'affiche plusieurs fois
-                    unset($_SESSION['message']);
-                }
-            ?>
-
-                <?php
+                
                 // La liste de groupe dont il est propriétaire
-                echo '<b>';
                 if (!empty($myGrp)) {
                     foreach ($myGrp as $listGrp) {
-                        echo '<li>' . strtoupper($listGrp->get('grp_nom')) . ' ' . 
-                             '<img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '" class="image-small" />' .
-                             '<div class="boutons-container">
-                                 <form method="POST" action="../controllers/controleurSuppGroupe.php" style="display:inline;">
-                                    <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') . '" />
-                                    <button type="submit" name="delete_group" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce groupe ?\');">Supprimer</button>
-                                 </form>
-                                 <form method="POST" action="../controllers/controleurmodifGroupe.php" style="display:inline;">
-                                    <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') .'" />
-                                    <button type="submit" name="modify_group">Modifier</button>
-                                </form>
-                             </div>
-                             </li>';
+                        echo '<li>
+                                <div class="group-item">
+                                    <div class="group-image">
+                                        <img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '" class="image-small" />
+                                    </div>
+                                    <div class="group-text">' . strtoupper($listGrp->get('grp_nom')) . '</div>
+                                </div>
+                                <div class="boutons-container">
+                                    <form method="POST" action="../controllers/controleurmodifGroupe.php" style="display:inline;">
+                                        <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') .'" />
+                                        <button type="submit" name="modify_group">Modifier</button>
+                                    </form>
+                                    <form method="POST" action="../controllers/controleurSuppGroupe.php" style="display:inline;">
+                                        <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') . '" />
+                                        <button type="submit" name="delete_group" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce groupe ?\');">Supprimer</button>
+                                    </form>
+                                    
+                                </div>
+                              </li>';
                     }
                 }
                 // La liste groupe en étant membre ou modérateur
                 if (!empty($grp)) {
                     foreach ($grp as $listGrp) {
-                        echo '<li>' . strtoupper($listGrp->get('grp_nom')) .'  '. '<img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '"class="image-small" /></li>';
+                        echo '<li>
+                                <div class="group-item">
+                                    <div class="group-image">
+                                        <img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '" class="image-small" />
+                                    </div>
+                                    <div class="group-text">' . strtoupper($listGrp->get('grp_nom')) . '</div>
+                                </div>
+                              </li>';
                     }
-                } 
+                }
 
                 // Si on a aucun groupe on affiche qu'il en a pas
-                if (empty($myGrp)&&empty($grp)) {
+                if (empty($myGrp) && empty($grp)) {
                     echo 'Aucun groupe trouvé.';
                 }
-                echo '</b>';
                 ?>
             </ul>
             <a href="creagroupe.php">
-                <b><h3>Créer un groupe : </h3></b>
+                <b><p>Créer un groupe : </p></b>
                 <img src="../images/ajouter.png" alt="Créer un groupe" />
             </a>    
-
-            
         </section>
 
         <section>
@@ -122,10 +104,6 @@ $id = htmlspecialchars($_SESSION['id']);
         </section>
     </main>
 
-    <footer>
-        <p>© 2024 Voix Citoyenne. Tous droits réservés.</p>
-    </footer>
-
-    <script src="script.js"></script>
+    <?php include 'footer.php'; ?>
 </body>
 </html>

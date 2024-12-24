@@ -1,4 +1,4 @@
-/* Styles gÃƒÆ’Ã‚Â©nÃƒÆ’Ã‚Â©raux */
+/* Styles gÃ©nÃ©raux */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -55,7 +55,7 @@ h1 {
     /* color: #3a1768; */
 }
 
-/* Menu dÃƒÆ’Ã‚Â©roulant des paramÃƒÆ’Ã‚Â¨tres */
+/* Menu dÃ©roulant des paramÃ¨tres */
 .menu-parametres {
     position: relative;
     display: inline-block;
@@ -121,7 +121,7 @@ table td:last-child {
 .menu-options {
     display: none;
     position: absolute;
-    top: 75%; /* DÃƒÆ’Ã‚Â©cale le menu en dessous */
+    top: 75%; /* DÃ©cale le menu en dessous */
     left: 60%;
     transform: translateX(-50%);
     background-color: #3a1768;
@@ -191,10 +191,10 @@ h2::before, h3::before {
     color: #3a1768; /* Couleur de la puce */
 }
 form {
-    /* width: 100%; */ /* S'adapte ÃƒÆ’Ã‚Â  la largeur de son conteneur */
-    max-width: 500px; /* Largeur maximale pour ÃƒÆ’Ã‚Â©viter qu'il ne devienne trop grand */
+    /* width: 100%; */ /* S'adapte Ã  la largeur de son conteneur */
+    max-width: 500px; /* Largeur maximale pour Ã©viter qu'il ne devienne trop grand */
     margin: 0 auto; /* Centre le formulaire horizontalement */
-    padding: 20px; /* Ajoute de l'espace ÃƒÆ’Ã‚Â  l'intÃƒÆ’Ã‚Â©rieur du formulaire */
+    padding: 20px; /* Ajoute de l'espace Ã  l'intÃ©rieur du formulaire */
     background-color: #e2e2e2; /* Fond blanc pour le contraste */
     border-radius: 8px; /* Coins arrondis */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre douce */
@@ -225,7 +225,7 @@ input[type="password"]:focus,
 select:focus,
 textarea:focus {
     border-color: #3a1768; /* Couleur de bordure au focus */
-    outline: none; /* Supprime le contour par dÃƒÆ’Ã‚Â©faut */
+    outline: none; /* Supprime le contour par dÃ©faut */
 }
 
 button {
@@ -317,4 +317,41 @@ footer p {
 
 #titre {
     color: #3a1768;
+}
+
+.image-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacement entre les lignes */
+}
+
+.image-upload-row {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacement entre les éléments */
+}
+
+.image-upload-row label {
+    font-weight: bold;
+}
+
+#image-preview {
+    max-width: 200px;
+    display: block;
+    margin-top: 10px;
+}
+
+button[name="remove_image"] {
+    padding: 10px;
+    background-color: #3a1768;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[name="remove_image"]:hover {
+    background-color: #6a2a88;
 }

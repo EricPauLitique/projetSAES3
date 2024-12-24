@@ -51,8 +51,34 @@ $limiteAnnuelle = isset($_SESSION['limiteAnnuelle']) ? $_SESSION['limiteAnnuelle
             <input type="number" id="limite_annuelle" name="limite_annuelle" value="<?php echo $limiteAnnuelle; ?>" required><br>
 
             <!-- Champ pour uploader une nouvelle image -->
-            <label for="image">Image :</label>
-            <input type="file" id="image" name="image" accept="image/*"><br>
+            <div class="image-upload-container">
+                <div class="image-upload-row">
+                    <label for="image">Image :</label>
+                    <input type="file" id="image" name="image" accept="image/*">
+                </div>
+                <br>
+                <label for="image">Votre image actuellement dans le groupe :</label>
+                <div class="image-upload-row">
+                    
+                    <br>
+                    <span>
+                        <?php
+                        if (isset($_SESSION['image_name']) && !empty($_SESSION['image_name'])) {
+                            echo htmlspecialchars($_SESSION['image_name']);
+                        } else {
+                            echo 'Aucun fichier choisi';
+                        }
+                        ?>
+                    </span>
+                    <?php
+                        if (isset($_SESSION['image_name']) && !empty($_SESSION['image_name'])) {
+                            $imageSrc = isset($_SESSION['image_name']) && !empty($_SESSION['image_name']) ? '../images/groupes/' . $_SESSION['image_name'] : '../images/groupes/default.png';
+                            echo '<img id="image-preview" src="' . htmlspecialchars($imageSrc) . '" alt="Aperçu de l\'image" style="max-width: 100px; display: block;">';
+                            echo '<button type="submit" name="remove_image" value="1" class="btn-remove">Supprimer l\'image</button>';
+                        }
+                        ?>
+                </div>
+            </div><br>
 
             <button type="submit">Valider la modification</button>
         </form>

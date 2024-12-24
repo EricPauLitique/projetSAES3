@@ -1,8 +1,11 @@
 /* Redimensionnement des images dans les groupes */
 .image-small {
-    width: 150px;
+    max-width: 100px;
     height: auto; /* Garde les proportions de l'image */
     object-fit: cover; /* Ajuste la faÃ§on dont l'image s'adapte */
+    border-radius: 5px;
+    display: block;
+    margin: 0 auto; /* Centre l'image horizontalement */
 }
 
 /* Effet sur les images dans les liens */
@@ -81,11 +84,32 @@ section ul li {
     border-radius: 5px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+}
+
+/* Conteneur pour le texte et l'image */
+.group-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+/* Conteneur pour le texte */
+.group-text {
+    flex: 1;
+    text-align: center;
+}
+
+/* Conteneur pour l'image */
+.group-image {
+    flex-shrink: 0;
+    text-align: center;
+    margin-right: 10px;
 }
 
 section ul li img {
-    max-width: 50px;
+    max-width: 100px;
     height: 50px;
     object-fit: cover;
     border-radius: 5px;
@@ -138,13 +162,6 @@ footer p {
     margin: 0;
 }
 
-/* Class pour rÃ©duire la taille des images */
-.image-small {
-    width: 50px;
-    height: 50px;
-    border-radius: 5px;
-}
-
 /* Style pour le conteneur du menu des paramÃ¨tres */
 
 .menu-parametres {
@@ -174,7 +191,7 @@ footer p {
     display: none;
     position: absolute;
     top: 90%;  /* Positionne le menu au centre vertical de l'icÃ´ne */
-    /* left: -32%; */  /* Positionne le menu Ã  50% de la largeur de l'icÃ´ne */
+    /* left: -520%; */  /* Positionne le menu Ã  50% de la largeur de l'icÃ´ne */
     /* transform: translate(-50%, -50%); */  /* Centrer le menu par rapport Ã  l'icÃ´ne */
     background-color: #3a1768;
     color: white;
@@ -222,13 +239,13 @@ footer p {
 h2, h3 {
     color: #3a1768;
     position: relative; /* Pour permettre de positionner la puce */
-    padding-left: 30px; /* Crée un espace pour la puce à gauche */
+    padding-left: 30px; /* CrÃ©e un espace pour la puce Ã  gauche */
 }
 
 h3::before {
     content: "\2022"; /* Code Unicode pour la puce */
     position: absolute;
-    left: 0; /* Positionne la puce à gauche du titre */
+    left: 0; /* Positionne la puce Ã  gauche du titre */
     top: 47%; /* Centre verticalement la puce */
     transform: translateY(-50%); /* Ajuste verticalement la position de la puce */
     font-size: 1.8em; /* Taille de la puce */
@@ -237,10 +254,11 @@ h3::before {
 .boutons-container {
     display: flex;
     flex-direction: column; /* Organiser les boutons en colonne */
-    gap: 10px; /* Pas d'espacement entre les boutons */
+    gap: 10px; /* Espacement entre les boutons */
     align-items: stretch; /* Les boutons prennent toute la largeur du conteneur */
 }
 
+/* Styles des boutons */
 .boutons-container button {
     padding: 10px;
     background-color: #3a1768;
@@ -250,7 +268,7 @@ h3::before {
     cursor: pointer;
     font-size: 16px;
     width: 100%; /* Les boutons prennent toute la largeur disponible */
-    height: 35px; /* Fixer la même hauteur pour tous les boutons */
+    height: 35px; /* Fixer la mÃªme hauteur pour tous les boutons */
     box-sizing: border-box; /* Prendre en compte les paddings dans la largeur totale */
 }
 

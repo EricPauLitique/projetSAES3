@@ -15,10 +15,11 @@ Connexion::connect();
 
 // Récupérer les données du formulaire
 $groupId = isset($_SESSION['group_id']) ? $_SESSION['group_id'] : null;
-$nomGroupe = $_POST['nom_du_groupe'];
-$couleur = $_POST['color'];
-$limiteAnnuelle = $_POST['limite_annuelle'];
-$image = $_FILES['image'];
+$nomGroupe = $_POST['nom_du_groupe'] ?? null;
+$couleur = $_POST['color'] ?? null;
+$limiteAnnuelle = $_POST['limite_annuelle'] ?? null;
+$image = $_FILES['image'] ?? null;
+$removeImage = isset($_POST['remove_image']) ? $_POST['remove_image'] : 0;
 
 // Vérifier si l'ID du groupe existe
 if ($groupId) {
@@ -26,7 +27,22 @@ if ($groupId) {
     $group = Groupe::getGroupByIdUnique($groupId);
 
     // Traiter l'image téléchargée
-    $newImagePath = Groupe::handleImageUpload($group, $image);
+    if ($removeImage == '1') {
+        $newImagePath = '../images/groupes/groupe.png'; // Set to default image
+        if ($group['grp_img'] != '../images/groupes/groupe.png' && file_exists($group['grp_img'])) {
+            unlink($group['grp_img']); // Remove the old image
+        }
+        $_SESSION['image_name'] = ''; // Clear the image name in session
+        header("Location: ../vue/modifgroupe.php"); // Redirection vers la même page
+    } else {
+        $newImagePath = Groupe::handleImageUpload($group, $image);
+        // Sauvegarder le nom du fichier dans la session
+        if (isset($image['name']) && !empty($image['name'])) {
+            $_SESSION['image_name'] = $image['name'];
+        } else {
+            $_SESSION['image_name'] = 'Aucun fichier choisi';
+        }
+    }
 
     // Mettre à jour le groupe
     $updateSuccess = Groupe::updateGroup($groupId, $nomGroupe, $couleur, $limiteAnnuelle, $newImagePath);
