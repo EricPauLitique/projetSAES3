@@ -61,7 +61,12 @@ if (Membre::siMembreInconnu($id, $groupeId) == 0 && Groupe::siProprioInconnu($id
     Connexion::connect()?>
 
     <main>
-        <h1><?php echo htmlspecialchars($groupe->get('grp_nom')); ?></h1>
+        <h1 id="titreGroupe">
+            <img src="<?php echo htmlspecialchars($groupe->get('grp_img')); ?>" alt="Image associée" class="image-gauche">
+            <?php echo 'Groupe :&nbsp;<b><i><u>' . htmlspecialchars($groupe->get('grp_nom')) . '</u></i></b>'; ?>
+            <img src="<?php echo htmlspecialchars($groupe->get('grp_img')); ?>" alt="Image associée" class="image-gauche">
+
+        </h1>
         <aside>
             <h3>Liste des membres :</h3>
             <table>
@@ -104,8 +109,6 @@ if (Membre::siMembreInconnu($id, $groupeId) == 0 && Groupe::siProprioInconnu($id
                                     <td>' . htmlspecialchars($membre->get('role')) . '</td>
                                   </tr>';
                         }
-                    } else {
-                        echo '<tr><td colspan="3">Aucun membre trouvé.</td></tr>';
                     }
                     ?>
                 </tbody>
