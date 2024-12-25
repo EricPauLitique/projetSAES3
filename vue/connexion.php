@@ -16,7 +16,7 @@
     </header>
 
     <main>
-        <h4><i>Chaque voix compte</i></h4>
+       <h2><b>Connexion</b></h2>
         <?php if (!empty($error)): ?>
             <p style="color: red;"><b><?php echo htmlspecialchars($error); ?></b></p>
         <?php endif; ?>
@@ -29,7 +29,7 @@
             </div>
             <button type="submit">Connexion</button>
         </form>
-        <p class="register-link">Vous n'avez pas de compte ? <a href="/saes3-ese/projetSAES3/vue/creacompte.html">Créez-en un</a></p>
+        <p class="register-link">Vous n'avez pas de compte ? <a href="/saes3-ese/projetSAES3/vue/creacompte.html"><b>Créez-en un</b></a></p>
     </main>
 
     <footer>

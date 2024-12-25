@@ -24,8 +24,8 @@ if (isset($_POST['user_id']) && isset($_POST['grp_id'])) {
         $_SESSION['message'] = '<b><i style="color: red;">Erreur : ' . $e->getMessage() . '</i></b>';
     }
 
-    // Redirection vers la page du groupe après suppression
-    header("Location: ../vue/groupe.php?id=" . $grpId);
+    // Redirection vers la page du accueil après avoir quitté le groupe
+    header("Location: ../vue/accueil.php");
     exit();
 } else {
     $_SESSION['message'] = '<b><i style="color: red;">ID utilisateur ou groupe manquant.</i></b>';

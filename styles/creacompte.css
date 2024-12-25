@@ -179,16 +179,11 @@ h2, h3 {
     color: #3a1768;
     margin-bottom: 20px;
     position: relative; /* Pour permettre de positionner la puce */
-    padding-left: 30px; /* Crée un espace pour la puce à gauche */
+    /* padding-left: 30px; */ /* Crée un espace pour la puce à gauche */
+    text-align: center;
 }
 
 h2::before, h3::before {
-    content: "\2022"; /* Code Unicode pour la puce */
-    position: absolute;
-    left: 0; /* Positionne la puce à gauche du titre */
-    top: 50%; /* Centre verticalement la puce */
-    transform: translateY(-50%); /* Ajuste verticalement la position de la puce */
-    font-size: 1.8em; /* Taille de la puce */
     color: #3a1768; /* Couleur de la puce */
 }
 form {
@@ -202,6 +197,7 @@ form {
     display: flex;
     flex-direction: column;
     gap: 10px; /* Espace entre les champs */
+    align-content: center;
 }
 
 input[type="text"],
@@ -314,4 +310,8 @@ footer p {
     display: inline;
     margin-right: 20px;
     margin-bottom: 100px;
+}
+
+b{
+    color : #3a1768
 }
