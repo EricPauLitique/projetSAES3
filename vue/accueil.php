@@ -14,7 +14,6 @@ if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
 $prenom = htmlspecialchars($_SESSION['prenom']);
 $nom = htmlspecialchars($_SESSION['nom']);
 $id = htmlspecialchars($_SESSION['id']);
-
 ?>
 
 <!DOCTYPE html>
@@ -75,16 +74,16 @@ $id = htmlspecialchars($_SESSION['id']);
                                         </a>
                                     </div>
                                        <b><h2 style="color: ' . $couleur . ';"><a href="groupe.php?id=' . $listGrp->get('grp_id') . '">' . strtoupper($listGrp->get('grp_nom')) . '</a></h2></b>
-                                    <div class="boutons-container">
-                                        <form method="POST" action="../controllers/controleurmodifGroupe.php" style="display:inline;">
-                                            <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') .'" />
-                                            <button type="submit" name="modify_group" class="btn-modify">Modifier</button>
-                                        </form>
-                                        <form method="POST" action="../controllers/controleurSuppGroupe.php" style="display:inline;">
-                                            <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') . '" />
-                                            <button type="submit" name="delete_group" class="btn-delete" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce groupe ?\');">Supprimer</button>
-                                        </form>
-                                    </div>
+                                </div>
+                                <div class="boutons-container">
+                                    <form method="POST" action="../controllers/controleurmodifGroupe.php" style="display:inline;">
+                                        <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') .'" />
+                                        <button type="submit" name="modify_group" class="btn-modify">Modifier</button>
+                                    </form>
+                                    <form method="POST" action="../controllers/controleurSuppGroupe.php" style="display:inline;">
+                                        <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') . '" />
+                                        <button type="submit" name="delete_group" class="btn-delete" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce groupe ?\');">Supprimer</button>
+                                    </form>
                                 </div>
                               </li>';
                     }
@@ -100,15 +99,15 @@ $id = htmlspecialchars($_SESSION['id']);
                                             <img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '" class="image-small" />
                                         </a>
                                     </div>
-                                    <b><h2 style="color: ' . $couleur . ';"><a href="groupe.php?id=' . $listGrp->get('grp_id') . '">' . strtoupper($listGrp->get('grp_nom')) . '</a></h2></b>
+                                        <b><h2 style="color: ' . $couleur . ';"><a href="groupe.php?id=' . $listGrp->get('grp_id') . '">' . strtoupper($listGrp->get('grp_nom')) . '</a></h2></b>
+                                    </div>
                                     <div class="boutons-container">
-                                        <form method="POST" action="../controllers/controleurQuitterGroupe.php" style="display:inline;">
+                                        <form method="POST" action="../controllers/controleurSupprimerMembre.php" style="display:inline;">
                                             <input type="hidden" name="user_id" value="' . $id . '">
                                             <input type="hidden" name="grp_id" value="' . $listGrp->get('grp_id') . '">
-                                            <button type="submit" class="btn-delete" onclick="return confirm(\'Êtes-vous sûr de vouloir quitter ce groupe ?\');">Quitter</button>
+                                            <button type="submit" class="btn-delete btn-quitter" style="width: 93.81px; height: 35px;" onclick="return confirm(\'Êtes-vous sûr de vouloir quitter ce groupe ?\');">Quitter</button>                                        
                                         </form>
                                     </div>
-                                </div>
                               </li>';
                     }
                 }
