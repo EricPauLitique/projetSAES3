@@ -57,17 +57,58 @@ class Utilisateur {
         }
     }
 
-        // Supprimer un utilisateur par son ID
-        public static function deleteUtilisateur(int $user_id) {
-            try {
-                $requete = "DELETE FROM utilisateur WHERE user_id = :user_id";
-                $stmt = connexion::pdo()->prepare($requete);
-                return $stmt->execute(['user_id' => $user_id]);
-            } catch (PDOException $e) {
-                echo 'Erreur : ' . $e->getMessage();
-                return false;
-            }
+    // Supprimer un utilisateur par son ID
+    public static function deleteUtilisateur(int $user_id) {
+        try {
+            $requete = "DELETE FROM utilisateur WHERE user_id = :user_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            return $stmt->execute(['user_id' => $user_id]);
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
         }
+    }
+
+    // Vérifier si l'email existe déjà pour un autre utilisateur
+    public static function emailExists($email, $userId) {
+        try {
+            $requete = "SELECT user_id FROM utilisateur WHERE user_mail = :email AND user_id != :user_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['email' => $email, 'user_id' => $userId]);
+            return $stmt->fetch() !== false;
+        } catch (PDOException $e) {
+            throw new Exception('Erreur lors de la vérification de l\'email : ' . $e->getMessage());
+        }
+    }
+
+    // Vérifier si le prénom et le nom existent déjà pour un autre utilisateur
+    public static function prenomNomExists($prenom, $nom, $userId) {
+        try {
+            $requete = "SELECT user_id FROM utilisateur WHERE user_prenom = :prenom AND user_nom = :nom AND user_id != :user_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['prenom' => $prenom, 'nom' => $nom, 'user_id' => $userId]);
+            return $stmt->fetch() !== false;
+        } catch (PDOException $e) {
+            throw new Exception('Erreur lors de la vérification du prénom et du nom : ' . $e->getMessage());
+        }
+    }
+
+    // Mettre à jour un utilisateur
+    public static function updateUtilisateur(Utilisateur $utilisateur) {
+        try {
+            $requete = "UPDATE utilisateur SET user_mail = :user_mail, user_mdp = :user_mdp, user_prenom = :user_prenom, user_nom = :user_nom WHERE user_id = :user_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            return $stmt->execute([
+                'user_mail' => $utilisateur->get('user_mail'),
+                'user_mdp' => $utilisateur->get('user_mdp'),
+                'user_prenom' => $utilisateur->get('user_prenom'),
+                'user_nom' => $utilisateur->get('user_nom'),
+                'user_id' => $utilisateur->get('user_id')
+            ]);
+        } catch (PDOException $e) {
+            throw new Exception('Erreur lors de la mise à jour de l\'utilisateur : ' . $e->getMessage());
+        }
+    }
 
 }
 

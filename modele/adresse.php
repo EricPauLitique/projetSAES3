@@ -77,5 +77,22 @@ class Adresse {
             return false;
         }
     }
+
+    // Mettre à jour une adresse
+    public static function updateAdresse(Adresse $adresse) {
+        try {
+            $requete = "UPDATE adresse SET adr_cp = :adr_cp, adr_ville = :adr_ville, adr_rue = :adr_rue, adr_num = :adr_num WHERE adr_id = :adr_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            return $stmt->execute([
+                'adr_cp' => $adresse->get('adr_cp'),
+                'adr_ville' => $adresse->get('adr_ville'),
+                'adr_rue' => $adresse->get('adr_rue'),
+                'adr_num' => $adresse->get('adr_num'),
+                'adr_id' => $adresse->get('adr_id')
+            ]);
+        } catch (PDOException $e) {
+            throw new Exception('Erreur lors de la mise à jour de l\'adresse : ' . $e->getMessage());
+        }
+    }
 }
 ?>
