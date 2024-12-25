@@ -19,6 +19,15 @@ Connexion::connect();
 $utilisateur = Utilisateur::getUtilisateurByLogin($idUtilisateur);
 $adresse = Adresse::getAdresseById($utilisateur->get('adr_id'));
 
+// Utiliser les valeurs POST si elles existent
+$prenom = isset($_POST['prenom']) ? htmlspecialchars($_POST['prenom']) : htmlspecialchars($utilisateur->get('user_prenom'));
+$nom = isset($_POST['nom']) ? htmlspecialchars($_POST['nom']) : htmlspecialchars($utilisateur->get('user_nom'));
+$email = isset($_POST['email']) ? htmlspecialchars($_POST['email']) : htmlspecialchars($utilisateur->get('user_mail'));
+$codePostal = isset($_POST['code_postal']) ? htmlspecialchars($_POST['code_postal']) : htmlspecialchars($adresse->get('adr_cp'));
+$ville = isset($_POST['ville']) ? htmlspecialchars($_POST['ville']) : htmlspecialchars($adresse->get('adr_ville'));
+$numeroRue = isset($_POST['numero_rue']) ? htmlspecialchars($_POST['numero_rue']) : htmlspecialchars($adresse->get('adr_num'));
+$nomRue = isset($_POST['nom_rue']) ? htmlspecialchars($_POST['nom_rue']) : htmlspecialchars($adresse->get('adr_rue'));
+
 ?>
 
 <!DOCTYPE html>
@@ -35,6 +44,18 @@ $adresse = Adresse::getAdresseById($utilisateur->get('adr_id'));
                 passwordSection.style.display = 'block';
             } else {
                 passwordSection.style.display = 'none';
+            }
+        }
+
+        function togglePasswordVisibility(id) {
+            var passwordField = document.getElementById(id);
+            var eyeIcon = document.getElementById(id + '-eye');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.src = '../images/eye-open.png'; // Chemin vers l'icône d'œil ouvert
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.src = '../images/eye-closed.png'; // Chemin vers l'icône d'œil fermé
             }
         }
     </script>
@@ -58,16 +79,17 @@ $adresse = Adresse::getAdresseById($utilisateur->get('adr_id'));
         <h2><b>Modification du compte</b></h2>
         <form action="../controllers/controleurModifCompte.php" method="POST">
             <div class="form-group">
-                <input type="text" id="prenom" name="prenom" placeholder="Prénom" value="<?php echo htmlspecialchars($utilisateur->get('user_prenom')); ?>" required>
+                <input type="text" id="prenom" name="prenom" placeholder="Prénom" value="<?php echo $prenom; ?>" required>
             </div>
             <div class="form-group">
-                <input type="text" id="nom" name="nom" placeholder="Nom" value="<?php echo htmlspecialchars($utilisateur->get('user_nom')); ?>" required>
+                <input type="text" id="nom" name="nom" placeholder="Nom" value="<?php echo $nom; ?>" required>
             </div>
             <div class="form-group">
-                <input type="email" id="email" name="email" placeholder="Adresse e-mail" value="<?php echo htmlspecialchars($utilisateur->get('user_mail')); ?>" required>
+                <input type="email" id="email" name="email" placeholder="Adresse e-mail" value="<?php echo $email; ?>" required>
             </div>
             <div class="form-group">
                 <input type="password" id="ancien_password" name="ancien_password" placeholder="Ancien mot de passe" required>
+                <img src="../images/eye-closed.png" alt="Afficher le mot de passe" id="ancien_password-eye" onclick="togglePasswordVisibility('ancien_password')" style="cursor: pointer; width: 20px; vertical-align: middle;">
             </div>
             <div class="form-group no-padding">
                 <button type="button" class="no-padding" onclick="togglePasswordSection()">Voulez-vous modifier le mot de passe ?</button>
@@ -75,22 +97,24 @@ $adresse = Adresse::getAdresseById($utilisateur->get('adr_id'));
             <div id="password-section" style="display: none;">
                 <div class="form-group">
                     <input type="password" id="nouveau_password" name="nouveau_password" placeholder="Nouveau mot de passe">
+                    <img src="../images/eye-closed.png" alt="Afficher le mot de passe" id="nouveau_password-eye" onclick="togglePasswordVisibility('nouveau_password')" style="cursor: pointer; width: 20px; vertical-align: middle;">
                 </div>
                 <div class="form-group">
                     <input type="password" id="confirmer_password" name="confirmer_password" placeholder="Confirmer le nouveau mot de passe">
+                    <img src="../images/eye-closed.png" alt="Afficher le mot de passe" id="confirmer_password-eye" onclick="togglePasswordVisibility('confirmer_password')" style="cursor: pointer; width: 20px; vertical-align: middle;">
                 </div>
             </div>
             <div class="form-group">
-                <input type="number" id="code_postal" name="code_postal" placeholder="Code postal" value="<?php echo htmlspecialchars($adresse->get('adr_cp')); ?>" required pattern="\d{5}" title="En France, le code postal doit contenir exactement 5 chiffres">
+                <input type="number" id="code_postal" name="code_postal" placeholder="Code postal" value="<?php echo $codePostal; ?>" required pattern="\d{5}" title="En France, le code postal doit contenir exactement 5 chiffres">
             </div>
             <div class="form-group">
-                <input type="text" id="ville" name="ville" placeholder="Ville" value="<?php echo htmlspecialchars($adresse->get('adr_ville')); ?>" required>
+                <input type="text" id="ville" name="ville" placeholder="Ville" value="<?php echo $ville; ?>" required>
             </div>
             <div class="form-group">
-                <input type="number" id="numero_rue" name="numero_rue" placeholder="Numéro de rue" value="<?php echo htmlspecialchars($adresse->get('adr_num')); ?>" required>
+                <input type="number" id="numero_rue" name="numero_rue" placeholder="Numéro de rue" value="<?php echo $numeroRue; ?>" required>
             </div>
             <div class="form-group">
-                <input type="text" id="nom_rue" name="nom_rue" placeholder="Nom de la rue" value="<?php echo htmlspecialchars($adresse->get('adr_rue')); ?>" required>
+                <input type="text" id="nom_rue" name="nom_rue" placeholder="Nom de la rue" value="<?php echo $nomRue; ?>" required>
             </div>
             <button type="submit">Modifier le compte</button>
         </form>
