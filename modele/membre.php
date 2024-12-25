@@ -106,6 +106,21 @@ class Membre {
         }
     }
 
+    public static function siMembreAgrp(int $user_id) {
+        try {
+            $requete = "SELECT count(*) as count FROM membre m INNER JOIN utilisateur u ON u.user_id = m.user_id INNER JOIN groupe g ON g.grp_id = m.grp_id WHERE u.user_id = :user_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['user_id' => $user_id]);
+            
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['count'];
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
+    }
+
+
     // Récupérer les membres par `grp_id`
     public static function getMembresByGroupeId(int $grp_id) {
         try {

@@ -30,8 +30,18 @@ $id = htmlspecialchars($_SESSION['id']);
         <img src="../images/parametres.png" alt="Paramètres" class="parametres-icon"/>
         <ul class="menu-options">
             <li><a href="../controllers/logout.php">Se déconnecter</a></li>
-            <li><a href="supprimer-compte.php">Supprimer mon compte</a></li>
+            <li><a href="../controllers/controleurSupprimerCompte.php" onclick="confirmDeleteAccount()">Supprimer mon compte</a></li>
             <li><a href="modifier-parametres.php">Modifier mes paramètres</a></li>
         </ul>
     </div>
 </header>
+
+<script>
+function confirmDeleteAccount() {
+    if (confirm('Voulez-vous vraiment supprimer votre compte ?')) {
+        if (confirm('En supprimant votre compte, toutes vos données seront perdues et ne pourront pas être récupérées. Êtes-vous sûr de vouloir continuer ?')) {
+            window.location.href = 'supprimer-compte.php';
+        }
+    }
+}
+</script>

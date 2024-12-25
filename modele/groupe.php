@@ -107,6 +107,19 @@ class Groupe {
             return null;
         }
     }
+    public static function siProprioAgrp($user_id) {
+        try {
+            $requete = "SELECT count(*) as count FROM groupe WHERE user_id = :user_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['user_id' => $user_id]);
+            
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['count'];
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
+    }
 
     public static function getGroupeById($user_id) {
         $requete = "SELECT * FROM groupe WHERE user_id = :user_id";

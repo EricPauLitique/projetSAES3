@@ -56,6 +56,19 @@ class Utilisateur {
             return null;
         }
     }
+
+        // Supprimer un utilisateur par son ID
+        public static function deleteUtilisateur(int $user_id) {
+            try {
+                $requete = "DELETE FROM utilisateur WHERE user_id = :user_id";
+                $stmt = connexion::pdo()->prepare($requete);
+                return $stmt->execute(['user_id' => $user_id]);
+            } catch (PDOException $e) {
+                echo 'Erreur : ' . $e->getMessage();
+                return false;
+            }
+        }
+
 }
 
 ?>

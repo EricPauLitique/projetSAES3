@@ -40,7 +40,7 @@ if (isset($_POST['group_id'])) {
 
         // Afficher un message selon le succès ou l'échec de la suppression
         if ($result) {
-            $_SESSION['message'] = '<span style="color: green; font-weight: bold;">Le groupe ' . htmlspecialchars($group['grp_nom']) . ' a été supprimé avec succès.</span>';
+            $_SESSION['message'] = '<span style="color: green; font-weight: bold;">Le groupe "' . htmlspecialchars($group['grp_nom']) . '" a été supprimé avec succès.</span>';
         } else {
             $_SESSION['message'] = '<b><i style="color: red;">Erreur lors de la suppression du groupe.</i></b>';
         }

@@ -4,7 +4,7 @@ session_start();
 
 // Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
-    header("Location: connexion.php");
+    header("Location: ../vue/connexion.php");
     exit;
 }
 
