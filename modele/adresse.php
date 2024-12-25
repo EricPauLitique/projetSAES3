@@ -65,8 +65,17 @@ class Adresse {
             return null;
         }
     }
+
+    // Supprimer une adresse par son ID
+    public static function deleteAdresse($id) {
+        try {
+            $requete = "DELETE FROM adresse WHERE adr_id = :adr_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            return $stmt->execute(['adr_id' => $id]);
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }
 }
-
-
-
 ?>

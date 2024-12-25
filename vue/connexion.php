@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -20,10 +23,15 @@
         <?php if (!empty($error)): ?>
             <p style="color: red;"><b><?php echo htmlspecialchars($error); ?></b></p>
         <?php endif; ?>
-        <?php if (!empty($error)): ?>
-            <?php echo htmlspecialchars($error); ?>
-        <?php endif; ?>
 
+        <?php if (isset($_SESSION['messageC'])): ?>
+            <div style="color: red;">
+                <b>
+                <?php echo $_SESSION['messageC']; ?>
+                </b>
+            </div>
+            <?php unset($_SESSION['messageC']); ?>
+        <?php endif; ?>
                
         <?php if (isset($_SESSION['message'])): ?>
             <div style="color: green;">
@@ -31,9 +39,9 @@
                 <?php echo $_SESSION['message']; ?>
                 </b>
             </div>
-        <?php unset($_SESSION['message']); endif; ?>
+            <?php unset($_SESSION['message']); ?>
+        <?php endif; ?>
         
-
         <form action="../controllers/controleurconnexion.php" method="POST">
             <div class="form-group">
                 <input type="email" id="email" name="email" placeholder="Adresse e-mail" value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>" required>

@@ -30,7 +30,7 @@
                 <input type="password" id="password" name="password" placeholder="Mot de passe" required>
             </div>
             <div class="form-group">
-                <input type="number" id="code_postal" name="code_postal" placeholder="Code postal" required>
+                <input type="number" id="code_postal" name="code_postal" placeholder="Code postal" required pattern="\d{5}" title="En France, le code postal doit contenir exactement 5 chiffres">
             </div>
             <div class="form-group">
                 <input type="text" id="ville" name="ville" placeholder="Ville" required>
@@ -41,7 +41,7 @@
             <div class="form-group">
                 <input type="text" id="nom_rue" name="nom_rue" placeholder="Nom de la rue" required>
             </div>
-            <button type="submit">Créer le compte</button>
+            <button type="submit">Créer un compte</button>
             <p>Vous avez un compte ? <a href="/saes3-ese/projetSAES3/vue/connexion.php"><b>Connectez-vous</a></b></a></p>
         </form>
     </main>
