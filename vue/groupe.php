@@ -45,6 +45,9 @@ if (Membre::siMembreInconnu($id, $groupeId) == 0 && Groupe::siProprioInconnu($id
     exit;
 } 
 
+// Vérifier si l'utilisateur est le propriétaire du groupe
+$isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
+
 ?>
 
 <!DOCTYPE html>
@@ -61,12 +64,23 @@ if (Membre::siMembreInconnu($id, $groupeId) == 0 && Groupe::siProprioInconnu($id
     Connexion::connect()?>
 
     <main>
+        <div class="retour">    
+            <img src="../images/retour.png" alt="retour" class="retour-icon"/>
+            <a href="accueil.php">Retour</a>
+        </div>
         <h1 id="titreGroupe">
             <img src="<?php echo htmlspecialchars($groupe->get('grp_img')); ?>" alt="Image associée" class="image-gauche">
             <?php echo 'Groupe :&nbsp;<b><i><u>' . htmlspecialchars($groupe->get('grp_nom')) . '</u></i></b>'; ?>
-            <img src="<?php echo htmlspecialchars($groupe->get('grp_img')); ?>" alt="Image associée" class="image-gauche">
-
         </h1>
+
+        <?php
+        // Afficher le message d'erreur s'il existe
+        if (isset($_SESSION['message'])) {
+            echo '<div class="message">' . $_SESSION['message'] . '</div>';
+            unset($_SESSION['message']);
+        }
+        ?>
+
         <aside>
             <h3>Liste des membres :</h3>
             <table>
@@ -75,6 +89,9 @@ if (Membre::siMembreInconnu($id, $groupeId) == 0 && Groupe::siProprioInconnu($id
                         <th>Photo</th>
                         <th>Prénom/Nom</th>
                         <th>Rôle</th>
+                        <?php if ($isProprietaire) { ?>
+                            <th>Actions</th>
+                        <?php } ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -88,26 +105,36 @@ if (Membre::siMembreInconnu($id, $groupeId) == 0 && Groupe::siProprioInconnu($id
                         $nomProprio = htmlspecialchars($proprio['user_nom']);
                         echo '<tr>
                                 <td>
-                                    <img src="../images/createur.png" alt="Propriétaire" class="image-small" />
+                                    <img src="../images/createur.png" alt="Créateur" class="image-small" />
                                 </td>
                                 <td>' . $prenomProprio . ' ' . $nomProprio . '</td>
-                                <td>Propriétaire</td>
-                              </tr>';
+                                <td>Créateur</td>';
+                        if ($isProprietaire) {
+                            echo '<td> Vous ne pouvez pas vous retirer vous-même. </td>';
+                        }
+                        echo '</tr>';
                     }
 
                     if (!empty($membres)) {
-                        foreach ($membres as $membre) {
-
+                        foreach ($membres as $membre)  {
                             echo '<tr>';
                             if ($membre->get('role') == 'Modérateur') {
-                            echo '<td><img src="../images/user.png" alt="Moderateur" class="image-small" /></td>';
-                        
+                                echo '<td><img src="../images/user.png" alt="Moderateur" class="image-small" /></td>';
                             } else {
-                            echo '<td><img src="../images/user.png" alt="Membre" class="image-small" /></td>';
-                        }
+                                echo '<td><img src="../images/user.png" alt="Membre" class="image-small" /></td>';
+                            }
                             echo '<td>' . htmlspecialchars($membre->get('user_prenom')) . ' ' . htmlspecialchars($membre->get('user_nom')) . '</td>
-                                    <td>' . htmlspecialchars($membre->get('role')) . '</td>
-                                  </tr>';
+                                  <td>' . htmlspecialchars($membre->get('role')) . '</td>';
+                            if ($isProprietaire) {
+                                echo '<td>
+                                        <form method="POST" action="../controllers/controleurSupprimerMembre.php">
+                                            <input type="hidden" name="user_id" value="' . $membre->get('user_id') . '">
+                                            <input type="hidden" name="grp_id" value="' . $groupeId . '">
+                                            <button type="submit" class="btn-delete" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce membre ?\');">Supprimer</button>
+                                        </form>
+                                      </td>';
+                            }
+                            echo '</tr>';
                         }
                     }
                     ?>

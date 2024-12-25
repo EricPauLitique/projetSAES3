@@ -14,6 +14,7 @@ if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
 $prenom = htmlspecialchars($_SESSION['prenom']);
 $nom = htmlspecialchars($_SESSION['nom']);
 $id = htmlspecialchars($_SESSION['id']);
+
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +44,6 @@ $id = htmlspecialchars($_SESSION['id']);
                 Connexion::connect();
                 $myGrp = Groupe::getGroupeById($id);
                 $grp = Membre::getGrpById($id);
-                
                 ?>
 
                 <?php if (isset($_SESSION['messageC'])): ?>
@@ -74,9 +74,7 @@ $id = htmlspecialchars($_SESSION['id']);
                                             <img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '" class="image-small" />
                                         </a>
                                     </div>
-                                    <div class="group-text" style="color: ' . $couleur . ';">
-                                        <a href="groupe.php?id=' . $listGrp->get('grp_id') . '">' . strtoupper($listGrp->get('grp_nom')) . '</a>
-                                    </div>
+                                       <b><h2 style="color: ' . $couleur . ';"><a href="groupe.php?id=' . $listGrp->get('grp_id') . '">' . strtoupper($listGrp->get('grp_nom')) . '</a></h2></b>
                                 </div>
                                 <div class="boutons-container">
                                     <form method="POST" action="../controllers/controleurmodifGroupe.php" style="display:inline;">
@@ -102,17 +100,25 @@ $id = htmlspecialchars($_SESSION['id']);
                                             <img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '" class="image-small" />
                                         </a>
                                     </div>
+                                </div>
                                     <div class="group-text" style="color: ' . $couleur . ';">
                                         <a href="groupe.php?id=' . $listGrp->get('grp_id') . '">' . strtoupper($listGrp->get('grp_nom')) . '</a>
                                     </div>
-                                </div>
+                                    <div class="boutons-container">
+                                        <form method="POST" action="../controllers/controleurQuitterGroupe.php" style="display:inline;">
+                                            <input type="hidden" name="user_id" value="' . $id . '">
+                                            <input type="hidden" name="grp_id" value="' . $listGrp->get('grp_id') . '">
+                                            <button type="submit" class="btn-delete" onclick="return confirm(\'Êtes-vous sûr de vouloir quitter ce groupe ?\');">Quitter</button>
+                                        </form>
+                                    </div>
+                                
                               </li>';
                     }
                 }
 
                 // Si on a aucun groupe on affiche qu'il en a pas
                 if (empty($myGrp) && empty($grp)) {
-                    echo 'Aucun groupe trouvé.';
+                    echo '<b> Aucun groupe trouvé. </b>';
                 }
                 ?>
             </ul>

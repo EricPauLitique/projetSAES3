@@ -132,5 +132,18 @@ class Membre {
             return false;
         }
     }
+
+    // Méthode pour supprimer un membre par `user_id` et `grp_id`
+    public static function deleteMembre(int $user_id, int $grp_id) {
+        try {
+            $requete = "DELETE FROM membre WHERE user_id = :user_id AND grp_id = :grp_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['user_id' => $user_id, 'grp_id' => $grp_id]);
+
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            throw new Exception('Erreur : ' . $e->getMessage());
+        }
+    }
 }
 ?>
