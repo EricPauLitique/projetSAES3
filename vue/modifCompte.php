@@ -27,12 +27,26 @@ $adresse = Adresse::getAdresseById($utilisateur->get('adr_id'));
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier votre compte</title>
-    <link rel="stylesheet" href="../styles/creacompte.css">
+    <link rel="stylesheet" href="../styles/modifCompte.css">
+    <script>
+        function togglePasswordSection() {
+            var passwordSection = document.getElementById('password-section');
+            if (passwordSection.style.display === 'none') {
+                passwordSection.style.display = 'block';
+            } else {
+                passwordSection.style.display = 'none';
+            }
+        }
+    </script>
 </head>
 <body>
     <?php include 'header.php'; ?>
 
     <main>
+        <div class="retour">    
+            <img src="../images/retour.png" alt="retour" class="retour-icon"/>
+            <a href="accueil.php">Retour</a>
+        </div>
         <?php if (isset($_SESSION['messageC'])): ?>
             <div style="color: red;">
                 <b>
@@ -53,7 +67,18 @@ $adresse = Adresse::getAdresseById($utilisateur->get('adr_id'));
                 <input type="email" id="email" name="email" placeholder="Adresse e-mail" value="<?php echo htmlspecialchars($utilisateur->get('user_mail')); ?>" required>
             </div>
             <div class="form-group">
-                <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+                <input type="password" id="ancien_password" name="ancien_password" placeholder="Ancien mot de passe" required>
+            </div>
+            <div class="form-group no-padding">
+                <button type="button" class="no-padding" onclick="togglePasswordSection()">Voulez-vous modifier le mot de passe ?</button>
+            </div>
+            <div id="password-section" style="display: none;">
+                <div class="form-group">
+                    <input type="password" id="nouveau_password" name="nouveau_password" placeholder="Nouveau mot de passe">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="confirmer_password" name="confirmer_password" placeholder="Confirmer le nouveau mot de passe">
+                </div>
             </div>
             <div class="form-group">
                 <input type="number" id="code_postal" name="code_postal" placeholder="Code postal" value="<?php echo htmlspecialchars($adresse->get('adr_cp')); ?>" required pattern="\d{5}" title="En France, le code postal doit contenir exactement 5 chiffres">

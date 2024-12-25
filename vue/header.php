@@ -31,7 +31,7 @@ $id = htmlspecialchars($_SESSION['id']);
         <ul class="menu-options">
             <li><a href="../controllers/logout.php">Se déconnecter</a></li>
             <li><a href="../controllers/controleurSupprimerCompte.php" onclick="confirmDeleteAccount()">Supprimer mon compte</a></li>
-            <li><a href="modifier-parametres.php">Modifier mes paramètres</a></li>
+            <li><a href="modifCompte.php">Modifier mes paramètres</a></li>
         </ul>
     </div>
 </header>

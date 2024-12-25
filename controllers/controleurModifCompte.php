@@ -20,7 +20,9 @@ try {
     $prenom = htmlspecialchars($_POST['prenom']);
     $nom = htmlspecialchars($_POST['nom']);
     $email = htmlspecialchars($_POST['email']);
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $ancienPassword = $_POST['ancien_password'];
+    $nouveauPassword = $_POST['nouveau_password'];
+    $confirmerPassword = $_POST['confirmer_password'];
     $codePostal = htmlspecialchars($_POST['code_postal']);
     $ville = htmlspecialchars($_POST['ville']);
     $numeroRue = htmlspecialchars($_POST['numero_rue']);
@@ -40,12 +42,30 @@ try {
         exit;
     }
 
-    // Mettre à jour les informations de l'utilisateur
+    // Vérification de l'ancien mot de passe
     $utilisateur = Utilisateur::getUtilisateurByLogin($idUtilisateur);
+    if (!password_verify($ancienPassword, $utilisateur->get('user_mdp'))) {
+        $_SESSION['messageC'] = "L'ancien mot de passe est incorrect.";
+        header("Location: ../vue/modifCompte.php");
+        exit;
+    }
+
+    // Mettre à jour les informations de l'utilisateur
     $utilisateur->set('user_prenom', $prenom);
     $utilisateur->set('user_nom', $nom);
     $utilisateur->set('user_mail', $email);
-    $utilisateur->set('user_mdp', $password);
+
+    // Mettre à jour le mot de passe si un nouveau mot de passe est fourni
+    if (!empty($nouveauPassword)) {
+        if ($nouveauPassword !== $confirmerPassword) {
+            $_SESSION['messageC'] = "Le nouveau mot de passe et la confirmation ne correspondent pas.";
+            header("Location: ../vue/modifCompte.php");
+            exit;
+        }
+        $passwordHashed = password_hash($nouveauPassword, PASSWORD_DEFAULT);
+        $utilisateur->set('user_mdp', $passwordHashed);
+    }
+
     Utilisateur::updateUtilisateur($utilisateur);
 
     // Mettre à jour l'adresse de l'utilisateur
