@@ -89,6 +89,33 @@ class Comporte {
             return null;
         }
     }
+
+
+        // Mettre à jour le thème
+        public static function updateTheme($themeId, $grp_id, $prixTheme) {
+            try {
+                $requete = "UPDATE theme SET grp_id = :grp_id, lim_theme = :lim_theme WHERE theme_id = :theme_id";
+                $stmt = connexion::pdo()->prepare($requete);
+                $stmt->execute(['theme_id' => $themeId, 'grp_id' => $grp_id, 'lim_theme' => $prixTheme]);
+                return true;
+            } catch (PDOException $e) {
+                echo 'Erreur : ' . $e->getMessage();
+                return false;
+            }
+        }
+
+        // Supprimer le thème
+        public static function deleteThemeGrp($themeId, $grp_id) {
+            try {
+                $requete = "DELETE FROM comporte WHERE theme_id = :theme_id AND grp_id = :grp_id";
+                $stmt = connexion::pdo()->prepare($requete);
+                $stmt->execute(['theme_id' => $themeId, 'grp_id' => $grp_id]);
+                return true;
+            } catch (PDOException $e) {
+                echo 'Erreur : ' . $e->getMessage();
+                return false;
+            }
+        }
     
 }
 

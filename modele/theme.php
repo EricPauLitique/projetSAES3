@@ -41,21 +41,44 @@ class Theme {
     }
 
     // Récupérer un thème par son ID
-    public static function getThemeById($grId) {
+    public static function getThemeById($themeId) {
         try {
-            $requete = "SELECT * FROM theme NATURAL JOIN comporte WHERE grp_id = :grp_id";
+            $requete = "SELECT * FROM theme WHERE theme_id = :theme_id";
             $stmt = connexion::pdo()->prepare($requete);
-            $stmt->execute(['grp_id' => $grId]);
+            $stmt->execute(['theme_id' => $themeId]);
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Theme');
-            return $stmt->fetchAll();
+            return $stmt->fetch();
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();
             return null;
         }
     }
 
+    // Récupérer un thème par son nom
+    public static function getThemeByName($themeNom) {
+        try {
+            $requete = "SELECT * FROM theme WHERE theme_nom = :theme_nom";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['theme_nom' => $themeNom]);
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Theme');
+            return $stmt->fetch();
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
+    }
 
-
+    // Créer un nouveau thème
+    public static function createTheme($themeNom) {
+        try {
+            $requete = "INSERT INTO theme (theme_nom) VALUES (:theme_nom)";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['theme_nom' => $themeNom]);
+            return connexion::pdo()->lastInsertId();
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
+    }
 }
-
 ?>

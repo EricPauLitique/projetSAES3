@@ -14,8 +14,10 @@ label {
 header {
     background-color: #3a1768;
     color: #fff;
-    padding: 15px 0;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
 }
 
 header img {
@@ -25,7 +27,8 @@ header img {
 }
 
 #titre {
-    color: rgb(130, 157, 238);
+    color: #3a1768;
+    text-align: center; /* Centrer le texte du titre */
 }
 
 .accueil {
@@ -45,11 +48,11 @@ a {
     margin-top: 10px;
     text-decoration: none;
     color: #333;
-    text-align : center;
+    text-align: center;
 }
 
 h1 {
-    display: inline;
+    /* display: inline; */
     font-size: 2em;
     margin: 0;
 }
@@ -121,7 +124,7 @@ table td:last-child {
     display: none;
     position: absolute;
     top: 75%; /* Décale le menu en dessous */
-    left: 60%;
+    left: 47.2%;
     transform: translateX(-50%);
     background-color: #3a1768;
     color: white;
@@ -177,15 +180,20 @@ h2, h3 {
     color: #3a1768;
     margin-bottom: 20px;
     position: relative; /* Pour permettre de positionner la puce */
-    /* padding-left: 30px; */ /* Crée un espace pour la puce à gauche */
-    text-align: center;
+    padding-left: 30px; /* Crée un espace pour la puce à gauche */
 }
 
 h2::before, h3::before {
+    content: "\2022"; /* Code Unicode pour la puce */
+    position: absolute;
+    left: 0; /* Positionne la puce à gauche du titre */
+    top: 50%; /* Centre verticalement la puce */
+    transform: translateY(-50%); /* Ajuste verticalement la position de la puce */
+    font-size: 1.8em; /* Taille de la puce */
     color: #3a1768; /* Couleur de la puce */
 }
+
 form {
-    /* width: 100%; */ /* S'adapte à la largeur de son conteneur */
     max-width: 500px; /* Largeur maximale pour éviter qu'il ne devienne trop grand */
     margin: 0 auto; /* Centre le formulaire horizontalement */
     padding: 20px; /* Ajoute de l'espace à l'intérieur du formulaire */
@@ -195,7 +203,6 @@ form {
     display: flex;
     flex-direction: column;
     gap: 10px; /* Espace entre les champs */
-    align-content: center;
 }
 
 input[type="text"],
@@ -238,30 +245,13 @@ button:hover {
     background-color: #6a2a88;
 }
 
-button.no-padding {
-    padding: 10px;
-    /* background-color: transparent; */
-    /* color: #3a1768; */
-    font-size: 1em;
-    /* text-decoration: underline; */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    /* color: #6a2a88; */
-}
-
-button.no-padding:hover {
-    background-color: #6a2a88;
-}
-
 /* Footer */
 footer {
     background-color: #3a1768;
     color: #fff;
     padding: 15px;
     position: sticky;
-    /* position: fixed; */
     bottom: 0;
-    /* width: auto; */
     text-align: center;
     font-weight: normal;
 }
@@ -325,10 +315,12 @@ footer p {
     margin-bottom: 100px;
 }
 
-b{
-    color : #3a1768
+.purple-link {
+    color: #6a2a88; /* Couleur violette */
+    text-decoration: none;
 }
 
-a:hover {
+.purple-link:hover {
+    color: #3a1768; /* Couleur violette foncée au survol */
     text-decoration: underline;
 }

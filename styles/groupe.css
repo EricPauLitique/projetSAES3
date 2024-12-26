@@ -203,8 +203,8 @@ h2::before, h3::before {
 form {
     /* width: 100%; */ /* S'adapte Ã  la largeur de son conteneur */
     max-width: 500px; /* Largeur maximale pour Ã©viter qu'il ne devienne trop grand */
-    margin: 0 auto; /* Centre le formulaire horizontalement */
-    padding: 20px; /* Ajoute de l'espace Ã  l'intÃ©rieur du formulaire */
+    /* margin: 0 auto; */ /* Centre le formulaire horizontalement */
+    /* padding: 20px; */ /* Ajoute de l'espace Ã  l'intÃ©rieur du formulaire */
     background-color: #e2e2e2; /* Fond blanc pour le contraste */
     border-radius: 8px; /* Coins arrondis */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre douce */
@@ -353,5 +353,44 @@ footer p {
 }
 
 .btn-delete:hover {
+    background-color: #cc0000; /* Rouge plus foncé au survol */
+}
+
+
+.boutons-container {
+    display: flex;
+    flex-direction: column; /* Organiser les boutons en colonne */
+    gap: 10px; /* Espacement entre les boutons */
+    align-items: stretch; /* Les boutons prennent toute la largeur du conteneur */
+}
+
+/* Styles des boutons */
+.boutons-container button {
+    padding: 10px;
+    color: white;
+    border: none;
+    /* border-radius: 5px; */
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%; /* Les boutons prennent toute la largeur disponible */
+    height: 35px; /* Fixer la même hauteur pour tous les boutons */
+    box-sizing: border-box; /* Prendre en compte les paddings dans la largeur totale */
+}
+
+/* Bouton pour modifier */
+.boutons-container .btn-modify {
+    background-color: #3a1768; /* Violet */
+}
+
+.boutons-container .btn-modify:hover {
+    background-color: #6a2a88; /* Violet plus clair au survol */
+}
+
+/* Bouton pour supprimer */
+.boutons-container .btn-delete {
+    background-color: #ff0000; /* Rouge */
+}
+
+.boutons-container .btn-delete:hover {
     background-color: #cc0000; /* Rouge plus foncé au survol */
 }

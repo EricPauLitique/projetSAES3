@@ -4,6 +4,7 @@ require_once("../config/connexion.php");
 require_once("../modele/groupe.php");
 require_once("../modele/membre.php");
 require_once("../modele/theme.php");
+require_once("../modele/comporte.php");
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
@@ -96,11 +97,11 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
                     </tr>
                 </thead>
                 <tbody>
+
                     <?php
                     // Récupérer les membres du groupe
                     $proprio = Groupe::getProprio($groupeId);
                     $membres = Membre::getMembresByGroupeId($groupeId); // Assurez-vous que cette méthode existe dans votre modèle Membre
-                    //$themes = Theme::
 
                     if ($proprio) {
                         $prenomProprio = htmlspecialchars($proprio['user_prenom']);
@@ -131,7 +132,7 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
                                 echo '<td>
                                         <form method="POST" action="../controllers/controleurSupprimerMembre.php">
                                             <input type="hidden" name="user_id" value="' . $membre->get('user_id') . '">
-                                            <input type="hidden" name="grp_id" value="' . $groupeId . '">
+                                            <input type="hidden" name="grp_id" value="' . $groupeId . '" />
                                             <button type="submit" class="btn-delete" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce membre ?\');">Supprimer</button>
                                         </form>
                                       </td>';
@@ -144,29 +145,66 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
             </table>
         </aside>
 
-        <?php $lesThemes = Theme::getThemeById(($groupeId)); ?>
+        <?php $lesThemes = Comporte::getThemesbyidGroupe(($groupeId)); ?>
 
         <section>
+            
             <h3>Liste des thèmes</h3>
-            <table>
+            <table >
                 <thead>
                     <tr>
                         <th>Nom du thème</th>
+                        <?php if ($isProprietaire) { ?>
+                        <th>Prix</th>
+                        <th>Actions</th>
+                        <?php } ?>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Contenu des thèmes -->
+                    <!-- Contenu des thèmes --> 
                     <?php                
                     foreach ($lesThemes as $theme) {
                         echo '<tr>';
-                        echo '<td>' . $theme->get('theme_nom') . '</td>';
+                        echo '<td>' . $theme->get('theme_nom') . '</td>'; 
+
+
+                        if ($isProprietaire) {
+                        echo '<td>' . $theme->get('lim_theme') . '€</td>'; // Assurez-vous que la colonne 'theme_prix' existe dans votre base de données
+                        echo '<td>
+                        <div class="boutons-container">
+                            <form method="POST" action="../controllers/controleurmodifTheme.php" style="display:inline;">
+                                <input type="hidden" name="theme_id" value="' . $theme->get('theme_id') . '" />
+                                <input type="hidden" name="group_id" value="' . $groupeId . '" />
+                                <button type="submit" name="modify_theme" class="btn-modify">Modifier</button>
+                            </form>
+                            <form method="POST" action="../controllers/controleurSuppTheme.php" style="display:inline;">
+                                <input type="hidden" name="theme_id" value="' . $theme->get('theme_id') . '" />
+                                <input type="hidden" name="group_id" value="' . $groupeId . '" />
+                                <button type="submit" name="delete_theme" class="btn-delete" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce thème ?\');">Supprimer</button>
+                            </form>
+                        </div>
+                              </td>';
+                        echo '</tr>';
+                    }  else {
                         
                         echo '</tr>';
                     }
+                    }
+
+               
+                    
+                    
                     ?>
                 </tbody>
             </table>
         </section>
+
+        <?php if ($isProprietaire) { ?>
+<section>
+    <h3>Ajouter un nouveau thème</h3>
+    <button onclick="window.location.href='ajoutTheme.php?id=<?php echo $groupeId; ?>';">Ajouter un thème</button>
+</section>
+<?php } ?>
 
         <section>
             <h3>Dernières décisions prises</h3>

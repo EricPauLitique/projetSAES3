@@ -54,6 +54,8 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
             <a href="accueil.php">Retour</a>
         </div>
 
+        <br>
+
         <h1 id="titre">Création du groupe</h1>
 
 
@@ -67,13 +69,13 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
             <!-- Formulaire pour créer un thème -->
             <h2>Créer un thème : </h2>
             <form action="../controllers/controleurCreaTheme.php" method="POST">
-                <label for="nom_du_theme">Nom du thème :</label>
-                <input type="text" id="nom_du_theme" name="nom_du_theme" placeholder="Nom du thème" required>
-                <br>
-                <label for="limite_theme">Limite des propositions :</label>
-                <input type="number" id="limite_theme" name="limite_theme" placeholder="Limite pour le thème" required>
-                <br>
-                <button type="submit">Créer le thème</button>
+                    <label for="nom_du_theme">Nom du thème :</label>
+                    <input type="text" id="nom_du_theme" name="nom_du_theme" placeholder="Nom du thème" required>
+                    <br>
+                    <label for="limite_theme">Limite des propositions :</label>
+                    <input type="number" id="limite_theme" name="limite_theme" placeholder="Limite pour le thème" required>
+                    <br>
+                    <button type="submit">Créer le thème</button>
             </form>
 
             <!-- Affichage des thèmes ajoutés -->
