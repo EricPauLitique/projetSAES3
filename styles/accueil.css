@@ -290,3 +290,23 @@ h3::before {
 .boutons-container .btn-delete:hover {
     background-color: #cc0000; /* Rouge plus foncé au survol */
 }
+
+/* Styles pour le titre du groupe */
+.group-title {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+/* Styles pour le lien du groupe */
+.group-link {
+    text-decoration: none;
+    color: inherit; /* Utilise la couleur héritée du parent */
+}
+
+.group-link:hover {
+    color: #6a2a88; /* Couleur violette au survol */
+}
+
+.group-link:active {
+    color: #3a1768; /* Couleur violette foncée lorsqu'on clique */
+}
