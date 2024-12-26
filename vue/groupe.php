@@ -3,6 +3,7 @@ session_start();
 require_once("../config/connexion.php");
 require_once("../modele/groupe.php");
 require_once("../modele/membre.php");
+require_once("../modele/theme.php");
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
@@ -99,6 +100,7 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
                     // Récupérer les membres du groupe
                     $proprio = Groupe::getProprio($groupeId);
                     $membres = Membre::getMembresByGroupeId($groupeId); // Assurez-vous que cette méthode existe dans votre modèle Membre
+                    //$themes = Theme::
 
                     if ($proprio) {
                         $prenomProprio = htmlspecialchars($proprio['user_prenom']);
@@ -141,6 +143,30 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
                 </tbody>
             </table>
         </aside>
+
+        <?php $lesThemes = Theme::getThemeById(($groupeId)); ?>
+
+        <section>
+            <h3>Liste des thèmes</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom du thème</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Contenu des thèmes -->
+                    <?php                
+                    foreach ($lesThemes as $theme) {
+                        echo '<tr>';
+                        echo '<td>' . $theme->get('theme_nom') . '</td>';
+                        
+                        echo '</tr>';
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </section>
 
         <section>
             <h3>Dernières décisions prises</h3>

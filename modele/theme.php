@@ -41,18 +41,21 @@ class Theme {
     }
 
     // Récupérer un thème par son ID
-    public static function getThemeById($id) {
+    public static function getThemeById($grId) {
         try {
-            $requete = "SELECT * FROM theme WHERE theme_id = :theme_id";
+            $requete = "SELECT * FROM theme NATURAL JOIN comporte WHERE grp_id = :grp_id";
             $stmt = connexion::pdo()->prepare($requete);
-            $stmt->execute(['theme_id' => $id]);
+            $stmt->execute(['grp_id' => $grId]);
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Theme');
-            return $stmt->fetch();
+            return $stmt->fetchAll();
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();
             return null;
         }
     }
+
+
+
 }
 
 ?>

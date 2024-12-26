@@ -75,6 +75,21 @@ class Comporte {
             return 0;
         }
     }
+
+    // Récupérer un thème par son ID
+    public static function getThemesbyidGroupe($id) {
+        try {
+            $requete = "SELECT * FROM comporte Natural join theme  WHERE grp_id = :grp_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['grp_id' => $id]);
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Theme');
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
+    }
+    
 }
 
 ?>

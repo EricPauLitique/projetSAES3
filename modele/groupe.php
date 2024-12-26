@@ -162,7 +162,7 @@ class Groupe {
     /**
      * Gérer l'upload de l'image du groupe
      */
-    public static function handleImageUpload($group, $file) {
+    public static function handleImageUpload($group, $file, $groupDir = null) {
         // Vérifiez que $group est un tableau
         if (!is_array($group)) {
             throw new InvalidArgumentException('Le paramètre $group doit être un tableau.');
@@ -177,7 +177,28 @@ class Groupe {
         if (isset($file) && $file['error'] == 0) {
             $imageTmpPath = $file['tmp_name'];
             $imageName = $file['name'];
-            $newImagePath = "../images/groupes/" . uniqid() . "_" . $imageName;
+    
+            // Utiliser le nouveau répertoire si fourni, sinon utiliser l'ancien
+            if ($groupDir === null) {
+                $cleanedGroupName = preg_replace('/[^a-zA-Z0-9_]/', '_', $group['grp_nom']);
+                $groupDir = "../images/groupes/" . $cleanedGroupName;
+            }
+    
+            // Créer le répertoire s'il n'existe pas
+            if (!is_dir($groupDir)) {
+                mkdir($groupDir, 0777, true);
+            }
+    
+            // Supprimer les anciens fichiers dans le répertoire
+            $files = glob($groupDir . '/*'); // Obtenir tous les fichiers dans le répertoire
+            foreach ($files as $file) {
+                if (is_file($file)) {
+                    unlink($file); // Supprimer le fichier
+                }
+            }
+    
+            // Définir le chemin complet de la nouvelle image
+            $newImagePath = $groupDir . "/" . uniqid() . "_" . $imageName;
     
             // Déplacer l'image téléchargée
             if (move_uploaded_file($imageTmpPath, $newImagePath)) {
@@ -193,7 +214,7 @@ class Groupe {
         }
         return $newImagePath;
     }
-    
+
     /**
      * Mettre à jour les informations du groupe dans la base de données
      */

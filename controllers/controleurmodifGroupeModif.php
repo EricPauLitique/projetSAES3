@@ -24,15 +24,17 @@ $removeImage = isset($_POST['remove_image']) ? $_POST['remove_image'] : 0;
 
 // Vérifier si l'ID du groupe existe
 if ($groupId) {
+    // Récupérer les informations du groupe
+    $group = Groupe::getGroupByIdUnique($groupId);
+    $ancienNomGroupe = $group['grp_nom'];
+    $ancienRepertoire = "../images/groupes/" . preg_replace('/[^a-zA-Z0-9_]/', '_', $ancienNomGroupe);
+
     // Vérifier si le nom du groupe existe déjà pour un autre groupe
     if (Groupe::groupNameExists($nomGroupe, $groupId)) {
         $_SESSION['messageC'] = '<p style="color: red;"><b>Le nom du groupe du site est déjà présent dans le registre. <br> Veuillez choisir un autre nom.</b></p><br>';
         header("Location: ../vue/modifgroupe.php");
         exit;
     }
-
-    // Récupérer les informations du groupe
-    $group = Groupe::getGroupByIdUnique($groupId);
 
     // Calculer la somme des limites des thèmes
     $sommeMonetaire = Comporte::getSumLimiteThemeByGroupId($groupId);
@@ -45,6 +47,12 @@ if ($groupId) {
         exit;
     }
 
+    // Renommer le répertoire si le nom du groupe a changé
+    $nouveauRepertoire = "../images/groupes/" . preg_replace('/[^a-zA-Z0-9_]/', '_', $nomGroupe);
+    if ($ancienRepertoire !== $nouveauRepertoire && is_dir($ancienRepertoire)) {
+        rename($ancienRepertoire, $nouveauRepertoire);
+    }
+
     // Traiter l'image téléchargée
     if ($removeImage == '1') {
         $newImagePath = '../images/groupes/groupe.png'; // Set to default image
@@ -52,14 +60,19 @@ if ($groupId) {
             unlink($group['grp_img']); // Remove the old image
         }
         $_SESSION['image_name'] = ''; // Clear the image name in session
-        header("Location: ../vue/modifgroupe.php"); // Redirection vers la même page
     } else {
-        $newImagePath = Groupe::handleImageUpload($group, $image);
-        // Sauvegarder le nom du fichier dans la session
-        if (isset($image['name']) && !empty($image['name'])) {
-            $_SESSION['image_name'] = $image['name'];
+        // Utiliser l'ancien chemin de l'image si l'image n'est pas modifiée
+        if ($image && $image['error'] == 0) {
+            $newImagePath = Groupe::handleImageUpload($group, $image, $nouveauRepertoire);
+            // Sauvegarder le nom du fichier dans la session
+            if (isset($image['name']) && !empty($image['name'])) {
+                $_SESSION['image_name'] = $image['name'];
+            } else {
+                $_SESSION['image_name'] = basename($newImagePath);
+            }
         } else {
-            $_SESSION['image_name'] = 'Aucun fichier choisi';
+            // Si l'image n'est pas modifiée, mettre à jour le chemin de l'image avec le nouveau répertoire
+            $newImagePath = str_replace($ancienRepertoire, $nouveauRepertoire, $group['grp_img']);
         }
     }
 
@@ -81,5 +94,4 @@ if ($groupId) {
     header("Location: ../vue/accueil.php");
     exit;
 }
-
 ?>

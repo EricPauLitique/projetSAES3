@@ -1,17 +1,26 @@
 <?php
-$directoryPath = '../images/groupes/Campagne_asso/';
+function deleteDirectory($dir) {
+    if (!is_dir($dir)) {
+        return false;
+    }
+
+    $items = array_diff(scandir($dir), array('.', '..'));
+    foreach ($items as $item) {
+        $path = $dir . DIRECTORY_SEPARATOR . $item;
+        is_dir($path) ? deleteDirectory($path) : unlink($path);
+    }
+
+    return rmdir($dir);
+}
+
+$directoryPath = '../images/groupes/Shields/';
 
 // Vérifier si le répertoire existe
 if (is_dir($directoryPath)) {
-    // Vérifier si le répertoire est vide
-    if (count(scandir($directoryPath)) == 2) { // `.` et `..` uniquement
-        if (rmdir($directoryPath)) {
-            echo 'Le répertoire a été supprimé avec succès.<br>';
-        } else {
-            echo 'Erreur lors de la suppression du répertoire.<br>';
-        }
+    if (deleteDirectory($directoryPath)) {
+        echo 'Le répertoire a été supprimé avec succès.<br>';
     } else {
-        echo 'Le répertoire n\'est pas vide.<br>';
+        echo 'Erreur lors de la suppression du répertoire.<br>';
     }
 } else {
     echo 'Le répertoire n\'existe pas.<br>';

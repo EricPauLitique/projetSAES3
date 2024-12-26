@@ -81,7 +81,7 @@ $limiteAnnuelle = isset($_SESSION['limiteAnnuelle']) ? $_SESSION['limiteAnnuelle
                     </span>
                     <?php
                         if (isset($_SESSION['image_name']) && !empty($_SESSION['image_name'])) {
-                            $imageSrc = isset($_SESSION['image_name']) && !empty($_SESSION['image_name']) ? '../images/groupes/' . $_SESSION['image_name'] : '../images/groupes/default.png';
+                            $imageSrc = isset($_SESSION['image_name']) && !empty($_SESSION['image_name']) ? '../images/groupes/' . preg_replace('/[^a-zA-Z0-9_]/', '_', $nomGroupe) . '/' . $_SESSION['image_name'] : '../images/groupes/default.png';
                             echo '<img id="image-preview" src="' . htmlspecialchars($imageSrc) . '" alt="Aperçu de l\'image" style="max-width: 100px; display: block;">';
                             echo '<button type="submit" name="remove_image" value="1" class="btn-remove">Supprimer l\'image</button>';
                         }
