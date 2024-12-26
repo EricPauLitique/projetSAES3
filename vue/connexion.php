@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -20,24 +22,17 @@ session_start();
 
     <main>
        <h2><b>Connexion</b></h2>
-        <?php if (!empty($error)): ?>
-            <p style="color: red;"><b><?php echo htmlspecialchars($error); ?></b></p>
-        <?php endif; ?>
 
         <?php if (isset($_SESSION['messageC'])): ?>
-            <div style="color: red;">
-                <b>
+            <div style="color: red; font-weight: bold;">
                 <?php echo $_SESSION['messageC']; ?>
-                </b>
             </div>
             <?php unset($_SESSION['messageC']); ?>
         <?php endif; ?>
                
         <?php if (isset($_SESSION['message'])): ?>
-            <div style="color: green;">
-                <b>
+            <div style="color: green; font-weight: bold;">
                 <?php echo $_SESSION['message']; ?>
-                </b>
             </div>
             <?php unset($_SESSION['message']); ?>
         <?php endif; ?>

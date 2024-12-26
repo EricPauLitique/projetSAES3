@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if (!$email || empty($password)) {
-        $error = 'Veuillez fournir une adresse e-mail valide et un mot de passe.';
-        include("../vue/connexion.php");
+        $_SESSION['messageC'] = 'Veuillez fournir une adresse e-mail valide et un mot de passe.';
+        header("Location: ../vue/connexion.php");
         exit;
     }
 
@@ -39,12 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         } else {
             // Email ou mot de passe incorrect
-            $error = 'Email ou mot de passe incorrect.';
-            include("../vue/connexion.php");
+            $_SESSION['messageC'] = 'Email ou mot de passe incorrect.';
+            header("Location: ../vue/connexion.php");
         }
     } catch (Exception $e) {
         error_log("Erreur de connexion : " . $e->getMessage());
-        $error = 'Une erreur est survenue. Veuillez réessayer plus tard.';
+        $_SESSION['messageC']  = 'Une erreur est survenue. Veuillez réessayer plus tard.';
+        header("Location: ../vue/connexion.php");
     }
 }
 ?>

@@ -1,7 +1,6 @@
 <?php
 session_start();
-session_destroy(); // Détruit la session
-
-$_SESSION['messageC'] = '<b><i style="color: red;">Vous avez été déconnectée !</i></b>';
+$_SESSION['messageC'] = 'Vous avez été déconnecté !';
 header("Location: ../vue/connexion.php");
+exit;
 ?>
