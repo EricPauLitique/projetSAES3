@@ -27,6 +27,7 @@ $_SESSION['couleur'] = $couleur;
 $_SESSION['limiteAnnuelle'] = $limiteAnnuelle;
 
 
+
 $stmt = $pdo->prepare("SELECT count(*) FROM groupe WHERE grp_nom = :grp_nom");
 $stmt->execute(['grp_nom' => $nomGroupe]);
 $resultNameExists = $stmt->fetchColumn();

@@ -124,7 +124,7 @@ class Membre {
     // Récupérer les membres par `grp_id`
     public static function getMembresByGroupeId(int $grp_id) {
         try {
-            $requete = "SELECT m.*, u.user_prenom, u.user_nom, role FROM membre m INNER JOIN utilisateur u ON u.user_id = m.user_id WHERE m.grp_id = :grp_id";
+            $requete = "SELECT m.*, u.user_prenom, u.user_nom, role FROM membre m INNER JOIN utilisateur u ON u.user_id = m.user_id WHERE m.grp_id = :grp_id ORDER BY role DESC";
             $stmt = connexion::pdo()->prepare($requete);
             $stmt->execute(['grp_id' => $grp_id]);
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Membre');

@@ -35,6 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['couleur'] = $group['grp_couleur'];
             $_SESSION['limiteAnnuelle'] = $group['grp_lim_an'];
 
+                      // Extraire le nom du fichier de l'image
+            if ($group['grp_img'] != '../images/groupes/groupe.png') {
+                $_SESSION['image_name'] = basename($group['grp_img']);
+            } else {
+                $_SESSION['image_name'] = '';
+            }
+
             // Rediriger vers la vue de modification
             header("Location: ../vue/modifgroupe.php");
             exit;
