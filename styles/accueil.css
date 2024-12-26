@@ -131,8 +131,10 @@ a {
 
 }
 
+
 a:hover img {
     opacity: 0.8;
+
 }
 
 /* Styles des notifications */

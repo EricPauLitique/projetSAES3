@@ -1,7 +1,6 @@
 <?php
+session_start();
 require_once("../config/connexion.php");
-$titre = "Inscription";
-include("../vue/debut.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupération et nettoyage des données
@@ -9,17 +8,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nom = filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_STRING);
     $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+    $confirm_password = filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING);
     $code_postal = filter_input(INPUT_POST, 'code_postal', FILTER_SANITIZE_NUMBER_INT);
     $ville = filter_input(INPUT_POST, 'ville', FILTER_SANITIZE_STRING);
     $numero_rue = filter_input(INPUT_POST, 'numero_rue', FILTER_SANITIZE_NUMBER_INT);
     $nom_rue = filter_input(INPUT_POST, 'nom_rue', FILTER_SANITIZE_STRING);
 
-    ucfirst(strtolower(string: $prenom));
-    ucfirst(strtolower(string: $nom));
+    $prenom = ucfirst(strtolower($prenom));
+    $nom = ucfirst(strtolower($nom));
 
     // Validation des champs
-    if (!$prenom || !$nom || !$email || !$password || !$code_postal || !$ville || !$numero_rue || !$nom_rue) {
-        echo "Tous les champs doivent être remplis correctement.";
+    if (!$prenom || !$nom || !$email || !$password || !$confirm_password || !$code_postal || !$ville || !$numero_rue || !$nom_rue) {
+        $_SESSION['message'] = "Tous les champs doivent être remplis correctement.";
+        header("Location: ../vue/creacompte.php");
+        exit;
+    }
+
+    if ($password !== $confirm_password) {
+        $_SESSION['message'] = "Les mots de passe ne correspondent pas.";
+        header("Location: ../vue/creacompte.php");
+        exit;
+    }
+
+    // Validation du code postal
+    if (!preg_match('/^\d{5}$/', $code_postal)) {
+        $_SESSION['message'] = "Le code postal doit contenir exactement 5 chiffres.";
+        header("Location: ../vue/creacompte.php");
         exit;
     }
 
@@ -32,18 +46,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("SELECT user_id FROM utilisateur WHERE user_mail = :email");
         $stmt->execute(['email' => $email]);
         if ($stmt->fetch()) {
-            echo "<p style=\"color: red;\"><b>L'email existe déjà dans notre système.</b></p>";
-            include ("../vue/creacompte.html");
+            $_SESSION['message'] = "L'email existe déjà dans notre système.";
+            header("Location: ../vue/creacompte.php");
             exit;
         }
 
         // 2. Vérification de l'existence de prénom + nom
         $stmt = $pdo->prepare("SELECT DISTINCT user_id FROM utilisateur WHERE user_prenom = :prenom AND user_nom = :nom");
-        $stmt->execute(['prenom'
-         => $prenom, 'nom' => $nom]);
+        $stmt->execute(['prenom' => $prenom, 'nom' => $nom]);
         if ($stmt->fetch()) {
-            echo '<p style="color: red;"><b>Un utilisateur avec le même prénom et nom existe déjà.</b></p>';
-            include ("../vue/creacompte.html");
+            $_SESSION['message'] = "Un utilisateur avec le même prénom et nom existe déjà.";
+            header("Location: ../vue/creacompte.php");
             exit;
         }
 
@@ -99,19 +112,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'idAdresse' => $resultIdAdresse
         ]);
 
-       session_start(); // Démarre la session
-
        // Après vérification réussie des identifiants
        $_SESSION['prenom'] = $prenom; // Stocke le prénom dans la session
        $_SESSION['nom'] = $nom;       // Stocke le nom dans la session
        $_SESSION['id'] = $resultIdUtilisateur;
        
        // Redirection vers la page d'accueil
+       $_SESSION['message'] = "Votre compte a été créé avec succès.";
        header("Location: ../vue/accueil.php");
        exit;
 
     } catch (PDOException $e) {
-        echo "Erreur : " . $e->getMessage();
+        $_SESSION['message'] = "Erreur : " . $e->getMessage();
+        header("Location: ../vue/creacompte.php");
+        exit;
     }
 }
 ?>

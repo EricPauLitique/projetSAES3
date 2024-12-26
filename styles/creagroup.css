@@ -314,3 +314,13 @@ footer p {
     margin-right: 20px;
     margin-bottom: 100px;
 }
+
+.purple-link {
+    color: #6a2a88; /* Couleur violette */
+    text-decoration: none;
+}
+
+.purple-link:hover {
+    color: #3a1768; /* Couleur violette foncée au survol */
+    text-decoration: underline;
+}

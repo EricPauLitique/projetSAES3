@@ -59,6 +59,23 @@ $nomRue = isset($_POST['nom_rue']) ? htmlspecialchars($_POST['nom_rue']) : htmls
             }
         }
     </script>
+    <style>
+        .password-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .password-container input {
+            flex: 1;
+        }
+        .password-container img {
+            position: absolute;
+            right: 10px;
+            cursor: pointer;
+            width: 20px;
+            vertical-align: middle;
+        }
+    </style>
 </head>
 <body>
     <?php include 'header.php'; ?>
@@ -87,21 +104,21 @@ $nomRue = isset($_POST['nom_rue']) ? htmlspecialchars($_POST['nom_rue']) : htmls
             <div class="form-group">
                 <input type="email" id="email" name="email" placeholder="Adresse e-mail" value="<?php echo $email; ?>" required>
             </div>
-            <div class="form-group">
+            <div class="form-group password-container">
                 <input type="password" id="ancien_password" name="ancien_password" placeholder="Ancien mot de passe" required>
-                <img src="../images/eye-closed.png" alt="Afficher le mot de passe" id="ancien_password-eye" onclick="togglePasswordVisibility('ancien_password')" style="cursor: pointer; width: 20px; vertical-align: middle;">
+                <img src="../images/eye-closed.png" alt="Afficher le mot de passe" id="ancien_password-eye" onclick="togglePasswordVisibility('ancien_password')">
             </div>
             <div class="form-group no-padding">
                 <button type="button" class="no-padding" onclick="togglePasswordSection()">Voulez-vous modifier le mot de passe ?</button>
             </div>
             <div id="password-section" style="display: none;">
-                <div class="form-group">
+                <div class="form-group password-container">
                     <input type="password" id="nouveau_password" name="nouveau_password" placeholder="Nouveau mot de passe">
-                    <img src="../images/eye-closed.png" alt="Afficher le mot de passe" id="nouveau_password-eye" onclick="togglePasswordVisibility('nouveau_password')" style="cursor: pointer; width: 20px; vertical-align: middle;">
+                    <img src="../images/eye-closed.png" alt="Afficher le mot de passe" id="nouveau_password-eye" onclick="togglePasswordVisibility('nouveau_password')">
                 </div>
-                <div class="form-group">
+                <div class="form-group password-container">
                     <input type="password" id="confirmer_password" name="confirmer_password" placeholder="Confirmer le nouveau mot de passe">
-                    <img src="../images/eye-closed.png" alt="Afficher le mot de passe" id="confirmer_password-eye" onclick="togglePasswordVisibility('confirmer_password')" style="cursor: pointer; width: 20px; vertical-align: middle;">
+                    <img src="../images/eye-closed.png" alt="Afficher le mot de passe" id="confirmer_password-eye" onclick="togglePasswordVisibility('confirmer_password')">
                 </div>
             </div>
             <div class="form-group">

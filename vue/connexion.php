@@ -51,7 +51,7 @@ session_start();
             </div>
             <button type="submit">Connexion</button>
         </form>
-        <p class="register-link">Vous n'avez pas de compte ? <a href="/saes3-ese/projetSAES3/vue/creacompte.html"><b>Créez-en un</b></a></p>
+        <p class="register-link">Vous n'avez pas de compte ? <a href="/saes3-ese/projetSAES3/vue/creacompte.php"><b>Créez-en un</b></a></p>
     </main>
 
     <footer>
