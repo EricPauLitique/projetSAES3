@@ -13,6 +13,8 @@ if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
 $themeId = $_POST['theme_id'] ?? null;
 $idGroupe = $_SESSION['group_id'] ?? null;
 
+Connexion::connect();
+
 if ($themeId) {
     // Supprimer le thème
     $deleteSuccess = Comporte::deleteThemeGrp($themeId, $idGroupe);

@@ -57,27 +57,40 @@ class Theme {
     // Récupérer un thème par son nom
     public static function getThemeByName($themeNom) {
         try {
-            $requete = "SELECT theme_id FROM theme WHERE theme_nom = :theme_nom";
+            $requete = "SELECT * FROM theme WHERE theme_nom = :theme_nom";
             $stmt = connexion::pdo()->prepare($requete);
             $stmt->execute(['theme_nom' => $themeNom]);
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Theme');
-            return $stmt->fetch();
+            return $stmt->fetch() ?: false;
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();
-            return null;
+            return false;
         }
     }
 
     // Créer un nouveau thème
-    public static function createTheme($themeNom) {
+    public static function createTheme($idTheme, $theme_nom) {
         try {
-            $requete = "INSERT INTO theme (theme_nom) VALUES (:theme_nom)";
-            $stmt = connexion::pdo()->prepare($requete);
-            $stmt->execute(['theme_nom' => $themeNom]);
-            return connexion::pdo()->lastInsertId();
+            $requete = "INSERT INTO theme (theme_id, theme_nom) VALUES (:theme_id, :theme_nom)";
+            $stmt = Connexion::pdo()->prepare($requete);
+            $stmt->execute(['theme_id' => $idTheme, 'theme_nom' => $theme_nom]);
+            return Connexion::pdo()->lastInsertId();
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();
-            return null;
+            return false;
+        }
+    }
+
+    // LE max de thème
+    public static function getMaxTheme() {
+        try {
+            $requete = "SELECT MAX(theme_id) as max_id FROM theme";
+            $stmt = Connexion::pdo()->query($requete);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['max_id'] ?? 0;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return 0;
         }
     }
 }

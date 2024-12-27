@@ -83,6 +83,22 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
         }
         ?>
 
+        <?php if (isset($_SESSION['messageC'])): ?>
+            <div style="color: red;">
+                <b>
+                <?php echo $_SESSION['messageC']; ?>
+                </b>
+            </div>
+        <?php unset($_SESSION['messageC']); endif; ?>
+
+        <?php if (isset($_SESSION['message'])): ?>
+            <div style="color: green;">
+                <b>
+                <?php echo $_SESSION['message']; ?>
+                </b>
+            </div>
+        <?php unset($_SESSION['message']); endif; ?>
+
         <aside>
             <h3>Liste des membres :</h3>
             <table>

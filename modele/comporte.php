@@ -93,7 +93,7 @@ class Comporte {
     public static function addThemeToGroup($grp_id, $theme_id, $lim_theme) {
         try {
             $requete = "INSERT INTO comporte (grp_id, theme_id, lim_theme) VALUES (:grp_id, :theme_id, :lim_theme)";
-            $stmt = connexion::pdo()->prepare($requete);
+            $stmt = Connexion::pdo()->prepare($requete);
             $stmt->execute(['grp_id' => $grp_id, 'theme_id' => $theme_id, 'lim_theme' => $lim_theme]);
             return true;
         } catch (PDOException $e) {
@@ -106,7 +106,7 @@ class Comporte {
     public static function existsThemeInGroup($grp_id, $theme_id) {
         try {
             $requete = "SELECT COUNT(*) FROM comporte WHERE grp_id = :grp_id AND theme_id = :theme_id";
-            $stmt = connexion::pdo()->prepare($requete);
+            $stmt = Connexion::pdo()->prepare($requete);
             $stmt->execute(['grp_id' => $grp_id, 'theme_id' => $theme_id]);
             return $stmt->fetchColumn() > 0;
         } catch (PDOException $e) {
@@ -119,7 +119,7 @@ class Comporte {
     public static function updateThemeLimit($grp_id, $theme_id, $lim_theme) {
         try {
             $requete = "UPDATE comporte SET lim_theme = lim_theme + :lim_theme WHERE grp_id = :grp_id AND theme_id = :theme_id";
-            $stmt = connexion::pdo()->prepare($requete);
+            $stmt = Connexion::pdo()->prepare($requete);
             $stmt->execute(['lim_theme' => $lim_theme, 'grp_id' => $grp_id, 'theme_id' => $theme_id]);
             return true;
         } catch (PDOException $e) {

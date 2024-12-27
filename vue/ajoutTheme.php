@@ -1,4 +1,8 @@
 <?php
+require_once("../config/connexion.php");
+require_once("../modele/groupe.php");
+Connexion::connect();
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -22,7 +26,7 @@ $groupeId = isset($_GET['id']) ? intval($_GET['id']) : 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter un thème</title>
     <link href="../images/logoVC.ico" rel="shortcut icon" type="image/x-icon" />
-    <link rel="stylesheet" href="../styles/groupe.css">
+    <link rel="stylesheet" href="../styles/creaTheme.css">
 </head>
 <body>
 <?php include 'header.php'; ?>
@@ -43,6 +47,8 @@ $groupeId = isset($_GET['id']) ? intval($_GET['id']) : 0;
                 echo $_SESSION['messageC'];
                 unset($_SESSION['messageC']);
             }
+            $limGRP=Groupe::getGroupByIdUnique2($groupeId);
+            $limGRP=$limGRP->get('grp_lim_an');
         ?>
 
         <br>
@@ -55,6 +61,7 @@ $groupeId = isset($_GET['id']) ? intval($_GET['id']) : 0;
             <br>
             <label for="limite_theme">Limite des propositions :</label>
             <input type="number" id="limite_theme" name="limite_theme" placeholder="Limite pour le thème" required>
+            <input type="hidden" name="limite_grp" value="<?php echo $limGRP; ?>">
             <br>
             <button type="submit">Créer le thème</button>
         </form>
