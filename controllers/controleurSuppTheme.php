@@ -11,11 +11,11 @@ if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
 
 // Récupérer les données du formulaire
 $themeId = $_POST['theme_id'] ?? null;
-$idGroupe = $_SESSION['group_id'] ?? null;
+$idGroupe = $_POST['group_id'] ?? null;
 
 Connexion::connect();
 
-if ($themeId) {
+if ($themeId && $idGroupe) {
     // Supprimer le thème
     $deleteSuccess = Comporte::deleteThemeGrp($themeId, $idGroupe);
 
@@ -25,7 +25,7 @@ if ($themeId) {
         $_SESSION['messageC'] = '<p style="color: red; font-weight: bold;"><b>Erreur lors de la suppression du thème.</b></p>';
     }
 } else {
-    $_SESSION['messageC'] = '<p style="color: red; font-weight: bold;"><b>Erreur : ID du thème n\'est pas reconnu.</b></p>';
+    $_SESSION['messageC'] = '<p style="color: red; font-weight: bold;"><b>Erreur : ID du thème ou groupe n\'est pas reconnu.</b></p>';
 }
 
 header("Location: ../vue/groupe.php?id=" . $idGroupe);

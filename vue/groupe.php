@@ -58,7 +58,7 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($groupe->get('grp_nom')); ?></title>
-    <link href="../images/logoVC.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="<?php echo htmlspecialchars($groupe->get('grp_img')); ?>" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="../styles/groupe.css">
 </head>
 <body>

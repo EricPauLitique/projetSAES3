@@ -94,12 +94,4 @@ class Theme {
         }
     }
 }
-
-
-
-// Test
-Connexion::connect();
-$t = Theme::getThemeByName('Sport');
-echo $t->get('theme_id') ;
-
 ?>
