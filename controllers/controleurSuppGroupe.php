@@ -10,7 +10,7 @@ if (isset($_POST['group_id'])) {
     // Connexion à la base de données
     Connexion::connect();
     $db = Connexion::pdo();
-
+ 
     // Récupérer les informations du groupe
     $requete = "SELECT * FROM groupe WHERE grp_id = :grp_id";
     $stmt = $db->prepare($requete);
