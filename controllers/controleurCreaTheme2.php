@@ -1,5 +1,4 @@
 <?php
-//controleurCreaTheme.php
 session_start();
 require_once("../config/connexion.php");
 require_once("../modele/theme.php");
@@ -22,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nom_du_theme']) && iss
 
     // Vérifier si le thème existe déjà dans la base de données
     $existingTheme = Theme::getThemeByName($nom_du_theme);
-    if (!$existingTheme) {
+    if ($existingTheme === false) {
         // Ajouter le nouveau thème
         $newThemeId = Theme::createTheme($nom_du_theme);
         $themeId = $newThemeId;
@@ -30,13 +29,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nom_du_theme']) && iss
         $themeId = $existingTheme->get('theme_id');
     }
 
-    // Ajouter le thème au groupe dans la table comporte
-    $addSuccess = Comporte::addThemeToGroup($group_id, $themeId, $limite_theme);
+    // Vérifier si l'association existe déjà
+    if (!Comporte::existsThemeInGroup($group_id, $themeId)) {
+        // Ajouter le thème au groupe dans la table comporte
+        $addSuccess = Comporte::addThemeToGroup($group_id, $themeId, $limite_theme);
 
-    if ($addSuccess) {
-        $_SESSION['message'] = '<p style="color: green; font-weight: bold;"><b>Le thème a été ajouté avec succès.</b></p>';
+        if ($addSuccess) {
+            $_SESSION['message'] = '<p style="color: green; font-weight: bold;"><b>Le thème a été ajouté avec succès.</b></p>';
+        } else {
+            $_SESSION['messageC'] = '<p style="color: red; font-weight: bold;"><b>Erreur lors de l\'ajout du thème.</b></p>';
+        }
     } else {
-        $_SESSION['messageC'] = '<p style="color: red; font-weight: bold;"><b>Erreur lors de l\'ajout du thème.</b></p>';
+        // Mettre à jour la limite du thème existant
+        $updateSuccess = Comporte::updateThemeLimit($group_id, $themeId, $limite_theme);
+
+        if ($updateSuccess) {
+            $_SESSION['message'] = '<p style="color: green; font-weight: bold;"><b>La limite du thème a été mise à jour avec succès.</b></p>';
+        } else {
+            $_SESSION['messageC'] = '<p style="color: red; font-weight: bold;"><b>Erreur lors de la mise à jour de la limite du thème.</b></p>';
+        }
     }
 
     header("Location: ../vue/groupe.php?id=" . $group_id);

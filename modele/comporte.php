@@ -1,6 +1,5 @@
 <?php
 
-
 require_once("../config/connexion.php");
 
 class Comporte {
@@ -79,7 +78,7 @@ class Comporte {
     // Récupérer un thème par son ID
     public static function getThemesbyidGroupe($id) {
         try {
-            $requete = "SELECT * FROM comporte Natural join theme  WHERE grp_id = :grp_id";
+            $requete = "SELECT * FROM comporte NATURAL JOIN theme WHERE grp_id = :grp_id";
             $stmt = connexion::pdo()->prepare($requete);
             $stmt->execute(['grp_id' => $id]);
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Theme');
@@ -90,33 +89,69 @@ class Comporte {
         }
     }
 
-
-        // Mettre à jour le thème
-        public static function updateTheme($themeId, $grp_id, $prixTheme) {
-            try {
-                $requete = "UPDATE theme SET grp_id = :grp_id, lim_theme = :lim_theme WHERE theme_id = :theme_id";
-                $stmt = connexion::pdo()->prepare($requete);
-                $stmt->execute(['theme_id' => $themeId, 'grp_id' => $grp_id, 'lim_theme' => $prixTheme]);
-                return true;
-            } catch (PDOException $e) {
-                echo 'Erreur : ' . $e->getMessage();
-                return false;
-            }
+    // Ajouter un thème à un groupe
+    public static function addThemeToGroup($grp_id, $theme_id, $lim_theme) {
+        try {
+            $requete = "INSERT INTO comporte (grp_id, theme_id, lim_theme) VALUES (:grp_id, :theme_id, :lim_theme)";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['grp_id' => $grp_id, 'theme_id' => $theme_id, 'lim_theme' => $lim_theme]);
+            return true;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
         }
+    }
 
-        // Supprimer le thème
-        public static function deleteThemeGrp($themeId, $grp_id) {
-            try {
-                $requete = "DELETE FROM comporte WHERE theme_id = :theme_id AND grp_id = :grp_id";
-                $stmt = connexion::pdo()->prepare($requete);
-                $stmt->execute(['theme_id' => $themeId, 'grp_id' => $grp_id]);
-                return true;
-            } catch (PDOException $e) {
-                echo 'Erreur : ' . $e->getMessage();
-                return false;
-            }
+    // Vérifier si un thème existe déjà dans un groupe
+    public static function existsThemeInGroup($grp_id, $theme_id) {
+        try {
+            $requete = "SELECT COUNT(*) FROM comporte WHERE grp_id = :grp_id AND theme_id = :theme_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['grp_id' => $grp_id, 'theme_id' => $theme_id]);
+            return $stmt->fetchColumn() > 0;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
         }
-    
+    }
+
+    // Mettre à jour la limite du thème existant
+    public static function updateThemeLimit($grp_id, $theme_id, $lim_theme) {
+        try {
+            $requete = "UPDATE comporte SET lim_theme = lim_theme + :lim_theme WHERE grp_id = :grp_id AND theme_id = :theme_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['lim_theme' => $lim_theme, 'grp_id' => $grp_id, 'theme_id' => $theme_id]);
+            return true;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }
+
+    // Mettre à jour le thème
+    public static function updateTheme($themeId, $grp_id, $prixTheme) {
+        try {
+            $requete = "UPDATE comporte SET lim_theme = :lim_theme WHERE theme_id = :theme_id AND grp_id = :grp_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['theme_id' => $themeId, 'grp_id' => $grp_id, 'lim_theme' => $prixTheme]);
+            return true;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }
+
+    // Supprimer le thème
+    public static function deleteThemeGrp($themeId, $grp_id) {
+        try {
+            $requete = "DELETE FROM comporte WHERE theme_id = :theme_id AND grp_id = :grp_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['theme_id' => $themeId, 'grp_id' => $grp_id]);
+            return true;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }
 }
-
 ?>

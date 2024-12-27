@@ -57,7 +57,7 @@ class Theme {
     // Récupérer un thème par son nom
     public static function getThemeByName($themeNom) {
         try {
-            $requete = "SELECT * FROM theme WHERE theme_nom = :theme_nom";
+            $requete = "SELECT theme_id FROM theme WHERE theme_nom = :theme_nom";
             $stmt = connexion::pdo()->prepare($requete);
             $stmt->execute(['theme_nom' => $themeNom]);
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Theme');
@@ -81,4 +81,12 @@ class Theme {
         }
     }
 }
+
+
+
+// Test
+Connexion::connect();
+$t = Theme::getThemeByName('Sport');
+echo $t->get('theme_id') ;
+
 ?>
