@@ -18,6 +18,7 @@ $nomRue = isset($_POST['nom_rue']) ? htmlspecialchars($_POST['nom_rue']) : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer votre compte</title>
+    <link href="../images/logoVC.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="../styles/creacompte.css">
     <script>
         function togglePasswordVisibility(id) {
