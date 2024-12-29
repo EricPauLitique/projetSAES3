@@ -12,12 +12,13 @@ label {
 }
 
 header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #3a1768;
     color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 10px;
+    padding: 15px 0;
+    text-align: center;
 }
 
 header img {
@@ -52,7 +53,7 @@ a {
 }
 
 h1 {
-    /* display: inline; */
+    display: inline; 
     font-size: 2em;
     margin: 0;
 }
@@ -324,3 +325,5 @@ footer p {
     color: #3a1768; /* Couleur violette foncée au survol */
     text-decoration: underline;
 }
+
+
