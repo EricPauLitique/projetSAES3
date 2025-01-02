@@ -1,7 +1,7 @@
 <?php 
-require_once("../config/connexion.php");
+require_once(__DIR__ . "/../config/connexion.php");
 
-class Membre {
+class Membre implements JsonSerializable {
     protected int $user_id;
     protected int $grp_id;
     protected ?bool $coche_reac;      // Peut être NULL
@@ -41,6 +41,11 @@ class Membre {
 
     public function set($attribut, $valeur) {
         $this->$attribut = $valeur;
+    }
+
+    // Implémentation de JsonSerializable
+    public function jsonSerialize() {
+        return get_object_vars($this);
     }
 
     // Méthode magique __toString

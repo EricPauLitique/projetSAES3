@@ -1,7 +1,7 @@
 <?php
-require_once("../config/connexion.php");
+require_once(__DIR__ . "/../config/connexion.php");
 
-class Proposition {
+class Proposition implements JsonSerializable {
     protected int $prop_id;
     protected string $prop_titre;
     protected string $prop_desc;
@@ -45,8 +45,13 @@ class Proposition {
         return "Proposition {$this->prop_id}: {$this->prop_titre} ({$this->prop_desc})";
     }
 
+    // Implémentation de JsonSerializable
+    public function jsonSerialize() {
+        return get_object_vars($this);
+    }
+
     // Récupérer toutes les propositions
-    public static function getAllProposition() {
+    public static function getAllPropositions() {
         $requete = "SELECT * FROM proposition";
         try {
             $resultat = connexion::pdo()->query($requete);

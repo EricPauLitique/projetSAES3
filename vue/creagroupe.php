@@ -1,5 +1,4 @@
 <?php
-// creagroupe.php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -26,7 +25,71 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
     <title>Création du groupe</title>
     <link href="../images/logoVC.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="../styles/creagroup.css">
+    <script>
+        async function handleThemeSubmit(event) {
+            event.preventDefault();
+            const nom_du_theme = document.getElementById('nom_du_theme').value;
+            const limite_theme = document.getElementById('limite_theme').value;
 
+            const response = await fetch('../api.php?endpoint=creatheme', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nom_du_theme, limite_theme })
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                window.location.reload();
+            } else {
+                document.getElementById('error-message').innerText = result.message;
+            }
+        }
+
+        async function handleThemeDelete(index) {
+            const response = await fetch('../api.php?endpoint=creatheme', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ delete_theme: index })
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                window.location.reload();
+            } else {
+                document.getElementById('error-message').innerText = result.message;
+            }
+        }
+
+        async function handleGroupSubmit(event) {
+            event.preventDefault();
+            const nom_du_groupe = document.getElementById('nom_du_groupe').value;
+            const color = document.getElementById('color').value;
+            const limite_annuelle = document.getElementById('limite_annuelle').value;
+            const image = document.getElementById('image').files[0];
+
+            const formData = new FormData();
+            formData.append('nom_du_groupe', nom_du_groupe);
+            formData.append('color', color);
+            formData.append('limite_annuelle', limite_annuelle);
+            formData.append('image', image);
+
+            const response = await fetch('../api.php?endpoint=creagroupe', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                window.location.href = 'accueil.php';
+            } else {
+                document.getElementById('error-message').innerText = result.message;
+            }
+        }
+    </script>
 </head>
 <body>
 <header>
@@ -58,17 +121,17 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
 
         <h1 id="titre">Création du groupe</h1>
 
+        <div id="error-message" style="color: red; font-weight: bold;"></div>
 
             <?php
                 if (isset($_SESSION['messageC'])) {
                     echo $_SESSION['messageC'];
-                    // Une fois le message affiché, vous pouvez supprimer la session pour éviter qu'il s'affiche plusieurs fois
                     unset($_SESSION['messageC']);
                 }
             ?>
             <!-- Formulaire pour créer un thème -->
             <h2>Créer un thème : </h2>
-            <form action="../controllers/controleurCreaTheme.php" method="POST">
+            <form onsubmit="handleThemeSubmit(event)">
                     <label for="nom_du_theme">Nom du thème :</label>
                     <input type="text" id="nom_du_theme" name="nom_du_theme" placeholder="Nom du thème" required>
                     <br>
@@ -95,10 +158,7 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
                                 <td><?= htmlspecialchars($theme['theme_nom']) ?></td>
                                 <td><?= htmlspecialchars($theme['limite_theme']) ?></td>
                                 <td>
-                                    <form action="../controllers/controleurCreaTheme.php" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce thème ?');">
-                                        <input type="hidden" name="delete_theme" value="<?= $index ?>">
-                                        <button type="submit">Supprimer</button>
-                                    </form>
+                                    <button type="button" onclick="handleThemeDelete(<?= $index ?>)">Supprimer</button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -111,7 +171,7 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
 
         <section>
             <h2>Créer un groupe : </h2>
-            <form action="../controllers/controleurCreaGroupe.php" method="POST" enctype="multipart/form-data">
+            <form onsubmit="handleGroupSubmit(event)" enctype="multipart/form-data">
             <label for="nom_du_groupe">Nom du groupe :</label>
             <input type="text" id="nom_du_groupe" name="nom_du_groupe" placeholder="Nom du groupe" 
                 value="<?php echo isset($_SESSION['nomGroupe']) ? htmlspecialchars($_SESSION['nomGroupe']) : ''; ?>" required>

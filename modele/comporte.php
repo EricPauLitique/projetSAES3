@@ -1,8 +1,8 @@
 <?php
 
-require_once("../config/connexion.php");
+require_once(__DIR__ . "/../config/connexion.php");
 
-class Comporte {
+class Comporte implements JsonSerializable {
     protected int $grp_id;
     protected int $theme_id;
     protected float $lim_theme;
@@ -32,6 +32,11 @@ class Comporte {
     // Méthode magique __toString
     public function __toString() {
         return "Groupe {$this->grp_id}, Thème {$this->theme_id}, Limite du thème : {$this->lim_theme}";
+    }
+
+    // Implémentation de JsonSerializable
+    public function jsonSerialize() {
+        return get_object_vars($this);
     }
 
     // Récupérer toutes les associations

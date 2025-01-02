@@ -1,7 +1,7 @@
 <?php
-require_once("../config/connexion.php");
+require_once(__DIR__ . "/../config/connexion.php");
 
-class Vote {
+class Vote implements JsonSerializable{
     protected int $vote_id;
     protected string $vote_type_scrutin;
     protected int $vote_duree;
@@ -34,20 +34,13 @@ class Vote {
         $this->$attribut = $valeur;
     }
 
-    // Méthode magique __toString
-    public function __toString() {
-        return sprintf(
-            "Vote ID: %d, Type: %s, Durée: %d, Valide: %s, Proposition ID: %d",
-            $this->vote_id,
-            $this->vote_type_scrutin,
-            $this->vote_duree,
-            is_null($this->vote_valide) ? "NULL" : ($this->vote_valide ? "Oui" : "Non"),
-            $this->prop_id
-        );
+    // Implémentation de JsonSerializable
+    public function jsonSerialize() {
+        return get_object_vars($this);
     }
 
     // Récupérer tous les votes
-    public static function getAllVote() {
+    public static function getAllVotes() {
         $requete = "SELECT * FROM vote";
         try {
             $resultat = connexion::pdo()->query($requete);
@@ -60,11 +53,11 @@ class Vote {
     }
 
     // Récupérer un vote par son ID
-    public static function getVoteById($id) {
+    public static function getVoteById($voteId) {
         try {
             $requete = "SELECT * FROM vote WHERE vote_id = :vote_id";
             $stmt = connexion::pdo()->prepare($requete);
-            $stmt->execute(['vote_id' => $id]);
+            $stmt->execute(['vote_id' => $voteId]);
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Vote');
             return $stmt->fetch();
         } catch (PDOException $e) {
@@ -72,6 +65,50 @@ class Vote {
             return null;
         }
     }
-}
 
+    // Créer un nouveau vote
+    public static function createVote($vote_type_scrutin, $vote_duree, $vote_valide, $prop_id) {
+        try {
+            $requete = "INSERT INTO vote (vote_type_scrutin, vote_duree, vote_valide, prop_id) VALUES (:vote_type_scrutin, :vote_duree, :vote_valide, :prop_id)";
+            $stmt = Connexion::pdo()->prepare($requete);
+            $stmt->execute(['vote_type_scrutin' => $vote_type_scrutin, 'vote_duree' => $vote_duree, 'vote_valide' => $vote_valide, 'prop_id' => $prop_id]);
+            return Connexion::pdo()->lastInsertId();
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }
+
+    // Mettre à jour un vote
+    public static function updateVote(Vote $vote) {
+        try {
+            $requete = "UPDATE vote SET vote_type_scrutin = :vote_type_scrutin, vote_duree = :vote_duree, vote_valide = :vote_valide, prop_id = :prop_id WHERE vote_id = :vote_id";
+            $stmt = Connexion::pdo()->prepare($requete);
+            $stmt->execute([
+                'vote_type_scrutin' => $vote->vote_type_scrutin,
+                'vote_duree' => $vote->vote_duree,
+                'vote_valide' => $vote->vote_valide,
+                'prop_id' => $vote->prop_id,
+                'vote_id' => $vote->vote_id
+            ]);
+            return true;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }
+
+    // Supprimer un vote
+    public static function deleteVote($vote_id) {
+        try {
+            $requete = "DELETE FROM vote WHERE vote_id = :vote_id";
+            $stmt = Connexion::pdo()->prepare($requete);
+            $stmt->execute(['vote_id' => $vote_id]);
+            return true;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }
+}
 ?>

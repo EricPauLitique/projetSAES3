@@ -1,8 +1,8 @@
 <?php
 
-require_once("../config/connexion.php");
+require_once(__DIR__ . "/../config/connexion.php");
 
-class Notification {
+class Notification implements JsonSerializable {   
     protected int $notif_id;
     protected ?string $notif_contenu; // Peut être NULL
 
@@ -26,6 +26,11 @@ class Notification {
     // Méthode magique __toString
     public function __toString() {
         return "Notification ID {$this->notif_id} : {$this->notif_contenu}";
+    }
+
+    // Implémentation de JsonSerializable
+    public function jsonSerialize() {
+        return get_object_vars($this);
     }
 
     // Récupérer toutes les notifications

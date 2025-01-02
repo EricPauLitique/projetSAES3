@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 require_once("../config/connexion.php");
 require_once("../modele/groupe.php");
 require_once("../modele/membre.php");
@@ -25,6 +27,57 @@ $id = htmlspecialchars($_SESSION['id']);
     <title>Accueil</title>
     <link href="../images/logoVC.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="../styles/accueil.css">
+    <script>
+        async function fetchGroupes() {
+            const response = await fetch('../api.php?endpoint=accueil');
+            const result = await response.json();
+
+            if (result.status === 'success') {
+                const groupes = result.data;
+                const groupesList = document.getElementById('groupes-list');
+                groupesList.innerHTML = '';
+
+                groupes.forEach(groupe => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <div class="group-item">
+                            <div class="group-image">
+                                <a href="groupe.php?id=${groupe.id}">
+                                    <img src="${groupe.image}" alt="Logo ${groupe.nom}" class="image-small" />
+                                </a>
+                            </div>
+                            <h2 class="group-title" style="color: ${groupe.couleur};">
+                                <a href="groupe.php?id=${groupe.id}" class="group-link">${groupe.nom}</a>
+                            </h2>
+                        </div>
+                        <div class="boutons-container">
+                            ${groupe.proprietaire ? `
+                                <form method="POST" action="../controllers/controleurmodifGroupe.php" style="display:inline;">
+                                    <input type="hidden" name="group_id" value="${groupe.id}" />
+                                    <button type="submit" name="modify_group" class="btn-modify">Modifier</button>
+                                </form>
+                                <form method="POST" action="../controllers/controleurSuppGroupe.php" style="display:inline;">
+                                    <input type="hidden" name="group_id" value="${groupe.id}" />
+                                    <button type="submit" name="delete_group" class="btn-delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce groupe ?');">Supprimer</button>
+                                </form>
+                            ` : `
+                                <form method="POST" action="../controllers/controleurQuitterGroupe.php" style="display:inline;">
+                                    <input type="hidden" name="user_id" value="${<?php echo $id; ?>}">
+                                    <input type="hidden" name="grp_id" value="${groupe.id}">
+                                    <button type="submit" class="btn-delete btn-quitter" style="width: 93.81px; height: 35px;" onclick="return confirm('Êtes-vous sûr de vouloir quitter ce groupe ?');">Quitter</button>
+                                </form>
+                            `}
+                        </div>
+                    `;
+                    groupesList.appendChild(li);
+                });
+            } else {
+                document.getElementById('error-message').innerText = result.message;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchGroupes);
+    </script>
 </head>
 <body>
     <?php include 'header.php'; ?>
@@ -39,84 +92,8 @@ $id = htmlspecialchars($_SESSION['id']);
 
         <section>
             <h3>Liste de vos groupes :</h3>
-            <ul>
-                <?php
-                Connexion::connect();
-                $myGrp = Groupe::getGroupeById($id);
-                $grp = Membre::getGrpById($id);
-                ?>
-
-                <?php if (isset($_SESSION['messageC'])): ?>
-                    <div style="color: red;">
-                        <b>
-                        <?php echo $_SESSION['messageC']; ?>
-                        </b>
-                    </div>
-                <?php unset($_SESSION['messageC']); endif; ?>
-        
-                <?php if (isset($_SESSION['message'])): ?>
-                    <div style="color: green;">
-                        <b>
-                        <?php echo $_SESSION['message']; ?>
-                        </b>
-                    </div>
-                <?php unset($_SESSION['message']); endif; ?>
-
-                <?php
-                // La liste de groupe dont il est propriétaire
-                if (!empty($myGrp)) {
-                    foreach ($myGrp as $listGrp) {
-                        $couleur = htmlspecialchars($listGrp->get('grp_couleur'));
-                        echo '<li>
-                                <div class="group-item">
-                                    <div class="group-image">
-                                        <a href="groupe.php?id=' . $listGrp->get('grp_id') . '">
-                                            <img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '" class="image-small" />
-                                        </a>
-                                    </div>
-                                    <h2 class="group-title" style="color: ' . $couleur . ';"><a href="groupe.php?id=' . $listGrp->get('grp_id') . '" class="group-link">' . strtoupper($listGrp->get('grp_nom')) . '</a></h2>
-                                </div>
-                                <div class="boutons-container">
-                                    <form method="POST" action="../controllers/controleurmodifGroupe.php" style="display:inline;">
-                                        <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') .'" />
-                                        <button type="submit" name="modify_group" class="btn-modify">Modifier</button>
-                                    </form>
-                                    <form method="POST" action="../controllers/controleurSuppGroupe.php" style="display:inline;">
-                                        <input type="hidden" name="group_id" value="' . $listGrp->get('grp_id') . '" />
-                                        <button type="submit" name="delete_group" class="btn-delete" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce groupe ?\');">Supprimer</button>
-                                    </form>
-                                </div>
-                              </li>';
-                    }
-                }
-                // La liste groupe en étant membre ou modérateur
-                if (!empty($grp)) {
-                    foreach ($grp as $listGrp) {
-                        $couleur = htmlspecialchars($listGrp->get('grp_couleur'));
-                        echo '<li>
-                                <div class="group-item">
-                                    <div class="group-image">
-                                        <a href="groupe.php?id=' . $listGrp->get('grp_id') . '">
-                                            <img src="' . $listGrp->get('grp_img') . '" alt="Logo ' . $listGrp->get('grp_nom') . '" class="image-small" />
-                                        </a>
-                                    </div>
-                                    <h2 class="group-title" style="color: ' . $couleur . ';"><a href="groupe.php?id=' . $listGrp->get('grp_id') . '" class="group-link">' . strtoupper($listGrp->get('grp_nom')) . '</a></h2>
-                                </div>
-                                <div class="boutons-container">
-                                    <form method="POST" action="../controllers/controleurQuitterGroupe.php" style="display:inline;">
-                                        <input type="hidden" name="user_id" value="' . $id . '">
-                                        <input type="hidden" name="grp_id" value="' . $listGrp->get('grp_id') . '">
-                                        <button type="submit" class="btn-delete btn-quitter" style="width: 93.81px; height: 35px;" onclick="return confirm(\'Êtes-vous sûr de vouloir quitter ce groupe ?\');">Quitter</button>                                        </form>
-                                </div>
-                              </li>';
-                    }
-                }
-
-                // Si on a aucun groupe on affiche qu'il en a pas
-                if (empty($myGrp) && empty($grp)) {
-                    echo '<b> Aucun groupe trouvé. </b>';
-                }
-                ?>
+            <ul id="groupes-list">
+                <!-- Les groupes seront insérés ici par JavaScript -->
             </ul>
             <a href="creagroupe.php">
                 <b><p>Créer un groupe : </p></b>
@@ -134,6 +111,8 @@ $id = htmlspecialchars($_SESSION['id']);
         </section>
     </main>
 
-    <?php include 'footer.php'; ?>
+    <footer>
+        <p>© 2024 Voix Citoyenne. Tous droits réservés.</p>
+    </footer>
 </body>
 </html>

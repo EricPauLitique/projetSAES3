@@ -1,7 +1,7 @@
 <?php
-require_once("../config/connexion.php");
+require_once(__DIR__ . "/../config/connexion.php");
 
-class ChoixVote {
+class ChoixVote implements JsonSerializable {
     protected int $user_id;
     protected int $vote_id;
     protected ?int $choix_user; // Peut être NULL
@@ -31,6 +31,11 @@ class ChoixVote {
     // Méthode magique __toString
     public function __toString() {
         return "Utilisateur {$this->user_id} a choisi {$this->choix_user} pour le vote {$this->vote_id}";
+    }
+
+    // Implémentation de JsonSerializable
+    public function jsonSerialize() {
+        return get_object_vars($this);
     }
 
     // Récupérer tous les choix de vote

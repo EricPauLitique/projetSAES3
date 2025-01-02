@@ -1,7 +1,7 @@
 <?php
-require_once("../config/connexion.php");
+require_once(__DIR__ . "/../config/connexion.php");
 
-class NotifUtilisateur {
+class NotifUtilisateur implements JsonSerializable {
     protected int $user_id;
     protected int $notif_id;
 
@@ -25,6 +25,11 @@ class NotifUtilisateur {
     // Méthode magique __toString
     public function __toString() {
         return "Utilisateur ID {$this->user_id} - Notification ID {$this->notif_id}";
+    }
+
+    // Implémentation de JsonSerializable
+    public function jsonSerialize() {
+        return get_object_vars($this);
     }
 
     // Récupérer toutes les relations utilisateur-notification
