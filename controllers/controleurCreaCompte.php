@@ -51,15 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        // 2. Vérification de l'existence de prénom + nom
-        $stmt = $pdo->prepare("SELECT DISTINCT user_id FROM utilisateur WHERE user_prenom = :prenom AND user_nom = :nom");
-        $stmt->execute(['prenom' => $prenom, 'nom' => $nom]);
-        if ($stmt->fetch()) {
-            $_SESSION['message'] = "Un utilisateur avec le même prénom et nom existe déjà.";
-            header("Location: ../vue/creacompte.php");
-            exit;
-        }
-
         // 3. Vérification de l'existence de l'adresse
         $cptIdAdresse = $pdo->prepare("SELECT distinct adr_id FROM adresse WHERE adr_num = :numero_rue AND adr_rue = :nom_rue");
         $cptIdAdresse->execute([
