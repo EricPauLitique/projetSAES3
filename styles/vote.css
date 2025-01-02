@@ -1,0 +1,312 @@
+/* Redimensionnement des images dans les groupes */
+.image-small {
+    max-width: 100px;
+    height: auto; /* Garde les proportions de l'image */
+    object-fit: cover; /* Ajuste la faÃ§on dont l'image s'adapte */
+    border-radius: 5px;
+    display: block;
+    margin: 0 auto; /* Centre l'image horizontalement */
+}
+
+#titre {
+    color: #3a1768;
+}
+
+/* Effet sur les images dans les liens */
+a img {
+    width: 100px; /* Exemple de redimensionnement */
+}
+
+a:hover img {
+    opacity: 0.7; /* Effet lors du survol */
+}
+
+/* Styles gÃ©nÃ©raux pour la page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #3a1768;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+}
+
+header img {
+    width: 50px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.accueil {
+    display: flex;
+    align-items: center;
+}
+
+h1 {
+    display: inline;
+    font-size: 2em;
+    margin: 0;
+}
+
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Section principale */
+main {
+    margin: 20px;
+}
+
+main h1 {
+    font-size: 1.8em;
+    color: #3a1768;
+}
+
+main p {
+    color: #3a1768;
+}
+
+/* Liste des groupes */
+section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+section ul li {
+    padding: 10px;
+    background-color: #fff;
+    margin: 5px 0;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Conteneur pour le texte et l'image */
+.group-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+/* Conteneur pour l'image */
+.group-image {
+    flex-shrink: 0;
+    text-align: center;
+    margin-right: 10px;
+}
+
+section ul li img {
+    max-width: 100px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* Lien pour ajouter un groupe avec petite image */
+a img {
+    max-width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    padding-right: 100px;
+}
+
+a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    text-align: center;
+    flex: 1;
+    text-align: center;
+
+}
+
+
+a:hover img {
+    opacity: 0.8;
+
+}
+
+/* Styles des notifications */
+section ul {
+    padding-left: 20px;
+}
+
+section ul li {
+    background-color: #e2e2e2;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    background-color: #3a1768;
+    color: #fff;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Style pour le conteneur du menu des paramÃ¨tres */
+
+.menu-parametres {
+    position: relative;
+    display: inline-block;
+}
+
+/* Icone des paramÃ¨tres */
+.parametres-icon {
+    width: 40px;  /* Taille de l'icÃ´ne des paramÃ¨tres */
+    cursor: pointer;  /* Pointeur pour l'icÃ´ne */
+    transition: transform 0.3s ease;  /* Effet de rotation pour l'icÃ´ne au survol */
+}
+
+.parametres-icon:hover {
+    transform: rotate(180deg); /* Rotation de l'icÃ´ne au survol */
+}
+
+.username {
+    display: inline;
+    margin-right: 20px;
+    margin-bottom: 100px;
+}
+
+/* Menu dÃ©roulant cachÃ© par dÃ©faut */
+.menu-options {
+    display: none;
+    position: absolute;
+    top: 90%;  /* Positionne le menu au centre vertical de l'icÃ´ne */
+    /* left: -520%; */  /* Positionne le menu Ã  50% de la largeur de l'icÃ´ne */
+    /* transform: translate(-50%, -50%); */  /* Centrer le menu par rapport Ã  l'icÃ´ne */
+    background-color: #3a1768;
+    color: white;
+    padding: 8px;
+    list-style: none;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;  /* Menu invisible par dÃ©faut */
+    transition: opacity 0.3s ease, visibility 0s 0.3s;  /* Transition fluide */
+
+    /* Forcer l'affichage horizontal pur */
+    display: flex;
+    flex-direction: row;  /* Alignement horizontal */
+    justify-content: flex-start; /* Aligner Ã  gauche les Ã©lÃ©ments */
+    gap: 10px;  /* Espacement entre les Ã©lÃ©ments */
+    align-items: center;  /* Assurez-vous que les Ã©lÃ©ments sont bien alignÃ©s au centre */
+}
+
+.menu-options li {
+    margin: 0;
+}
+
+.menu-options li a {
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menu-options li a:hover {
+    background-color: #ffcc00;
+    color: #3a1768;
+}
+
+.menu-parametres:hover .menu-options {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0s 0s;
+}
+
+h3 {
+    color: #3a1768;
+    position: relative; /* Pour permettre de positionner la puce */
+    padding-left: 30px; /* CrÃ©e un espace pour la puce Ã  gauche */
+}
+
+h3::before {
+    content: "\2022"; /* Code Unicode pour la puce */
+    position: absolute;
+    left: 0; /* Positionne la puce Ã  gauche du titre */
+    top: 47%; /* Centre verticalement la puce */
+    transform: translateY(-50%); /* Ajuste verticalement la position de la puce */
+    font-size: 1.8em; /* Taille de la puce */
+}
+
+.boutons-container {
+    display: flex;
+    flex-direction: column; /* Organiser les boutons en colonne */
+    gap: 10px; /* Espacement entre les boutons */
+    align-items: stretch; /* Les boutons prennent toute la largeur du conteneur */
+}
+
+/* Styles des boutons */
+.boutons-container button {
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%; /* Les boutons prennent toute la largeur disponible */
+    height: 35px; /* Fixer la même hauteur pour tous les boutons */
+    box-sizing: border-box; /* Prendre en compte les paddings dans la largeur totale */
+}
+
+/* Bouton pour modifier */
+.boutons-container .btn-modify {
+    background-color: #3a1768; /* Violet */
+}
+
+.boutons-container .btn-modify:hover {
+    background-color: #6a2a88; /* Violet plus clair au survol */
+}
+
+/* Bouton pour supprimer */
+.boutons-container .btn-delete {
+    background-color: #ff0000; /* Rouge */
+}
+
+.boutons-container .btn-delete:hover {
+    background-color: #cc0000; /* Rouge plus foncé au survol */
+}
+
+/* Styles pour le titre du groupe */
+.group-title {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+/* Styles pour le lien du groupe */
+.group-link {
+    text-decoration: none;
+    color: inherit; /* Utilise la couleur héritée du parent */
+}
+
+.group-link:hover {
+    color: #6a2a88; /* Couleur violette au survol */
+}
+
+.group-link:active {
+    color: #3a1768; /* Couleur violette foncée lorsqu'on clique */
+}

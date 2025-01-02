@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        // 2. Vérification de l'existence de l'adresse
+        // 3. Vérification de l'existence de l'adresse
         $cptIdAdresse = $pdo->prepare("SELECT distinct adr_id FROM adresse WHERE adr_num = :numero_rue AND adr_rue = :nom_rue");
         $cptIdAdresse->execute([
             'numero_rue' => $numero_rue,
