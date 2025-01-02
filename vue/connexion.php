@@ -9,7 +9,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
-    <!-- Lien vers une feuille de style externe -->
+    <link href="../images/logoVC.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="../styles/connexionCompte.css">
     <script>
         function togglePasswordVisibility(id) {
@@ -17,14 +17,35 @@ if (session_status() == PHP_SESSION_NONE) {
             var eyeIcon = document.getElementById(id + '-eye');
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';
-                eyeIcon.src = '../images/eye-open.png'; // Chemin vers l'icône d'œil ouvert
+                eyeIcon.src = '../images/eye-open.png';
             } else {
                 passwordField.type = 'password';
-                eyeIcon.src = '../images/eye-closed.png'; // Chemin vers l'icône d'œil fermé
+                eyeIcon.src = '../images/eye-closed.png';
+            }
+        }
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('../api.php?endpoint=connexion', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                window.location.href = '../vue/accueil.php';
+            } else {
+                document.getElementById('error-message').innerText = result.message;
             }
         }
     </script>
-        <style>
+    <style>
         .password-container {
             position: relative;
             display: flex;
@@ -53,23 +74,11 @@ if (session_status() == PHP_SESSION_NONE) {
     <main>
        <h2><b>Connexion</b></h2>
 
-        <?php if (isset($_SESSION['messageC'])): ?>
-            <div style="color: red; font-weight: bold;">
-                <?php echo $_SESSION['messageC']; ?>
-            </div>
-            <?php unset($_SESSION['messageC']); ?>
-        <?php endif; ?>
+        <div id="error-message" style="color: red; font-weight: bold;"></div>
                
-        <?php if (isset($_SESSION['message'])): ?>
-            <div style="color: green; font-weight: bold;">
-                <?php echo $_SESSION['message']; ?>
-            </div>
-            <?php unset($_SESSION['message']); ?>
-        <?php endif; ?>
-        
-        <form action="../controllers/controleurconnexion.php" method="POST">
+        <form onsubmit="handleSubmit(event)">
             <div class="form-group">
-                <input type="email" id="email" name="email" placeholder="Adresse e-mail" value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>" required>
+                <input type="email" id="email" name="email" placeholder="Adresse e-mail" required>
             </div>
             <div class="form-group password-container">
                 <input type="password" id="password" name="password" placeholder="Mot de passe" required>
@@ -77,14 +86,11 @@ if (session_status() == PHP_SESSION_NONE) {
             </div>
             <button type="submit">Connexion</button>
         </form>
-        <p class="register-link">Vous n'avez pas de compte ? <a href="/saes3-ese/projetSAES3/vue/creacompte.php"><b>Créez-en un</b></a></p>
+        <p class="register-link">Vous n'avez pas de compte ? <a href="./creacompte.php"><b>Créez-en un</b></a></p>
     </main>
 
     <footer>
         <p>© 2024 Voix Citoyenne. Tous droits réservés.</p>
     </footer>
-
-    <!-- Lien vers un fichier JavaScript -->
-    <script src="script.js"></script>
 </body>
 </html>

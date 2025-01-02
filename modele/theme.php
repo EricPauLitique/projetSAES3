@@ -1,7 +1,7 @@
 <?php
-require_once("../config/connexion.php");
+require_once(__DIR__ . "/../config/connexion.php");
 
-class Theme {
+class Theme implements JsonSerializable {
     protected int $theme_id;
     protected string $theme_nom;
 
@@ -22,13 +22,18 @@ class Theme {
         $this->$attribut = $valeur;
     }
 
+    // Implémentation de JsonSerializable
+    public function jsonSerialize() {
+        return get_object_vars($this);
+    }
+
     // Méthode magique __toString
     public function __toString() {
         return 'Thème ' . $this->theme_id . ' : ' . $this->theme_nom;
     }
 
     // Récupérer tous les thèmes
-    public static function getAllTheme() {
+    public static function getAllThemes() {
         $requete = "SELECT * FROM theme";
         try {
             $resultat = connexion::pdo()->query($requete);

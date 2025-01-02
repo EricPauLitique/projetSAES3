@@ -5,61 +5,53 @@ session_start();
 
 // Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
-    header("Location: ../vue/connexion.php");
+    echo json_encode(['status' => 'error', 'message' => 'Utilisateur non connecté.']);
     exit;
 }
 
 // Connexion à la base de données
-require_once("../config/connexion.php");
-require_once("../modele/groupe.php"); // inclure la classe Groupe
-
+require_once(__DIR__ . "/../config/connexion.php");
+require_once(__DIR__ . "/../modele/groupe.php"); // inclure la classe Groupe
 
 Connexion::connect();
 
 // Vérifier si l'ID du groupe est envoyé via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $groupId = isset($_POST['group_id']) ? $_POST['group_id'] : null;
+    $data = json_decode(file_get_contents("php://input"), true);
+    $groupId = isset($data['group_id']) ? $data['group_id'] : null;
 
     // Vérifier si l'ID du groupe existe
     if ($groupId) {
         // Récupérer les informations du groupe à partir de la base de données
         $group = Groupe::getGroupByIdUnique($groupId);
 
-     
         if ($group) {
-
-
             // Sauvegarder ces données dans la session pour les utiliser dans la vue
             $_SESSION['group_id'] = $groupId;
             $_SESSION['nomGroupe'] = $group['grp_nom'];
             $_SESSION['couleur'] = $group['grp_couleur'];
             $_SESSION['limiteAnnuelle'] = $group['grp_lim_an'];
 
-                      // Extraire le nom du fichier de l'image
+            // Extraire le nom du fichier de l'image
             if ($group['grp_img'] != '../images/groupes/groupe.png') {
                 $_SESSION['image_name'] = basename($group['grp_img']);
             } else {
                 $_SESSION['image_name'] = '';
             }
 
-            // Rediriger vers la vue de modification
-            header("Location: ../vue/modifgroupe.php");
+            // Réponse JSON pour succès
+            echo json_encode(['status' => 'success', 'message' => 'Groupe trouvé.', 'data' => $group]);
             exit;
         } else {
-            $_SESSION['message'] = "Le groupe n'a pas été trouvé.";
-            header("Location: ../vue/accueil.php");
+            echo json_encode(['status' => 'error', 'message' => "Le groupe n'a pas été trouvé."]);
             exit;
         }
-        
     } else {
-        $_SESSION['message'] = "Aucun ID de groupe fourni.";
-        header("Location: ../vue/accueil.php");
+        echo json_encode(['status' => 'error', 'message' => 'Aucun ID de groupe fourni.']);
         exit;
     }
 } else {
-    // Si la méthode n'est pas POST, rediriger vers l'accueil
-    header("Location: ../vue/accueil.php");
+    echo json_encode(['status' => 'error', 'message' => 'Méthode non autorisée.']);
     exit;
 }
-
 ?>

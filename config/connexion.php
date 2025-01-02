@@ -4,9 +4,13 @@
     class Connexion {
         // Les attributs static caractristiques de la connexion
         static private $hostname = 'localhost';
-        static private $database = 'saes3-ese';
+        /*static private $database = 'saes3-ese';
         static private $login = 'saes3-ese';
-        static private $password = 'kU4Ny1JywAGjEybF';
+        static private $password = 'kU4Ny1JywAGjEybF';*/
+
+          static private $database = 'eric';
+        static private $login = 'root';
+        static private $password = 'root';
 
 
         static private $tabUTF8 = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");

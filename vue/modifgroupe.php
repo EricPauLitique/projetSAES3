@@ -22,77 +22,82 @@ $limiteAnnuelle = isset($_SESSION['limiteAnnuelle']) ? $_SESSION['limiteAnnuelle
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modification du groupe</title>
-    <link rel="stylesheet" href="../styles/modifgroup.css">
+    <title>Modifier le groupe</title>
+    <link href="../images/logoVC.ico" rel="shortcut icon" type="image/x-icon" />
+    <link rel="stylesheet" href="../styles/modifgroupe.css">
+    <script>
+        async function handleSubmit(event) {
+            event.preventDefault();
+
+            const groupId = document.getElementById('group_id').value;
+            const nomGroupe = document.getElementById('nom_du_groupe').value;
+            const couleur = document.getElementById('color').value;
+            const limiteAnnuelle = document.getElementById('limite_annuelle').value;
+            const image = document.getElementById('image').files[0];
+            const removeImage = document.getElementById('remove_image').checked ? 1 : 0;
+
+            const formData = new FormData();
+            formData.append('group_id', groupId);
+            formData.append('nom_du_groupe', nomGroupe);
+            formData.append('color', couleur);
+            formData.append('limite_annuelle', limiteAnnuelle);
+            formData.append('image', image);
+            formData.append('remove_image', removeImage);
+
+            const response = await fetch('../api.php?endpoint=modifgroupeModif', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                window.location.href = '../vue/accueil.php';
+            } else {
+                document.getElementById('error-message').innerText = result.message;
+            }
+        }
+    </script>
 </head>
 <body>
-    <?php include 'header.php'; ?>
+    <header>
+        <div class="connexion" onclick="window.location.href='connexion.php';" style="cursor: pointer;">
+            <img src="../images/logoVC.jpg" alt="Logo Voix Citoyenne"/>
+            <h1>Voix Citoyenne</h1>
+        </div>
+    </header>
 
     <main>
-        <div class="retour">    
-            <img src="../images/retour.png" alt="retour" class="retour-icon"/>
-            <a href="accueil.php">Retour</a>
-        </div>
-
-        <h1 id="titre">Modifier le groupe</h1>
-        <br>
-
-        <!-- Afficher le message d'erreur s'il existe -->
-        <?php if (isset($_SESSION['messageC'])): ?>
-            <div style="color: red;">
-                <b><?php echo $_SESSION['messageC']; ?></b>
+        <h2><b>Modifier le groupe</b></h2>
+        <div id="error-message" style="color: red; font-weight: bold;"></div>
+        <form onsubmit="handleSubmit(event)">
+            <input type="hidden" id="group_id" name="group_id" value="<?php echo $_SESSION['group_id']; ?>">
+            <div class="form-group">
+                <label for="nom_du_groupe">Nom du groupe :</label>
+                <input type="text" id="nom_du_groupe" name="nom_du_groupe" value="<?php echo $_SESSION['nomGroupe']; ?>" required>
             </div>
-            <?php unset($_SESSION['messageC']); ?>
-        <?php endif; ?>
-
-        <!-- Formulaire de modification du groupe -->
-        <form action="../controllers/controleurmodifGroupeModif.php" method="POST" enctype="multipart/form-data">
-            <!-- Champ pour le nom du groupe -->
-            <label for="nom_du_groupe">Nom du groupe :</label>
-            <input type="text" id="nom_du_groupe" name="nom_du_groupe" value="<?php echo $nomGroupe; ?>" required><br>
-
-            <!-- Champ pour la couleur du groupe -->
-            <label for="color">Couleur :</label>
-            <input type="color" id="color" name="color" value="<?php echo $couleur; ?>"><br>
-
-            <!-- Champ pour la limite annuelle -->
-            <label for="limite_annuelle">Limite annuelle :</label>
-            <input type="number" id="limite_annuelle" name="limite_annuelle" value="<?php echo $limiteAnnuelle; ?>" required><br>
-
-            <!-- Champ pour uploader une nouvelle image -->
-            <div class="image-upload-container">
-                <div class="image-upload-row">
-                    <label for="image">Image :</label>
-                    <input type="file" id="image" name="image" accept="image/*">
-                </div>
-                <br>
-                <label for="image">Actuellement, votre image dans le groupe est :</label>
-                <div class="image-upload-row">
-                    
-                    <br>
-                    <span>
-                        <?php
-                        if (isset($_SESSION['image_name']) && !empty($_SESSION['image_name'])) {
-                            echo htmlspecialchars($_SESSION['image_name']);
-                        } else {
-                            echo 'Aucun fichier choisi';
-                        }
-                        ?>
-                    </span>
-                    <?php
-                        if (isset($_SESSION['image_name']) && !empty($_SESSION['image_name'])) {
-                            $imageSrc = isset($_SESSION['image_name']) && !empty($_SESSION['image_name']) ? '../images/groupes/' . preg_replace('/[^a-zA-Z0-9_]/', '_', $nomGroupe) . '/' . $_SESSION['image_name'] : '../images/groupes/default.png';
-                            echo '<img id="image-preview" src="' . htmlspecialchars($imageSrc) . '" alt="Aperçu de l\'image" style="max-width: 100px; display: block;">';
-                            echo '<button type="submit" name="remove_image" value="1" class="btn-remove">Supprimer l\'image</button>';
-                        }
-                        ?>
-                </div>
-            </div><br>
-
-            <button type="submit">Valider la modification</button>
+            <div class="form-group">
+                <label for="color">Couleur :</label>
+                <input type="color" id="color" name="color" value="<?php echo $_SESSION['couleur']; ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="limite_annuelle">Limite annuelle :</label>
+                <input type="number" id="limite_annuelle" name="limite_annuelle" value="<?php echo $_SESSION['limiteAnnuelle']; ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="image">Image :</label>
+                <input type="file" id="image" name="image">
+                <?php if (!empty($_SESSION['image_name'])): ?>
+                    <p>Image actuelle : <?php echo $_SESSION['image_name']; ?></p>
+                    <label for="remove_image">Supprimer l'image actuelle</label>
+                    <input type="checkbox" id="remove_image" name="remove_image" value="1">
+                <?php endif; ?>
+            </div>
+            <button type="submit">Modifier le groupe</button>
         </form>
     </main>
 
-    <?php include 'footer.php'; ?>
+    <footer>
+        <p>© 2024 Voix Citoyenne. Tous droits réservés.</p>
+    </footer>
 </body>
 </html>

@@ -1,8 +1,6 @@
 <?php
-require_once("../config/connexion.php");
-require_once("../modele/utilisateur.php");
-$titre = "Connexion"; 
-include("../vue/debut.php");
+require_once(__DIR__ . "/../config/connexion.php");
+require_once(__DIR__ . "/../modele/utilisateur.php");
 
 session_start(); // Démarre la session
 
@@ -10,17 +8,16 @@ Connexion::connect();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupération et validation des données
-    $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
-    $password = $_POST['password'];
+    $data = json_decode(file_get_contents("php://input"), true);
+    $email = filter_var($data['email'], FILTER_VALIDATE_EMAIL);
+    $password = $data['password'];
 
     if (!$email || empty($password)) {
-        $_SESSION['messageC'] = 'Veuillez fournir une adresse e-mail valide et un mot de passe.';
-        header("Location: ../vue/connexion.php");
+        echo json_encode(['status' => 'error', 'message' => 'Veuillez fournir une adresse e-mail valide et un mot de passe.']);
         exit;
     }
 
     try {
-        
         $pdo = Connexion::PDO();
 
         // Recherche de l'utilisateur par e-mail
@@ -28,24 +25,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && (password_verify($password, $user['user_mdp']) /*|| $password === $user['user_mdp']*/)) {
+        if ($user && (password_verify($password, $user['user_mdp']) || $password === $user['user_mdp'])) {
             // Connexion réussie
             $_SESSION['prenom'] = $user['user_prenom'];
             $_SESSION['nom'] = $user['user_nom'];
             $_SESSION['id'] = $user['user_id'];
             
-            // Redirection vers la page d'accueil
-            header("Location: ../vue/accueil.php");
-            exit;
+            // Réponse JSON pour succès
+            echo json_encode(['status' => 'success', 'message' => 'Connexion réussie.']);
         } else {
             // Email ou mot de passe incorrect
-            $_SESSION['messageC'] = 'Email ou mot de passe incorrect.';
-            header("Location: ../vue/connexion.php");
+            echo json_encode(['status' => 'error', 'message' => 'Email ou mot de passe incorrect.']);
         }
     } catch (Exception $e) {
         error_log("Erreur de connexion : " . $e->getMessage());
-        $_SESSION['messageC']  = 'Une erreur est survenue. Veuillez réessayer plus tard.';
-        header("Location: ../vue/connexion.php");
+        echo json_encode(['status' => 'error', 'message' => 'Une erreur est survenue. Veuillez réessayer plus tard.']);
     }
 }
 ?>

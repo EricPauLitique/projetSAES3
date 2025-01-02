@@ -20,14 +20,13 @@ $utilisateur = Utilisateur::getUtilisateurByLogin($idUtilisateur);
 $adresse = Adresse::getAdresseById($utilisateur->get('adr_id'));
 
 // Utiliser les valeurs POST si elles existent
-$prenom = isset($_POST['prenom']) ? htmlspecialchars($_POST['prenom']) : htmlspecialchars($utilisateur->get('user_prenom'));
-$nom = isset($_POST['nom']) ? htmlspecialchars($_POST['nom']) : htmlspecialchars($utilisateur->get('user_nom'));
-$email = isset($_POST['email']) ? htmlspecialchars($_POST['email']) : htmlspecialchars($utilisateur->get('user_mail'));
-$codePostal = isset($_POST['code_postal']) ? htmlspecialchars($_POST['code_postal']) : htmlspecialchars($adresse->get('adr_cp'));
-$ville = isset($_POST['ville']) ? htmlspecialchars($_POST['ville']) : htmlspecialchars($adresse->get('adr_ville'));
-$numeroRue = isset($_POST['numero_rue']) ? htmlspecialchars($_POST['numero_rue']) : htmlspecialchars($adresse->get('adr_num'));
-$nomRue = isset($_POST['nom_rue']) ? htmlspecialchars($_POST['nom_rue']) : htmlspecialchars($adresse->get('adr_rue'));
-
+$prenom = htmlspecialchars($utilisateur->get('user_prenom'));
+$nom = htmlspecialchars($utilisateur->get('user_nom'));
+$email = htmlspecialchars($utilisateur->get('user_mail'));
+$codePostal = htmlspecialchars($adresse->get('adr_cp'));
+$ville = htmlspecialchars($adresse->get('adr_ville'));
+$numeroRue = htmlspecialchars($adresse->get('adr_num'));
+$nomRue = htmlspecialchars($adresse->get('adr_rue'));
 ?>
 
 <!DOCTYPE html>
@@ -56,6 +55,38 @@ $nomRue = isset($_POST['nom_rue']) ? htmlspecialchars($_POST['nom_rue']) : htmls
             } else {
                 passwordField.type = 'password';
                 eyeIcon.src = '../images/eye-closed.png'; // Chemin vers l'icône d'œil fermé
+            }
+        }
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const prenom = document.getElementById('prenom').value;
+            const nom = document.getElementById('nom').value;
+            const email = document.getElementById('email').value;
+            const ancien_password = document.getElementById('ancien_password').value;
+            const nouveau_password = document.getElementById('nouveau_password').value;
+            const confirmer_password = document.getElementById('confirmer_password').value;
+            const code_postal = document.getElementById('code_postal').value;
+            const ville = document.getElementById('ville').value;
+            const numero_rue = document.getElementById('numero_rue').value;
+            const nom_rue = document.getElementById('nom_rue').value;
+
+            const response = await fetch('../api.php?endpoint=modifcompte', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    prenom, nom, email, ancien_password, nouveau_password, confirmer_password,
+                    code_postal, ville, numero_rue, nom_rue
+                })
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                window.location.href = 'accueil.php';
+            } else {
+                document.getElementById('error-message').innerText = result.message;
             }
         }
     </script>
@@ -94,7 +125,8 @@ $nomRue = isset($_POST['nom_rue']) ? htmlspecialchars($_POST['nom_rue']) : htmls
         <?php unset($_SESSION['messageC']); endif; ?>
         
         <h2><b>Modification du compte</b></h2>
-        <form action="../controllers/controleurModifCompte.php" method="POST">
+        <div id="error-message" style="color: red; font-weight: bold;"></div>
+        <form onsubmit="handleSubmit(event)">
             <div class="form-group">
                 <input type="text" id="prenom" name="prenom" placeholder="Prénom" value="<?php echo $prenom; ?>" required>
             </div>

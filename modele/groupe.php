@@ -1,7 +1,7 @@
 <?php
-require_once("../config/connexion.php");
+require_once(__DIR__ . "/../config/connexion.php");
 
-class Groupe {
+class Groupe implements JsonSerializable {
     protected int $grp_id;
     protected string $grp_nom;
     protected ?string $grp_couleur;
@@ -38,8 +38,13 @@ class Groupe {
     }
 
     // Méthode magique __toString
-    public function afficher() {
-        echo "Groupe {$this->grp_nom} Couleur : {$this->grp_couleur}, Image : {$this->grp_img}, Limite annuelle : {$this->grp_lim_an}, Utilisateur : {$this->user_id}";
+    public function __toString() {
+        return "Groupe {$this->grp_nom} Couleur : {$this->grp_couleur}, Image : {$this->grp_img}, Limite annuelle : {$this->grp_lim_an}, Utilisateur : {$this->user_id}";
+    }
+
+    // Implémentation de JsonSerializable
+    public function jsonSerialize() {
+        return get_object_vars($this);
     }
 
     // Récupérer tous les groupes
@@ -55,42 +60,28 @@ class Groupe {
         }
     }
 
-    public static function getGroupByIdUnique($groupId)
-    {
-
-        // Requête SQL pour récupérer les informations du groupe
+    public static function getGroupByIdUnique($groupId) {
         $query = "SELECT * FROM groupe WHERE grp_id = :groupId";
         $stmt = connexion::pdo()->prepare($query);
         $stmt->bindParam(':groupId', $groupId, PDO::PARAM_INT);
         $stmt->execute();
-
-        // Retourner le groupe trouvé (ou null si non trouvé)
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    
-    public static function getGroupByIdUnique2($groupId)
-    {
-        // Requête SQL pour récupérer les informations du groupe
+    public static function getGroupByIdUnique2($groupId) {
         $query = "SELECT * FROM groupe WHERE grp_id = :groupId";
         $stmt = Connexion::pdo()->prepare($query);
         $stmt->bindParam(':groupId', $groupId, PDO::PARAM_INT);
         $stmt->execute();
-
-        // Retourner le groupe trouvé (ou null si non trouvé)
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Groupe');
         return $stmt->fetch();
     }
 
-    public static function getProprio($groupId)
-    {
-        // Requête SQL pour récupérer les informations du groupe
+    public static function getProprio($groupId) {
         $query = "SELECT user_prenom, user_nom FROM groupe g inner join utilisateur u on (u.user_id = g.user_id) WHERE grp_id = :groupId";
         $stmt = connexion::pdo()->prepare($query);
         $stmt->bindParam(':groupId', $groupId, PDO::PARAM_INT);
         $stmt->execute();
-
-        // Retourner le groupe trouvé (ou null si non trouvé)
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -99,7 +90,6 @@ class Groupe {
             $requete = "SELECT count(*) as count FROM groupe WHERE grp_id = :groupId AND user_id = :user_id";
             $stmt = connexion::pdo()->prepare($requete);
             $stmt->execute(['user_id' => $user_id, 'groupId' => $groupId]);
-            
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return $result['count'];
         } catch (PDOException $e) {
@@ -107,12 +97,12 @@ class Groupe {
             return null;
         }
     }
+
     public static function siProprioAgrp($user_id) {
         try {
             $requete = "SELECT count(*) as count FROM groupe WHERE user_id = :user_id";
             $stmt = connexion::pdo()->prepare($requete);
             $stmt->execute(['user_id' => $user_id]);
-            
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return $result['count'];
         } catch (PDOException $e) {
@@ -125,84 +115,55 @@ class Groupe {
         $requete = "SELECT * FROM groupe WHERE user_id = :user_id";
         $stmt = connexion::pdo()->prepare($requete);
         $stmt->execute(['user_id' => $user_id]);
-    
-        return $stmt->fetchAll(PDO::FETCH_CLASS, 'Groupe'); // Retourne un tableau d'objets Groupe
+        return $stmt->fetchAll(PDO::FETCH_CLASS, 'Groupe');
     }
 
     // Supprimer un groupe et ses associations
     public static function deleteGroupById($groupId) {
-        $db = Connexion::pdo();  // Obtenez la connexion à la base de données
-    
+        $db = Connexion::pdo();
         try {
-            // Démarrer la transaction
             $db->beginTransaction();
-    
-            // Supprimer les lignes associées au groupe dans la table 'comporte'
             $stmt = $db->prepare("DELETE FROM comporte WHERE grp_id = :grp_id");
             $stmt->bindParam(':grp_id', $groupId, PDO::PARAM_INT);
             $stmt->execute();
-    
-            // Supprimer le groupe dans la table 'groupe'
             $stmt = $db->prepare("DELETE FROM groupe WHERE grp_id = :grp_id");
             $stmt->bindParam(':grp_id', $groupId, PDO::PARAM_INT);
             $stmt->execute();
-    
-            // Commit de la transaction si tout s'est bien passé
             $db->commit();
-            
-            return true; // Suppression réussie
+            return true;
         } catch (PDOException $e) {
-            // En cas d'erreur, annuler les changements
             $db->rollBack();
             error_log("Erreur lors de la suppression du groupe: " . $e->getMessage());
-            return false; // Échec de la suppression
+            return false;
         }
     }
 
-    /**
-     * Gérer l'upload de l'image du groupe
-     */
     public static function handleImageUpload($group, $file, $groupDir = null) {
-        // Vérifiez que $group est un tableau
         if (!is_array($group)) {
             throw new InvalidArgumentException('Le paramètre $group doit être un tableau.');
         }
-    
-        // Vérifiez que $file est un tableau
         if (!is_array($file)) {
             throw new InvalidArgumentException('Le paramètre $file doit être un tableau.');
         }
-    
-        $newImagePath = $group['grp_img']; // Par défaut, on garde l'ancienne image
+        $newImagePath = $group['grp_img'];
         if (isset($file) && $file['error'] == 0) {
             $imageTmpPath = $file['tmp_name'];
             $imageName = $file['name'];
-    
-            // Utiliser le nouveau répertoire si fourni, sinon utiliser l'ancien
             if ($groupDir === null) {
                 $cleanedGroupName = preg_replace('/[^a-zA-Z0-9_]/', '_', $group['grp_nom']);
                 $groupDir = "../images/groupes/" . $cleanedGroupName;
             }
-    
-            // Créer le répertoire s'il n'existe pas
             if (!is_dir($groupDir)) {
                 mkdir($groupDir, 0777, true);
             }
-    
-            // Supprimer les anciens fichiers dans le répertoire
-            $files = glob($groupDir . '/*'); // Obtenir tous les fichiers dans le répertoire
+            $files = glob($groupDir . '/*');
             foreach ($files as $file) {
                 if (is_file($file)) {
-                    unlink($file); // Supprimer le fichier
+                    unlink($file);
                 }
             }
-    
-            // Définir le chemin complet de la nouvelle image
             $newImagePath = $groupDir . "/" . uniqid() . "_" . $imageName;
-    
-            // Déplacer l'image téléchargée
             if (move_uploaded_file($imageTmpPath, $newImagePath)) {
-                // Supprimer l'ancienne image si elle existe et n'est pas l'image par défaut
                 if ($group['grp_img'] != '../images/groupes/groupe.png' && file_exists($group['grp_img'])) {
                     unlink($group['grp_img']);
                 }
@@ -215,18 +176,14 @@ class Groupe {
         return $newImagePath;
     }
 
-    /**
-     * Mettre à jour les informations du groupe dans la base de données
-     */
     public static function updateGroup($groupId, $newGroupName, $newGroupColor, $newAnnualLimit, $newImagePath) {
-        $db = Connexion::pdo(); 
+        $db = Connexion::pdo();
         $updateQuery = "UPDATE groupe SET 
                             grp_nom = :nom, 
                             grp_couleur = :couleur, 
                             grp_lim_an = :limite, 
                             grp_img = :image
                         WHERE grp_id = :grp_id";
-    
         $stmt = $db->prepare($updateQuery);
         return $stmt->execute([
             'nom' => $newGroupName,
@@ -237,7 +194,6 @@ class Groupe {
         ]);
     }
 
-    // Vérifier si un nom de groupe existe déjà
     public static function groupNameExists($nomGroupe, $grpID) {
         try {
             $pdo = Connexion::pdo();

@@ -1,7 +1,7 @@
 <?php
-require_once("../config/connexion.php");
+require_once(__DIR__ . "/../config/connexion.php");
 
-class Adresse {
+class Adresse implements JsonSerializable {
     protected int $adr_id;
     protected int $adr_cp;
     protected string $adr_ville;
@@ -32,6 +32,11 @@ class Adresse {
 
     public function set($attribut, $valeur) {
         $this->$attribut = $valeur;
+    }
+
+    // Implémentation de JsonSerializable
+    public function jsonSerialize() {
+        return get_object_vars($this);
     }
 
     // Méthode magique __toString

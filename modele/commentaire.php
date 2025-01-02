@@ -1,7 +1,7 @@
 <?php
-require_once("../config/connexion.php");
+require_once(__DIR__ . "/../config/connexion.php");
 
-class Commentaire {
+class Commentaire implements JsonSerializable {
     protected int $com_id;
     protected string $com_txt;
     protected string $com_date; // Utilisation de string pour datetime
@@ -37,6 +37,11 @@ class Commentaire {
     // Méthode magique __toString
     public function __toString() {
         return "Commentaire {$this->com_id} : {$this->com_txt}, Date: {$this->com_date}, Utilisateur: {$this->user_id}, Proposition: {$this->prop_id}";
+    }
+
+    // Implémentation de JsonSerializable
+    public function jsonSerialize() {
+        return get_object_vars($this);
     }
 
     // Récupérer tous les commentaires

@@ -1,7 +1,7 @@
 <?php
-require_once("../config/connexion.php");
+require_once(__DIR__ . "/../config/connexion.php");
 
-class Signalement {
+class Signalement implements JsonSerializable {
     protected int $sig_id;
     protected string $sig_nature;
     protected ?int $prop_id;
@@ -30,6 +30,11 @@ class Signalement {
             $this->com_id = $com_id;
             $this->user_id = $user_id;
         }
+    }
+
+    // Implémentation de JsonSerializable
+    public function jsonSerialize() {
+        return get_object_vars($this);
     }
 
     public function afficher() {
@@ -68,6 +73,5 @@ class Signalement {
         }
     }
 }
-
 
 ?>
