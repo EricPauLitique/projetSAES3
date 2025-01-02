@@ -1,6 +1,6 @@
 <?php
 session_start();
-$_SESSION['messageC'] = 'Vous avez été déconnecté !';
-header("Location: ../vue/connexion.php");
+session_destroy();
+echo json_encode(['status' => 'success', 'message' => 'Vous avez été déconnecté !']);
 exit;
 ?>

@@ -29,8 +29,8 @@ $id = htmlspecialchars($_SESSION['id']);
         <?php echo '<p class="username">' . 'Vous êtes connecté sous ' . '<b>' . $prenom . ' ' . $nom . '</b> </p> ' ?>
         <img src="../images/parametres.png" alt="Paramètres" class="parametres-icon"/>
         <ul class="menu-options">
-            <li><a href="../controllers/logout.php">Se déconnecter</a></li>
-            <li><a href="../controllers/controleurSupprimerCompte.php" onclick="confirmDeleteAccount()">Supprimer mon compte</a></li>
+            <li><a href="#" onclick="logout()">Se déconnecter</a></li>
+            <li><a href="#" onclick="confirmDeleteAccount()">Supprimer mon compte</a></li>
             <li><a href="modifCompte.php">Modifier mes paramètres</a></li>
         </ul>
     </div>
@@ -40,8 +40,40 @@ $id = htmlspecialchars($_SESSION['id']);
 function confirmDeleteAccount() {
     if (confirm('Voulez-vous vraiment supprimer votre compte ?')) {
         if (confirm('En supprimant votre compte, toutes vos données seront perdues et ne pourront pas être récupérées. Êtes-vous sûr de vouloir continuer ?')) {
-            window.location.href = 'supprimer-compte.php';
+            deleteAccount();
         }
+    }
+}
+
+async function deleteAccount() {
+    const response = await fetch('../api.php?endpoint=supprimercompte', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    const result = await response.json();
+    if (result.status === 'success') {
+        window.location.href = 'connexion.php';
+    } else {
+        alert(result.message);
+    }
+}
+
+async function logout() {
+    const response = await fetch('../api.php?endpoint=logout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    const result = await response.json();
+    if (result.status === 'success') {
+        window.location.href = 'connexion.php';
+    } else {
+        alert('Erreur lors de la déconnexion.');
     }
 }
 </script>

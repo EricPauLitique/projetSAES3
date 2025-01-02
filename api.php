@@ -44,6 +44,9 @@ switch ($endpoint) {
     case 'utilisateurs':
         require_once(BASE_PATH . "/controllers/modelControllers/utilisateurController.php");
         break;
+    case 'logout':
+        require_once(BASE_PATH . "/controllers/LogoutController.php");
+        break;
     default:
         header("HTTP/1.1 404 Not Found");
         echo json_encode(["message" => "Endpoint non trouvé"]);
