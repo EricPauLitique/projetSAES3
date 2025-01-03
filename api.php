@@ -20,11 +20,23 @@ switch ($endpoint) {
     case 'supprimercompte':
         require_once(BASE_PATH . "/controllers/controleurSupprimerCompte.php");
         break;
+    case 'modifcompte':
+        require_once(BASE_PATH . "/controllers/controleurModifCompte.php");
+        break;
+    case 'logout':
+        require_once(BASE_PATH . "/controllers/logout.php");
+        break;
+    case 'creagroupe':
+        require_once(BASE_PATH . "/controllers/controleurCreaGroupe.php");
+        break;
     case 'modifgroupe':
         require_once(BASE_PATH . "/controllers/controleurmodifGroupe.php");
         break;
     case 'modifgroupeModif':
         require_once(BASE_PATH . "/controllers/controleurmodifGroupeModif.php");
+        break;
+    case 'creatheme':
+        require_once(BASE_PATH . "/controllers/controleurCreaTheme.php");
         break;
     case 'accueil':
         require_once(BASE_PATH . "/controllers/controleurAccueil.php");
@@ -34,18 +46,6 @@ switch ($endpoint) {
         break;
     case 'membres':
         require_once(BASE_PATH . "/controllers/controleurMembres.php");
-        break;
-    case 'creatheme':
-        require_once(BASE_PATH . "/controllers/controleurCreaTheme.php");
-        break;
-    case 'creagroupe':
-        require_once(BASE_PATH . "/controllers/controleurCreaGroupe.php");
-        break;
-    case 'utilisateurs':
-        require_once(BASE_PATH . "/controllers/modelControllers/utilisateurController.php");
-        break;
-    case 'logout':
-        require_once(BASE_PATH . "/controllers/LogoutController.php");
         break;
     default:
         header("HTTP/1.1 404 Not Found");

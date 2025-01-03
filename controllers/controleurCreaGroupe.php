@@ -1,8 +1,6 @@
 <?php
 // controleurCreaGroupe.php
 require_once("../config/connexion.php");
-$titre = "Création des groupes";
-include("../vue/debut.php");
 
 Connexion::connect();
 $pdo = Connexion::PDO();
@@ -19,10 +17,9 @@ if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
 }
 
 // Récupération des données du formulaire avec validation/sécurisation
-$data = json_decode(file_get_contents("php://input"), true);
-$nomGroupe = ucfirst(strtolower(filter_var($data['nom_du_groupe'], FILTER_SANITIZE_STRING)));
-$couleur = filter_var($data['color'], FILTER_SANITIZE_STRING);
-$limiteAnnuelle = filter_var($data['limite_annuelle'], FILTER_VALIDATE_INT);
+$nomGroupe = ucfirst(strtolower(filter_var($_POST['nom_du_groupe'], FILTER_SANITIZE_STRING)));
+$couleur = filter_var($_POST['color'], FILTER_SANITIZE_STRING);
+$limiteAnnuelle = filter_var($_POST['limite_annuelle'], FILTER_VALIDATE_INT);
 $idUtilisateur = htmlspecialchars($_SESSION['id']);
 $sommeMonetaire = 0;
 
@@ -50,8 +47,8 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
         }
 
         $imagePath = null;
-        if (isset($data['image']) && !empty($data['image'])) {
-            $image = $data['image'];
+        if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) {
+            $image = $_FILES['image'];
             $imageName = basename($image['name']);
             $imageTmpPath = $image['tmp_name'];
             $imageExtension = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));

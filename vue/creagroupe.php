@@ -92,36 +92,20 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
     </script>
 </head>
 <body>
-<header>
-    <div class="accueil" onclick="window.location.href='accueil.php';" style="cursor: pointer;">
-        <img src="../images/logoVC.jpg" alt="Logo Voix Citoyenne"/>
-        <h1>Voix Citoyenne</h1>
-    </div>
-    
-    <!-- Menu des paramètres -->
-        <div class="menu-parametres">
-            <?php echo '<p class="username">' . 'Vous êtes connecté sous ' . '<b>' . $prenom . ' ' . $nom . '</b> </p> ' ?>
-            <img src="../images/parametres.png" alt="Paramètres" class="parametres-icon"/>
-            <ul class="menu-options">
-                <li><a href="../controllers/logout.php">Se déconnecter</a></li>
-                <li><a href="supprimer-compte.php">Supprimer mon compte</a></li>
-                <li><a href="modifier-parametres.php">Modifier mes paramètres</a></li>
-            </ul>
-        </div>
-    </header>
-    
+    <?php include 'header.php'; ?>
+
     <main>
         <section>
-        <div class="retour">    
-            <img src="../images/retour.png" alt="retour" class="retour-icon"/>
-            <a href="accueil.php">Retour</a>
-        </div>
+            <div class="retour">    
+                <img src="../images/retour.png" alt="retour" class="retour-icon"/>
+                <a href="accueil.php">Retour</a>
+            </div>
 
-        <br>
+            <br>
 
-        <h1 id="titre">Création du groupe</h1>
+            <h1 id="titre">Création du groupe</h1>
 
-        <div id="error-message" style="color: red; font-weight: bold;"></div>
+            <div id="error-message" style="color: red; font-weight: bold;"></div>
 
             <?php
                 if (isset($_SESSION['messageC'])) {
@@ -132,13 +116,13 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
             <!-- Formulaire pour créer un thème -->
             <h2>Créer un thème : </h2>
             <form onsubmit="handleThemeSubmit(event)">
-                    <label for="nom_du_theme">Nom du thème :</label>
-                    <input type="text" id="nom_du_theme" name="nom_du_theme" placeholder="Nom du thème" required>
-                    <br>
-                    <label for="limite_theme">Limite des propositions :</label>
-                    <input type="number" id="limite_theme" name="limite_theme" placeholder="Limite pour le thème" required>
-                    <br>
-                    <button type="submit">Créer le thème</button>
+                <label for="nom_du_theme">Nom du thème :</label>
+                <input type="text" id="nom_du_theme" name="nom_du_theme" placeholder="Nom du thème" required>
+                <br>
+                <label for="limite_theme">Limite des propositions :</label>
+                <input type="number" id="limite_theme" name="limite_theme" placeholder="Limite pour le thème" required>
+                <br>
+                <button type="submit">Créer le thème</button>
             </form>
 
             <!-- Affichage des thèmes ajoutés -->
@@ -172,36 +156,29 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
         <section>
             <h2>Créer un groupe : </h2>
             <form onsubmit="handleGroupSubmit(event)" enctype="multipart/form-data">
-            <label for="nom_du_groupe">Nom du groupe :</label>
-            <input type="text" id="nom_du_groupe" name="nom_du_groupe" placeholder="Nom du groupe" 
-                value="<?php echo isset($_SESSION['nomGroupe']) ? htmlspecialchars($_SESSION['nomGroupe']) : ''; ?>" required>
-            <br>
-            
-            <div class="form-group couleur-container">
-                <label for="color">Couleur : </label>
-                <input type="color" id="color" name="color" 
-                    value="<?php echo isset($_SESSION['couleur']) ? htmlspecialchars($_SESSION['couleur']) : ''; ?>"> 
-            </div>
-            <br>
-            
-            <label for="image">Image du groupe :</label>
-            <input type="file" id="image" name="image" accept="image/png, image/jpeg">
-            <br>
-            
-            <label for="limite_annuelle">Limite annuelle :</label>
-            <input type="number" id="limite_annuelle" name="limite_annuelle" placeholder="Limite annuelle" 
-                value="<?php echo isset($_SESSION['limiteAnnuelle']) ? htmlspecialchars($_SESSION['limiteAnnuelle']) : ''; ?>" required>
-            <br>
-            
-            <button type="submit">Créer le groupe</button>
-        </form>
+                <label for="nom_du_groupe">Nom du groupe :</label>
+                <input type="text" id="nom_du_groupe" name="nom_du_groupe" placeholder="Nom du groupe" required>
+                <br>
+                
+                <div class="form-group couleur-container">
+                    <label for="color">Couleur : </label>
+                    <input type="color" id="color" name="color" required> 
+                </div>
+                <br>
+                
+                <label for="image">Image du groupe :</label>
+                <input type="file" id="image" name="image" accept="image/png, image/jpeg">
+                <br>
+                
+                <label for="limite_annuelle">Limite annuelle :</label>
+                <input type="number" id="limite_annuelle" name="limite_annuelle" placeholder="Limite annuelle" required>
+                <br>
+                
+                <button type="submit">Créer le groupe</button>
+            </form>
         </section>
     </main>
     
-    <footer>
-        <p>© 2024 Voix Citoyenne. Tous droits réservés.</p>
-    </footer>
-    
-    <script src="script.js"></script>
+    <?php include 'footer.php'; ?>
 </body>
 </html>

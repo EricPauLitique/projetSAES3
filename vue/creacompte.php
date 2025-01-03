@@ -121,7 +121,7 @@ $nomRue = isset($_POST['nom_rue']) ? htmlspecialchars($_POST['nom_rue']) : '';
                 <input type="text" id="nom_rue" name="nom_rue" placeholder="Nom de la rue" required>
             </div>
             <button type="submit">Créer un compte</button>
-            <p>Vous avez un compte ? <a href="/saes3-ese/projetSAES3/vue/connexion.php" class="purple-link"><b>Connectez-vous</b></a></p>
+            <p>Vous avez un compte ? <a href="connexion.php" class="purple-link"><b>Connectez-vous</b></a></p>
         </form>
     </main>
 
