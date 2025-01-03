@@ -55,6 +55,19 @@ class Utilisateur implements JsonSerializable {
         return $stmt->fetch();
     }
 
+    public static function getUtilisateurById($id) {
+        $pdo = Connexion::PDO();
+        $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            return new Utilisateur($result);
+        } else {
+            throw new Exception("Utilisateur non trouvé.");
+        }
+    }
+
     public static function getAllUtilisateur() {
         $pdo = Connexion::pdo();
         $stmt = $pdo->query("SELECT * FROM utilisateur");
@@ -71,6 +84,40 @@ class Utilisateur implements JsonSerializable {
         $pdo = Connexion::pdo();
         $stmt = $pdo->prepare("DELETE FROM utilisateur WHERE user_id = ?");
         $stmt->execute([$user_id]);
+    }
+
+    public static function prenomNomExists($prenom, $nom, $idUtilisateur = null) {
+        $pdo = Connexion::PDO();
+        $query = "SELECT COUNT(*) FROM utilisateur WHERE user_prenom = :prenom AND user_nom = :nom";
+        $params = ['prenom' => $prenom, 'nom' => $nom];
+
+        if ($idUtilisateur !== null) {
+            $query .= " AND id != :id";
+            $params['id'] = $idUtilisateur;
+        }
+
+        $stmt = $pdo->prepare($query);
+        $stmt->execute($params);
+        $count = $stmt->fetchColumn();
+
+        return $count > 0;
+    }
+
+    public static function emailExists($email, $idUtilisateur = null) {
+        $pdo = Connexion::PDO();
+        $query = "SELECT COUNT(*) FROM utilisateur WHERE user_mail = :email";
+        $params = ['email' => $email];
+
+        if ($idUtilisateur !== null) {
+            $query .= " AND id != :id";
+            $params['id'] = $idUtilisateur;
+        }
+
+        $stmt = $pdo->prepare($query);
+        $stmt->execute($params);
+        $count = $stmt->fetchColumn();
+
+        return $count > 0;
     }
 }
 ?>

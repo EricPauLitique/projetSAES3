@@ -86,7 +86,7 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
             if (result.status === 'success') {
                 window.location.href = 'accueil.php';
             } else {
-                document.getElementById('error-message').innerText = result.message;
+                document.getElementById('error-message1').innerText = result.message;
             }
         }
     </script>
@@ -155,6 +155,7 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
 
         <section>
             <h2>Créer un groupe : </h2>
+            <div id="error-message1" style="color: red; font-weight: bold;"></div>
             <form onsubmit="handleGroupSubmit(event)" enctype="multipart/form-data">
                 <label for="nom_du_groupe">Nom du groupe :</label>
                 <input type="text" id="nom_du_groupe" name="nom_du_groupe" placeholder="Nom du groupe" required>

@@ -1,11 +1,13 @@
 <?php
 session_start();
-require_once("../config/connexion.php");
-require_once("../modele/utilisateur.php");
-require_once("../modele/adresse.php");
+error_log("Session démarrée : " . print_r($_SESSION, true));
+require_once(__DIR__ . "/../config/connexion.php");
+require_once(__DIR__ . "/../modele/utilisateur.php");
+require_once(__DIR__ . "/../modele/adresse.php");
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION['id'])) {
+    error_log("Utilisateur non connecté.");
     header("Location: connexion.php");
     exit;
 }
@@ -39,10 +41,13 @@ $nomRue = htmlspecialchars($adresse->get('adr_rue'));
     <script>
         function togglePasswordSection() {
             var passwordSection = document.getElementById('password-section');
+            var changePasswordField = document.getElementById('change_password');
             if (passwordSection.style.display === 'none') {
                 passwordSection.style.display = 'block';
+                changePasswordField.value = '1';
             } else {
                 passwordSection.style.display = 'none';
+                changePasswordField.value = '0';
             }
         }
 
@@ -60,35 +65,32 @@ $nomRue = htmlspecialchars($adresse->get('adr_rue'));
 
         async function handleSubmit(event) {
             event.preventDefault();
-            const prenom = document.getElementById('prenom').value;
-            const nom = document.getElementById('nom').value;
-            const email = document.getElementById('email').value;
-            const ancien_password = document.getElementById('ancien_password').value;
-            const nouveau_password = document.getElementById('nouveau_password').value;
-            const confirmer_password = document.getElementById('confirmer_password').value;
-            const code_postal = document.getElementById('code_postal').value;
-            const ville = document.getElementById('ville').value;
-            const numero_rue = document.getElementById('numero_rue').value;
-            const nom_rue = document.getElementById('nom_rue').value;
+
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            console.log("Données envoyées : ", data); // Ajoutez ce message de débogage
 
             const response = await fetch('../api.php?endpoint=modifcompte', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    prenom, nom, email, ancien_password, nouveau_password, confirmer_password,
-                    code_postal, ville, numero_rue, nom_rue
-                })
+                body: JSON.stringify(data)
             });
 
             const result = await response.json();
             if (result.status === 'success') {
+                alert(result.message);
                 window.location.href = 'accueil.php';
             } else {
                 document.getElementById('error-message').innerText = result.message;
             }
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('modify-account-form').addEventListener('submit', handleSubmit);
+        });
     </script>
     <style>
         .password-container {
@@ -126,7 +128,8 @@ $nomRue = htmlspecialchars($adresse->get('adr_rue'));
         
         <h2><b>Modification du compte</b></h2>
         <div id="error-message" style="color: red; font-weight: bold;"></div>
-        <form onsubmit="handleSubmit(event)">
+        <form id="modify-account-form">
+            <input type="hidden" id="change_password" name="change_password" value="0">
             <div class="form-group">
                 <input type="text" id="prenom" name="prenom" placeholder="Prénom" value="<?php echo $prenom; ?>" required>
             </div>

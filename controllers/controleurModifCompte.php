@@ -1,23 +1,26 @@
 <?php
-session_start();
 require_once(__DIR__ . "/../config/connexion.php");
 require_once(__DIR__ . "/../modele/utilisateur.php");
 require_once(__DIR__ . "/../modele/adresse.php");
 
+Connexion::connect();
+$pdo = Connexion::PDO();
+
+session_start();
+error_log("Session démarrée : " . print_r($_SESSION, true));
+
 // Vérification si l'utilisateur est connecté
 if (!isset($_SESSION['id'])) {
+    error_log("Utilisateur non connecté.");
     echo json_encode(['status' => 'error', 'message' => 'Utilisateur non connecté.']);
     exit;
 }
 
 $idUtilisateur = htmlspecialchars($_SESSION['id']);
 
-// Connexion à la base de données
-Connexion::connect();
-
 try {
     // Récupérer les données du formulaire
-    $data = json_decode(file_get_contents("php://input"), true);
+    $data = json_decode(file_get_contents('php://input'), true);
     $prenom = htmlspecialchars($data['prenom']);
     $nom = htmlspecialchars($data['nom']);
     $email = htmlspecialchars($data['email']);
@@ -42,7 +45,7 @@ try {
     }
 
     // Vérification de l'ancien mot de passe
-    $utilisateur = Utilisateur::getUtilisateurByLogin($idUtilisateur);
+    $utilisateur = Utilisateur::getUtilisateurById($idUtilisateur);
     if (!password_verify($ancienPassword, $utilisateur->get('user_mdp'))) {
         echo json_encode(['status' => 'error', 'message' => "L'ancien mot de passe est incorrect."]);
         exit;
@@ -74,10 +77,11 @@ try {
     Adresse::updateAdresse($adresse);
 
     echo json_encode(['status' => 'success', 'message' => 'Votre compte a été modifié avec succès.']);
-    exit;
+    exit();
 
 } catch (Exception $e) {
+    error_log("Erreur : " . $e->getMessage());
     echo json_encode(['status' => 'error', 'message' => 'Erreur : ' . $e->getMessage()]);
-    exit;
+    exit();
 }
 ?>
