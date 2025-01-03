@@ -24,7 +24,7 @@ $limiteAnnuelle = isset($_SESSION['limiteAnnuelle']) ? $_SESSION['limiteAnnuelle
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier le groupe</title>
     <link href="../images/logoVC.ico" rel="shortcut icon" type="image/x-icon" />
-    <link rel="stylesheet" href="../styles/modifgroupe.css">
+    <link rel="stylesheet" href="../styles/modifgroup.css">
     <script>
         async function handleSubmit(event) {
             event.preventDefault();

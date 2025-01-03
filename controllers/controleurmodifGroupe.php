@@ -9,16 +9,24 @@ if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
     exit;
 }
 
+
+
 // Connexion à la base de données
 require_once(__DIR__ . "/../config/connexion.php");
 require_once(__DIR__ . "/../modele/groupe.php"); // inclure la classe Groupe
 
 Connexion::connect();
+// Afficher les données de session pour le débogage
+error_log("Données de session : " . print_r($_SESSION, true));
+
 
 // Vérifier si l'ID du groupe est envoyé via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
     $groupId = isset($data['group_id']) ? $data['group_id'] : null;
+
+    // Ajoutez un message de débogage pour vérifier l'ID du groupe
+    error_log("ID du groupe reçu : " . $groupId);
 
     // Vérifier si l'ID du groupe existe
     if ($groupId) {

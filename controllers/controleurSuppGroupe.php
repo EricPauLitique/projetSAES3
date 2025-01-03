@@ -1,11 +1,12 @@
 <?php
 session_start();
-require_once("../config/connexion.php");
-require_once("../modele/groupe.php");
+require_once(__DIR__ . "/../config/connexion.php");
+require_once(__DIR__ . "/../modele/groupe.php");
 
 // Vérification si le groupe ID est passé dans la requête POST
-if (isset($_POST['group_id'])) {
-    $groupId = $_POST['group_id'];
+$data = json_decode(file_get_contents("php://input"), true);
+if (isset($data['group_id'])) {
+    $groupId = $data['group_id'];
 
     // Connexion à la base de données
     Connexion::connect();
@@ -19,11 +20,11 @@ if (isset($_POST['group_id'])) {
 
     if ($group) {
         // Récupérer le chemin de l'image
-        $imagePath = $group['grp_img'];
+        $imagePath = __DIR__ . '/../' . $group['grp_img'];
 
         // Supprimer l'image si elle existe
         if (file_exists($imagePath)) {
-            if (!$imagePath == '../images/groupes/groupe.png') {
+            if ($imagePath !== __DIR__ . '/../images/groupes/groupe.png') {
                 if (unlink($imagePath)) {
                     // Optionnel: Supprimer le répertoire parent si vide
                     $directoryPath = dirname($imagePath);
@@ -33,26 +34,21 @@ if (isset($_POST['group_id'])) {
                 }
             }
         } 
-        
 
         // Suppression du groupe de la base de données
         $result = Groupe::deleteGroupById($groupId);
 
-        // Afficher un message selon le succès ou l'échec de la suppression
+        // Renvoyer une réponse JSON selon le succès ou l'échec de la suppression
         if ($result) {
-            $_SESSION['message'] = '<span style="color: green; font-weight: bold;">Le groupe "' . htmlspecialchars($group['grp_nom']) . '" a été supprimé avec succès.</span>';
+            echo json_encode(['status' => 'success', 'message' => 'Le groupe "' . htmlspecialchars($group['grp_nom']) . '" a été supprimé avec succès.']);
         } else {
-            $_SESSION['message'] = '<b><i style="color: red;">Erreur lors de la suppression du groupe.</i></b>';
+            echo json_encode(['status' => 'error', 'message' => 'Erreur lors de la suppression du groupe.']);
         }
     } else {
-        $_SESSION['message'] = '<b><i style="color: red;">Groupe introuvable.</i></b>';
+        echo json_encode(['status' => 'error', 'message' => 'Groupe introuvable.']);
     }
-
-    // Redirection vers la page d'accueil après suppression
-    header("Location: ../vue/accueil.php");
-    exit();
 } else {
-    $_SESSION['message'] = '<b><i style="color: red;">ID du groupe manquant.</i></b>';
-    header("Location: ../vue/accueil.php");
-    exit();
+    echo json_encode(['status' => 'error', 'message' => 'ID du groupe manquant.']);
 }
+exit();
+?>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("../config/connexion.php");
+require_once(__DIR__ . "/../config/connexion.php");
 require_once("../modele/theme.php");
 require_once("../modele/comporte.php");
 

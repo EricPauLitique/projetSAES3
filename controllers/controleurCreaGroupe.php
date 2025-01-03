@@ -1,9 +1,11 @@
 <?php
-// controleurCreaGroupe.php
-require_once("../config/connexion.php");
+require_once(__DIR__ . "/../config/connexion.php");
 
 Connexion::connect();
 $pdo = Connexion::PDO();
+
+// Définir le chemin relatif pour les images des groupes
+define('GROUP_IMAGES_PATH', __DIR__ . '/../images/groupes/');
 
 // Vérifie si la session est active
 if (session_status() === PHP_SESSION_NONE) {
@@ -68,7 +70,7 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
             }
 
             // Créer un dossier pour stocker les images des groupes
-            $groupFolder = '../images/groupes/' . preg_replace('/[^a-zA-Z0-9_]/', '_', $nomGroupe);
+            $groupFolder = GROUP_IMAGES_PATH . preg_replace('/[^a-zA-Z0-9_]/', '_', $nomGroupe);
             if (!is_dir($groupFolder)) {
                 mkdir($groupFolder, 0775, true);
             }
@@ -84,7 +86,7 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
 
             chmod($imagePath, 0664);
         } else {
-            $imagePath = '../images/groupes/groupe.png';
+            $imagePath = GROUP_IMAGES_PATH . 'groupe.png';
         }
 
         // Générer un nouvel ID pour le groupe
@@ -101,7 +103,7 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
             ':grp_id' => $resultIdGrp,
             ':grp_nom' => $nomGroupe,
             ':grp_couleur' => $couleur,
-            ':grp_img' => $imagePath,
+            ':grp_img' => str_replace(__DIR__ . '/../', '', $imagePath), // Chemin relatif
             ':grp_lim_an' => $limiteAnnuelle,
             ':user_id' => $idUtilisateur
         ]);

@@ -29,23 +29,20 @@ switch ($endpoint) {
     case 'creagroupe':
         require_once(BASE_PATH . "/controllers/controleurCreaGroupe.php");
         break;
+    case 'supprimergroupe':
+        require_once(BASE_PATH . "/controllers/controleurSuppGroupe.php");
+        break;
     case 'modifgroupe':
         require_once(BASE_PATH . "/controllers/controleurmodifGroupe.php");
         break;
     case 'modifgroupeModif':
         require_once(BASE_PATH . "/controllers/controleurmodifGroupeModif.php");
         break;
-    case 'creatheme':
-        require_once(BASE_PATH . "/controllers/controleurCreaTheme.php");
-        break;
     case 'accueil':
         require_once(BASE_PATH . "/controllers/controleurAccueil.php");
         break;
-    case 'groupes':
-        require_once(BASE_PATH . "/controllers/controleurGroupes.php");
-        break;
-    case 'membres':
-        require_once(BASE_PATH . "/controllers/controleurMembres.php");
+    case 'creatheme':
+        require_once(BASE_PATH . "/controllers/controleurCreaTheme.php");
         break;
     default:
         header("HTTP/1.1 404 Not Found");

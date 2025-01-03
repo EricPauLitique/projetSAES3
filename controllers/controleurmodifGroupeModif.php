@@ -15,13 +15,19 @@ require_once(__DIR__ . "/../modele/comporte.php"); // inclure la classe Comporte
 Connexion::connect();
 
 // Récupérer les données du formulaire
-$data = json_decode(file_get_contents("php://input"), true);
+$data = $_POST;
 $groupId = isset($_SESSION['group_id']) ? $_SESSION['group_id'] : null;
 $nomGroupe = $data['nom_du_groupe'] ?? null;
 $couleur = $data['color'] ?? null;
 $limiteAnnuelle = $data['limite_annuelle'] ?? null;
-$image = $data['image'] ?? null;
+$image = isset($_FILES['image']) ? $_FILES['image'] : null;
 $removeImage = isset($data['remove_image']) ? $data['remove_image'] : 0;
+
+// Ajoutez un message de débogage pour vérifier l'ID du groupe
+error_log("ID du groupe reçu : " . $groupId);
+
+// Ajoutez un message de débogage pour vérifier la limite annuelle
+error_log("Limite annuelle reçue : " . $limiteAnnuelle);
 
 // Vérifier si l'ID du groupe existe
 if ($groupId) {
@@ -38,6 +44,9 @@ if ($groupId) {
 
     // Calculer la somme des limites des thèmes
     $sommeMonetaire = Comporte::getSumLimiteThemeByGroupId($groupId);
+
+    // Ajoutez un message de débogage pour vérifier la somme monétaire
+    error_log("Somme monétaire des thèmes : " . $sommeMonetaire);
 
     // Vérifie si la somme des thèmes dépasse la limite annuelle
     if ($sommeMonetaire > $limiteAnnuelle) {
