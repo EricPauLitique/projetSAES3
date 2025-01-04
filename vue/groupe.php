@@ -62,9 +62,9 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
     <link rel="stylesheet" href="../styles/groupe.css">
 </head>
 <body>
-    <?php include 'header.php'; 
-    Connexion::connect()?>
+    <?php include 'header.php'; ?>
 
+    <!-- Barre de navigation -->
     <main>
         <div class="retour">    
             <img src="../images/retour.png" alt="retour" class="retour-icon"/>
@@ -74,6 +74,15 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
             <img src="<?php echo htmlspecialchars($groupe->get('grp_img')); ?>" alt="Image associée" class="image-gauche">
             <?php echo 'Groupe :&nbsp;<b><i><u>' . htmlspecialchars($groupe->get('grp_nom')) . '</u></i></b>'; ?>
         </h1>
+
+        
+        <nav>
+            <ul>
+                <li><a href="groupe.php?id=<?php echo $groupeId; ?>" class="active">Groupe</a></li>
+                <li><a href="liste_prop.php?id=<?php echo $groupeId; ?>">Propositions</a></li>
+                <li><a href="vote.php?id=<?php echo $groupeId; ?>">Vote</a></li>
+            </ul>
+        </nav>  
 
         <?php
         // Afficher le message d'erreur s'il existe

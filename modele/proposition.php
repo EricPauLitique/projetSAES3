@@ -76,5 +76,8 @@ class Proposition implements JsonSerializable {
             return null;
         }
     }
+
+    
+
 }
 ?>

@@ -1,4 +1,4 @@
-/* Styles gÃ©nÃ©raux */
+/* Styles généraux */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -44,7 +44,7 @@ a:hover img {
 }
 a {
     display: inline-block;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     text-decoration: none;
     color: #333;
     text-align : center;
@@ -56,7 +56,7 @@ h1 {
     margin: 0;
 }
 
-/* Menu dÃ©roulant des paramÃ¨tres */
+/* Menu déroulant des paramètres */
 .menu-parametres {
     position: relative;
     display: inline-block;
@@ -76,7 +76,7 @@ table {
     width: 100%;
     max-width: 800px; /* Pour limiter la taille de la table */
     margin: 20px auto; /* Ajoute un espacement avec le reste de la page */
-    border-collapse: separate; /* SÃ©pare les bordures des cellules */
+    border-collapse: separate; /* Sépare les bordures des cellules */
     border-spacing: 10px; /* Ajoute de l'espace entre les cellules */
     background-color: #ffffff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -86,7 +86,7 @@ table {
 table th,
 table td {
     text-align: center;
-    padding: 10px 15px; /* Ajoute un padding pour aÃ©rer les cellules */
+    padding: 10px 15px; /* Ajoute un padding pour aérer les cellules */
     vertical-align: middle; /* Centre verticalement le texte */
     font-weight: bold;
     background-color: #e2e2e2;
@@ -96,41 +96,41 @@ table th {
     background-color: #3a1768;
     color: white;
     font-weight: bold;
-    border-radius: 8px 8px 0 0; /* Coin supÃ©rieur arrondi */
+    border-radius: 8px 8px 0 0; /* Coin supérieur arrondi */
 }
 
 table td {
-    border-bottom: 1px solid #e6e6e6; /* Ligne sÃ©paratrice entre les lignes */
+    border-bottom: 1px solid #e6e6e6; /* Ligne séparatrice entre les lignes */
 }
 
 table td:last-child {
-    text-align: center; /* Centre le contenu de la derniÃ¨re colonne */
+    text-align: center; /* Centre le contenu de la dernière colonne */
 }
 
 table img {
     width: 50px;
     height: 50px;
     object-fit: cover; /* Pour s'assurer que l'image couvre bien l'espace de 50x50 */
-    border-radius: 50%; /* Pour rendre les images circulaires, si dÃ©sirÃ© */
+    border-radius: 50%; /* Pour rendre les images circulaires, si désiré */
 
 }
 
 @media screen and (max-width: 768px) {
     table {
-        /* display: block; */ /* Rend la table dÃ©filable horizontalement */
+        /* display: block; */ /* Rend la table défilable horizontalement */
         overflow-x: auto;
         white-space: nowrap;
     }
 
     table th, table td {
-        padding: 8px 10px; /* RÃ©duit l'espacement pour les petits Ã©crans */
+        padding: 8px 10px; /* Réduit l'espacement pour les petits écrans */
     }
 }
 
 .menu-options {
     display: none;
     position: absolute;
-    top: 75%; /* DÃ©cale le menu en dessous */
+    top: 75%; /* Décale le menu en dessous */
     left: 46%;
     transform: translateX(-50%);
     background-color: #3a1768;
@@ -187,13 +187,13 @@ h2, h3 {
     color: #3a1768;
     margin-bottom: 20px;
     position: relative; /* Pour permettre de positionner la puce */
-    padding-left: 30px; /* CrÃ©e un espace pour la puce Ã  gauche */
+    padding-left: 30px; /* Crée un espace pour la puce à gauche */
 }
 
 h2::before, h3::before {
     content: "\2022"; /* Code Unicode pour la puce */
     position: absolute;
-    left: 0; /* Positionne la puce Ã  gauche du titre */
+    left: 0; /* Positionne la puce à gauche du titre */
     top: 50%; /* Centre verticalement la puce */
     transform: translateY(-50%); /* Ajuste verticalement la position de la puce */
     font-size: 1.8em; /* Taille de la puce */
@@ -201,10 +201,10 @@ h2::before, h3::before {
 }
 
 form {
-    /* width: 100%; */ /* S'adapte Ã  la largeur de son conteneur */
-    max-width: 500px; /* Largeur maximale pour Ã©viter qu'il ne devienne trop grand */
+    /* width: 100%; */ /* S'adapte à la largeur de son conteneur */
+    max-width: 500px; /* Largeur maximale pour éviter qu'il ne devienne trop grand */
     /* margin: 0 auto; */ /* Centre le formulaire horizontalement */
-    /* padding: 20px; */ /* Ajoute de l'espace Ã  l'intÃ©rieur du formulaire */
+    /* padding: 20px; */ /* Ajoute de l'espace à l'intérieur du formulaire */
     background-color: #e2e2e2; /* Fond blanc pour le contraste */
     border-radius: 8px; /* Coins arrondis */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre douce */
@@ -235,7 +235,7 @@ input[type="password"]:focus,
 select:focus,
 textarea:focus {
     border-color: #3a1768; /* Couleur de bordure au focus */
-    outline: none; /* Supprime le contour par dÃ©faut */
+    outline: none; /* Supprime le contour par défaut */
 }
 
 button {
@@ -303,12 +303,12 @@ footer p {
 }
 
 .retour-icon {
-    width: 20px; /* Taille de l'icÃ´ne */
+    width: 20px; /* Taille de l'icône */
     height: auto;
 }
 
 .retour a {
-    text-decoration: none; /* Supprime la dÃ©coration de lien */
+    text-decoration: none; /* Supprime la décoration de lien */
     color: #3a1768; /* Couleur du texte */
     font-size: 16px; /* Taille du texte */
     font-weight: bold; /* Met le texte en gras */
@@ -393,4 +393,48 @@ footer p {
 
 .boutons-container .btn-delete:hover {
     background-color: #cc0000; /* Rouge plus foncé au survol */
+}
+
+/* Styles pour la barre de navigation */
+nav {
+    background-color: #3a1768;
+    /* padding: 10px; */
+    text-align: center; /* Centre le conteneur parent */
+    width: max-content;
+    align-content: center;
+    margin: auto;
+    border-radius: 25px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0 auto; /* Centre la liste horizontalement */
+    padding: 0;
+    display: inline-block; /* Réduit la largeur à la taille des boutons */
+}
+
+nav ul li {
+    display: inline-block; /* Affiche les éléments en ligne */
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 40px;
+    border-radius: 20px; /* Rend les éléments ovales */
+    transition: background-color 0.3s ease;
+    background-color: #3a1768; /* Couleur de fond initiale */
+    /* border: 2px solid white; */ /* Bordure blanche */
+    /* margin: 5px; */ /* Ajoute de l'espace autour des éléments */
+}
+
+nav ul li a:hover {
+    background-color: #ffcc00;
+    color: #3a1768;
+}
+
+/* Styles pour le lien actif */
+nav ul li a.active {
+    background-color: #ffcc00;
+    color: #3a1768;
 }
