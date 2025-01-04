@@ -140,7 +140,7 @@ $themes = isset($_SESSION['themes']) ? $_SESSION['themes'] : [];
                         <?php foreach ($themes as $index => $theme) : ?>
                             <tr>
                                 <td><?= htmlspecialchars($theme['theme_nom']) ?></td>
-                                <td><?= htmlspecialchars($theme['limite_theme']) ?></td>
+                                <td><?= htmlspecialchars($theme['limite_theme']) . '€'?></td>
                                 <td>
                                     <button type="button" onclick="handleThemeDelete(<?= $index ?>)">Supprimer</button>
                                 </td>

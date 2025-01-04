@@ -81,7 +81,7 @@ table {
     border-spacing: 10px; /* Ajoute de l'espace entre les cellules */
     background-color: #ffffff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px; /* Arrondit les bords de la table */
+    /* border-radius: 8px; */ /* Arrondit les bords de la table */
 }
 
 table th,
@@ -110,7 +110,7 @@ table td:last-child {
 
 @media screen and (max-width: 768px) {
     table {
-        display: block; /* Rend la table défilable horizontalement */
+        /* display: block; */ /* Rend la table défilable horizontalement */
         overflow-x: auto;
         white-space: nowrap;
     }
