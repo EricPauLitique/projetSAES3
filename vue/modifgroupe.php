@@ -77,15 +77,13 @@ $_SESSION['image_name'] = basename($group['grp_img']);
     </script>
 </head>
 <body>
-    <header>
-        <div class="connexion" onclick="window.location.href='connexion.php';" style="cursor: pointer;">
-            <img src="../images/logoVC.jpg" alt="Logo Voix Citoyenne"/>
-            <h1>Voix Citoyenne</h1>
-        </div>
-    </header>
+    <?php include 'header.php'; ?>
 
     <main>
-        <h2><b>Modifier le groupe</b></h2>
+        <div class="retour">    
+            <img src="../images/retour.png" alt="retour" class="retour-icon"/>
+            <a href="accueil.php">Retour</a>
+        </div>        <h2><b>Modifier le groupe</b></h2>
         <div id="error-message" style="color: red; font-weight: bold;"></div>
         <form onsubmit="handleSubmit(event)">
             <input type="hidden" id="group_id" name="group_id" value="<?php echo $_SESSION['group_id']; ?>">
@@ -114,8 +112,6 @@ $_SESSION['image_name'] = basename($group['grp_img']);
         </form>
     </main>
 
-    <footer>
-        <p>© 2024 Voix Citoyenne. Tous droits réservés.</p>
-    </footer>
+    <?php include 'footer.php'; ?>
 </body>
 </html>

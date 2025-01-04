@@ -44,6 +44,12 @@ switch ($endpoint) {
     case 'creatheme':
         require_once(BASE_PATH . "/controllers/controleurCreaTheme.php");
         break;
+    case 'groupes':
+        require_once(BASE_PATH . "/controllers/controleurGroupes.php");
+        break;
+    case 'themes':
+        require_once(BASE_PATH . "/controllers/controleurThemes.php");
+        break;
     default:
         header("HTTP/1.1 404 Not Found");
         echo json_encode(["message" => "Endpoint non trouvé"]);

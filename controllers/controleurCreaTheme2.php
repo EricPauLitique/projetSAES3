@@ -20,40 +20,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nom_du_theme']) && iss
     $group_id = (int)$_POST['group_id'];
     $limite_grp = (int)$_POST['limite_grp'];
 
-    // Vérifier si le thème existe déjà dans la base de données
-    $existingTheme = Theme::getThemeByName($nom_du_theme);
-    $incrementID = Theme::getMaxTheme() + 1;
+    $data = [
+        'theme_nom' => $nom_du_theme,
+        'limite_theme' => $limite_theme,
+        'group_id' => $group_id,
+        'limite_grp' => $limite_grp
+    ];
 
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "../api.php?endpoint=themes");
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
 
-    if ($limite_theme+Comporte::getSumLimiteThemeByGroupId($group_id) > $limite_grp) {
-        $_SESSION['messageC'] = '<p style="color: red; font-weight: bold;"><b>La limite annuelle des thèmes ne doit pas dépasser la limite annuelle du groupe.</b></p>';
-        header("Location: ../vue/ajoutTheme.php?id=" . $group_id);
-        exit;
-    }
+    $response = curl_exec($ch);
+    curl_close($ch);
 
-    if ($existingTheme === false) {
-        // Ajouter le nouveau thème
-        $newThemeId = Theme::createTheme($incrementID, $nom_du_theme);
-        $themeId = $incrementID;
+    $result = json_decode($response, true);
+
+    if ($result['status'] == 'success') {
+        $_SESSION['message'] = '<p style="color: green; font-weight: bold;"><b>Le thème a été ajouté avec succès.</b></p>';
     } else {
-        $themeId = $existingTheme->get('theme_id');
-    }
-
-    // Vérifier si l'association existe déjà
-    if (!Comporte::existsThemeInGroup($group_id, $themeId)) {
-        // Ajouter le thème au groupe dans la table comporte
-        $addSuccess = Comporte::addThemeToGroup($group_id, $themeId, $limite_theme);
-
-        if ($addSuccess) {
-            $_SESSION['message'] = '<p style="color: green; font-weight: bold;"><b>Le thème a été ajouté avec succès.</b></p>';
-        } else {
-            $_SESSION['messageC'] = '<p style="color: red; font-weight: bold;"><b>Erreur lors de l\'ajout du thème.</b></p>';
-            header("Location: ../vue/ajoutTheme.php?id=" . $group_id);
-            exit;
-        }
-    } else {
-        // Informer l'utilisateur que le thème existe déjà et qu'il doit modifier le prix
-        $_SESSION['messageC'] = '<p style="color: red; font-weight: bold;"><b>Le thème existe déjà dans ce groupe. Veuillez modifier le prix.</b></p>';
+        $_SESSION['messageC'] = '<p style="color: red; font-weight: bold;"><b>' . $result['message'] . '</b></p>';
     }
 
     header("Location: ../vue/groupe.php?id=" . $group_id);
