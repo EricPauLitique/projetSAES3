@@ -20,6 +20,39 @@ if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
 $prenom = htmlspecialchars($_SESSION['prenom']);
 $nom = htmlspecialchars($_SESSION['nom']);
 $id = htmlspecialchars($_SESSION['id']);
+
+// Récupérer l'ID du groupe depuis l'URL
+$groupeId = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+if ($groupeId === 0) {
+    // Redirige vers la page d'accueil si l'ID du groupe est invalide
+    $_SESSION['messageC'] = "L'ID du groupe est invalide.";
+    header("Location: accueil.php");
+    exit;
+}
+
+// Connexion à la base de données
+Connexion::connect();
+
+// Récupérer les informations du groupe
+$groupe = Groupe::getGroupByIdUnique2($groupeId);
+if (!$groupe) {
+    // Redirige vers la page d'accueil si le groupe n'existe pas
+    $_SESSION['messageC']= "Le groupe n'a pas été trouvé.";
+    header("Location: accueil.php");
+    exit;
+}
+
+if (Membre::siMembreInconnu($id, $groupeId) == 0 && Groupe::siProprioInconnu($id, $groupeId) == 0) {
+    // Redirige vers la page d'accueil si l'utilisateur n'est pas membre du groupe
+    $message = "Vous n'êtes pas autorisé à aller dans le groupe.";
+    $_SESSION['messageC'] = $message;
+    header("Location: accueil.php");
+    exit;
+} 
+
+// Vérifier si l'utilisateur est le propriétaire du groupe
+$isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
 ?>
 
 <!DOCTYPE html>
@@ -29,20 +62,74 @@ $id = htmlspecialchars($_SESSION['id']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des propositions</title>
     <link href="../images/logoVC.ico" rel="shortcut icon" type="image/x-icon" />
-    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/prop.css">
 </head>
 <body>
     <?php include 'header.php'; ?>
 
     <main>
         <aside>
-            <p>Liste des membres</p>
-            <ul>
-                <li><img src="../images/user.png" /><img src="../images/createur.png" />nom prénom 1 (créateur)</li>
-                <li><img src="../images/user.png" />nom prénom 2</li>
-                <li><img src="../images/user.png" />nom prénom 3</li>
-            </ul>
+            <h3>Liste des membres :</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Photo</th>
+                        <th>Prénom/Nom</th>
+                        <th>Rôle</th>
+                        <?php if ($isProprietaire) { ?>
+                            <th>Actions</th>
+                        <?php } ?>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <?php
+                    // Récupérer les membres du groupe
+                    $proprio = Groupe::getProprio($groupeId);
+                    $membres = Membre::getMembresByGroupeId($groupeId); // Assurez-vous que cette méthode existe dans votre modèle Membre
+
+                    if ($proprio) {
+                        $prenomProprio = htmlspecialchars($proprio['user_prenom']);
+                        $nomProprio = htmlspecialchars($proprio['user_nom']);
+                        echo '<tr>
+                                <td>
+                                    <img src="../images/createur.png" alt="Créateur" class="image-small" />
+                                </td>
+                                <td>' . $prenomProprio . ' ' . $nomProprio . '</td>
+                                <td>Créateur</td>';
+                        if ($isProprietaire) {
+                            echo '<td> Vous ne pouvez pas vous retirer vous-même. </td>';
+                        }
+                        echo '</tr>';
+                    }
+
+                    if (!empty($membres)) {
+                        foreach ($membres as $membre)  {
+                            echo '<tr>';
+                            if ($membre->get('role') == 'Modérateur') {
+                                echo '<td><img src="../images/user.png" alt="Moderateur" class="image-small" /></td>';
+                            } else {
+                                echo '<td><img src="../images/user.png" alt="Membre" class="image-small" /></td>';
+                            }
+                            echo '<td>' . htmlspecialchars($membre->get('user_prenom')) . ' ' . htmlspecialchars($membre->get('user_nom')) . '</td>
+                                  <td>' . htmlspecialchars($membre->get('role')) . '</td>';
+                            if ($isProprietaire) {
+                                echo '<td>
+                                        <form method="POST" action="../controllers/controleurSupprimerMembre.php">
+                                            <input type="hidden" name="user_id" value="' . $membre->get('user_id') . '">
+                                            <input type="hidden" name="grp_id" value="' . $groupeId . '" />
+                                            <button type="submit" class="btn-delete" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce membre ?\');">Supprimer</button>
+                                        </form>
+                                      </td>';
+                            }
+                            echo '</tr>';
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>
         </aside>
+
         <!-- Contenu principal -->
         <section>
             <h2>Propositions</h2>
@@ -51,6 +138,5 @@ $id = htmlspecialchars($_SESSION['id']);
     </main>
 
     <?php include 'footer.php'; ?>
-    <script src="script.js"></script>
 </body>
 </html>

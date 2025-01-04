@@ -44,8 +44,8 @@ switch ($requestMethod) {
         $incrementID = Theme::getMaxTheme() + 1;
 
         $currentSumLimiteTheme = Comporte::getSumLimiteThemeByGroupId($group_id);
-        if ($limite_theme + $currentSumLimiteTheme > $limite_grp) {
-            echo json_encode(['status' => 'error', 'message' => 'La limite annuelle des thèmes ne doit pas dépasser la limite annuelle du groupe. Limite actuelle des thèmes : ' . $currentSumLimiteTheme . ', Limite du groupe : ' . $limite_grp]);
+        if ($limite_theme + intval($currentSumLimiteTheme) > $limite_grp) {
+            echo json_encode(['status' => 'error', 'message' => 'La limite annuelle des thèmes ne doit pas dépasser la limite annuelle du groupe. Limite actuelle des thèmes : ' . $currentSumLimiteTheme . '€, Limite du groupe : ' . $limite_grp . '€']);
             exit;
         }
 
@@ -84,12 +84,20 @@ switch ($requestMethod) {
             exit;
         }
 
+        $groupe2 = Groupe::getGroupByIdUnique2($group_id);
+        if (!$groupe) {
+            echo json_encode(['status' => 'error', 'message' => 'Groupe non trouvé.']);
+            exit;
+        }
+        
+        $limite_grp = $groupe2->get('grp_lim_an');
         // Vérifier si le nom du thème existe déjà
         $existingTheme = Theme::getThemeByName($data['theme_nom']);
         if ($existingTheme) {
             $themeId = $existingTheme->get('theme_id');
         }
 
+        $prixTheme = Comporte::getComporteById($group_id, $themeId);
         $theme = Theme::getThemeById($themeId);
         if ($theme) {
             $updateSuccess = true;
@@ -100,17 +108,26 @@ switch ($requestMethod) {
                 if (!$result) {
                     $updateSuccess = false;
                 }
-                else $updateSuccess = true;
             }
 
             if (isset($data['limite_theme'])) {
+                // Vérifier si la nouvelle limite ne dépasse pas la limite annuelle du groupe
+                $currentSumLimiteTheme = Comporte::getSumLimiteThemeByGroupId($group_id);
+                $newSumLimiteTheme = $currentSumLimiteTheme - $prixTheme->get('lim_theme') + intval($data['limite_theme']);
+                if ($newSumLimiteTheme > $limite_grp) {
+                    echo json_encode(['status' => 'error', 'message' => 'La limite annuelle des thèmes ne doit pas dépasser la limite annuelle du groupe. Limite actuelle des thèmes : ' . $currentSumLimiteTheme . '€, Limite du groupe : ' . $limite_grp . '€']);
+                    exit;
+                }
                 $updateComporte = Comporte::updateThemeLimitOnly($group_id, $themeId, intval($data['limite_theme']));
                 if (!$updateComporte) {
                     $updateSuccess = false;
                 }
-                else $updateSuccess = true;
+ 
             }
-
+        
+        if (!$result||!$updateComporte) {
+            $updateSuccess = true;
+        }
 
             if ($updateSuccess) {
                 echo json_encode(['status' => 'success', 'message' => 'Thème mis à jour avec succès.']);
