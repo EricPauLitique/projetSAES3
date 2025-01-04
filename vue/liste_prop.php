@@ -1,52 +1,56 @@
+<?php
+// filepath: /Users/ericse/ProjetS3/projetSAES3/vue/liste_prop.php
+require_once("../config/connexion.php");
+require_once("../modele/groupe.php");
+require_once("../modele/membre.php");
+
+Connexion::connect();
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Vérifie si l'utilisateur est connecté
+if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
+    // Redirige vers la page de connexion si non connecté
+    header("Location: connexion.php");
+    exit;
+}
+
+$prenom = htmlspecialchars($_SESSION['prenom']);
+$nom = htmlspecialchars($_SESSION['nom']);
+$id = htmlspecialchars($_SESSION['id']);
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Propositions</title>
+    <title>Liste des propositions</title>
     <link href="../images/logoVC.ico" rel="shortcut icon" type="image/x-icon" />
-    <!-- Lien vers une feuille de style externe -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles/style.css">
 </head>
 <body>
-    <header>
-        <img src = "../images/logoVC.jpg"/>
-        <h1>Nom du groupe (mettre l'image du groupe en question à la place)</h1>
-        <a href="groupe.html"><img src = "../images/logoVC.ico"></a>
-        <nav>
-            <ul>
-                <li><a href="accueil.html">Accueil</a></li>
-                <li><a href="propositions.html">Propositions</a></li>
-                <li><a href="vote.html">Votes</a></li>
-            </ul>
-        </nav>
-        <img src = "../images/parametres.png"/>
-    </header>
-    
+    <?php include 'header.php'; ?>
+
     <main>
         <aside>
             <p>Liste des membres</p>
             <ul>
-                <li><img src = "../images/user.png" /><img src = "../images/createur.png" />nom prénom 1 (créateur)</li>
-                <li><img src = "../images/user.png" />nom prénom 2</li>
-                <li><img src = "../images/user.png" />nom prénom 3</li>
+                <li><img src="../images/user.png" /><img src="../images/createur.png" />nom prénom 1 (créateur)</li>
+                <li><img src="../images/user.png" />nom prénom 2</li>
+                <li><img src="../images/user.png" />nom prénom 3</li>
             </ul>
         </aside>
+        <!-- Contenu principal -->
         <section>
-            <p>Toutes les propositions :</p>
-            <ul>
-                <li>Proposition 1</li>
-                <li>Proposition 2</li>
-                <li>Proposition 3</li>
-            </ul>
+            <h2>Propositions</h2>
+            <!-- Ajoutez ici le contenu des propositions -->
         </section>
     </main>
-    
-    <footer>
-        <p>© 2024 Voix Citoyenne. Tous droits réservés.</p>
-    </footer>
-    
-    <!-- Lien vers un fichier JavaScript -->
+
+    <?php include 'footer.php'; ?>
     <script src="script.js"></script>
 </body>
 </html>
