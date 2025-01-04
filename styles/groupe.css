@@ -337,7 +337,7 @@ footer p {
 
 #titreGroupe .image-gauche {
     margin-right: 10px; /* Ajoute un espace entre l'image et le texte */
-    width: 50px; /* Ajustez la taille de l'image selon vos besoins */
+    width: 100px; /* Ajustez la taille de l'image selon vos besoins */
     height: auto;
     margin-left: 10px;
 }

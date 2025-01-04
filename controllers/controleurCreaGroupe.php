@@ -51,6 +51,11 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
             exit;
         }
 
+        // Générer un nouvel ID pour le groupe
+        $stmt = $pdo->query("SELECT MAX(grp_id) FROM groupe");
+        $maxIdGrp = $stmt->fetchColumn();
+        $resultIdGrp = $maxIdGrp + 1;
+
         $imagePath = DEFAULT_GROUP_IMAGE;
         if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) {
             $image = $_FILES['image'];
@@ -73,7 +78,7 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
             }
 
             // Créer un dossier pour stocker les images des groupes
-            $groupFolder = GROUP_IMAGES_PATH . preg_replace('/[^a-zA-Z0-9_]/', '_', $nomGroupe);
+            $groupFolder = GROUP_IMAGES_PATH . $resultIdGrp;
             if (!is_dir($groupFolder)) {
                 if (!mkdir($groupFolder, 0775, true)) {
                     echo json_encode(['status' => 'error', 'message' => 'Erreur lors de la création du répertoire.']);
@@ -93,13 +98,8 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
             chmod($imagePath, 0664);
 
             // Convertir le chemin absolu en chemin relatif
-            $imagePath = '../images/groupes/' . preg_replace('/[^a-zA-Z0-9_]/', '_', $nomGroupe) . '/' . basename($imagePath);
+            $imagePath = '../images/groupes/' . $resultIdGrp . '/' . basename($imagePath);
         }
-
-        // Générer un nouvel ID pour le groupe
-        $stmt = $pdo->query("SELECT MAX(grp_id) FROM groupe");
-        $maxIdGrp = $stmt->fetchColumn();
-        $resultIdGrp = $maxIdGrp + 1;
 
         // Préparer la requête d'insertion pour le groupe
         $stmt = $pdo->prepare("

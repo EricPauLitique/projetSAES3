@@ -34,7 +34,7 @@ if ($groupId) {
     // Récupérer les informations du groupe
     $group = Groupe::getGroupByIdUnique($groupId);
     $ancienNomGroupe = $group['grp_nom'];
-    $ancienRepertoire = "../images/groupes/" . preg_replace('/[^a-zA-Z0-9_]/', '_', $ancienNomGroupe);
+    $ancienRepertoire = __DIR__ . "/../images/groupes/" . $groupId;
 
     // Vérifier si le nom du groupe existe déjà pour un autre groupe
     if (Groupe::groupNameExists($nomGroupe, $groupId)) {
@@ -55,7 +55,7 @@ if ($groupId) {
     }
 
     // Renommer le répertoire si le nom du groupe a changé
-    $nouveauRepertoire = "../images/groupes/" . preg_replace('/[^a-zA-Z0-9_]/', '_', $nomGroupe);
+    $nouveauRepertoire = __DIR__ . "/../images/groupes/" . $groupId;
     if ($ancienRepertoire !== $nouveauRepertoire && is_dir($ancienRepertoire)) {
         rename($ancienRepertoire, $nouveauRepertoire);
     }
@@ -63,8 +63,8 @@ if ($groupId) {
     // Traiter l'image téléchargée
     if ($removeImage == '1') {
         $newImagePath = '../images/groupes/groupe.png'; // Set to default image
-        if ($group['grp_img'] != '../images/groupes/groupe.png' && file_exists($group['grp_img'])) {
-            unlink($group['grp_img']); // Remove the old image
+        if ($group['grp_img'] != '../images/groupes/groupe.png' && file_exists(__DIR__ . '/../' . $group['grp_img'])) {
+            unlink(__DIR__ . '/../' . $group['grp_img']); // Remove the old image
         }
         $_SESSION['image_name'] = ''; // Clear the image name in session
     } else {
@@ -79,9 +79,13 @@ if ($groupId) {
             }
         } else {
             // Si l'image n'est pas modifiée, mettre à jour le chemin de l'image avec le nouveau répertoire
-            $newImagePath = str_replace($ancienRepertoire, $nouveauRepertoire, $group['grp_img']);
+            $relativeImagePath = str_replace(__DIR__ . '/../', '../', $group['grp_img']);
+            $newImagePath = str_replace($ancienRepertoire, $nouveauRepertoire, $relativeImagePath);
         }
     }
+
+    // Convertir le chemin absolu en chemin relatif
+    $newImagePath = str_replace(__DIR__ . '/../', '../', $newImagePath);
 
     // Mettre à jour le groupe
     $updateSuccess = Groupe::updateGroup($groupId, $nomGroupe, $couleur, $limiteAnnuelle, $newImagePath);

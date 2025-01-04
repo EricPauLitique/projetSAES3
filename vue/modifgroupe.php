@@ -7,14 +7,31 @@ if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
     exit;
 }
 
-// Récupérer les informations de l'utilisateur depuis la session
-$prenom = htmlspecialchars($_SESSION['prenom']);
-$nom = htmlspecialchars($_SESSION['nom']);
+// Récupérer l'ID du groupe depuis la session
+$groupId = isset($_SESSION['group_id']) ? $_SESSION['group_id'] : null;
 
-// Variables du groupe pour préremplir le formulaire
-$nomGroupe = isset($_SESSION['nomGroupe']) ? $_SESSION['nomGroupe'] : '';
-$couleur = isset($_SESSION['couleur']) ? $_SESSION['couleur'] : '#000000';
-$limiteAnnuelle = isset($_SESSION['limiteAnnuelle']) ? $_SESSION['limiteAnnuelle'] : '';
+if (!$groupId) {
+    echo json_encode(['status' => 'error', 'message' => 'Aucun ID de groupe fourni.']);
+    exit;
+}
+
+// Récupérer les informations du groupe depuis la base de données
+require_once(__DIR__ . "/../config/connexion.php");
+require_once(__DIR__ . "/../modele/groupe.php");
+
+Connexion::connect();
+$group = Groupe::getGroupByIdUnique($groupId);
+
+if (!$group) {
+    echo json_encode(['status' => 'error', 'message' => 'Groupe non trouvé.']);
+    exit;
+}
+
+// Stocker les informations du groupe dans la session
+$_SESSION['nomGroupe'] = $group['grp_nom'];
+$_SESSION['couleur'] = $group['grp_couleur'];
+$_SESSION['limiteAnnuelle'] = $group['grp_lim_an'];
+$_SESSION['image_name'] = basename($group['grp_img']);
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +51,8 @@ $limiteAnnuelle = isset($_SESSION['limiteAnnuelle']) ? $_SESSION['limiteAnnuelle
             const couleur = document.getElementById('color').value;
             const limiteAnnuelle = document.getElementById('limite_annuelle').value;
             const image = document.getElementById('image').files[0];
-            const removeImage = document.getElementById('remove_image').checked ? 1 : 0;
+            const removeImageElement = document.getElementById('remove_image');
+            const removeImage = removeImageElement ? removeImageElement.checked ? 1 : 0 : 0;
 
             const formData = new FormData();
             formData.append('group_id', groupId);

@@ -57,7 +57,7 @@ class Utilisateur implements JsonSerializable {
 
     public static function getUtilisateurById($id) {
         $pdo = Connexion::PDO();
-        $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE id = :id");
+        $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE user_id = :id");
         $stmt->execute(['id' => $id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -109,7 +109,7 @@ class Utilisateur implements JsonSerializable {
         $params = ['email' => $email];
 
         if ($idUtilisateur !== null) {
-            $query .= " AND id != :id";
+            $query .= " AND user_id != :id";
             $params['id'] = $idUtilisateur;
         }
 

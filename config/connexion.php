@@ -8,7 +8,7 @@
         static private $login = 'saes3-ese';
         static private $password = 'kU4Ny1JywAGjEybF';*/
 
-          static private $database = 'eric';
+        static private $database = 'eric';
         static private $login = 'root';
         static private $password = 'root';
 

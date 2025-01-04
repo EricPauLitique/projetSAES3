@@ -52,9 +52,9 @@ $id = htmlspecialchars($_SESSION['id']);
                         </div>
                         <div class="boutons-container">
                             ${groupe.proprietaire ? `
-                                <form method="POST" action="../controllers/controleurmodifGroupe.php" style="display:inline;">
-                                    <input type="hidden" name="group_id" value="${groupe.id}" />
-                                    <button type="submit" name="modify_group" class="btn-modify">Modifier</button>
+                                <form method="post" action="../controllers/controleurmodifGroupe.php">
+                                    <input type="hidden" name="group_id" value="${groupe.id}">
+                                    <button type="submit" class="btn-modify">Modifier</button>
                                 </form>
                                 <form method="POST" style="display:inline;">
                                     <input type="hidden" name="group_id" value="${groupe.id}" />
@@ -132,6 +132,63 @@ $id = htmlspecialchars($_SESSION['id']);
             });
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.btn-modify').forEach(function(button) {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const groupId = event.target.closest('form').querySelector('input[name="group_id"]').value;
+                    console.log("ID du groupe récupéré : " + groupId); // Ajoutez ce message de débogage
+
+                    // Ajoutez un délai avant d'appeler la fonction modifyGroup
+                    setTimeout(function() {
+                        modifyGroup(groupId);
+                    }, 500); // Délai de 500 ms
+                });
+            });
+        });
+
+        function modifyGroup(groupId) {
+            if (!groupId) {
+                console.error("Aucun ID de groupe fourni.");
+                return;
+            }
+
+            // Rediriger vers la page de modification du groupe avec l'ID du groupe
+            window.location.href = 'modifgroupe.php?group_id=' + groupId;
+        }
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.btn-modify').forEach(function(button) {
+            button.addEventListener('click', async function(event) {
+                event.preventDefault();
+                const form = event.target.closest('form');
+                const groupId = form.querySelector('input[name="group_id"]').value;
+                console.log("ID du groupe récupéré : " + groupId); // Ajoutez ce message de débogage
+
+                // Récupérer les informations du groupe via AJAX
+                const response = await fetch('../controllers/controleurmodifGroupe.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        'group_id': groupId
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === 'success') {
+                    // Rediriger vers la page de modification du groupe
+                    window.location.href = '../vue/modifgroupe.php';
+                } else {
+                    console.error(result.message);
+                }
+            });
+        });
+    });
+</script>
 </head>
 <body>
     <?php include 'header.php'; ?>
