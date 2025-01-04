@@ -99,6 +99,9 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
             </div>
         <?php unset($_SESSION['message']); endif; ?>
 
+        <!-- Ajoutez cette section pour afficher le message de succès -->
+        <div id="successMessage" style="color: green; font-weight: bold;"></div>
+
         <aside>
             <h3>Liste des membres :</h3>
             <table>
@@ -188,7 +191,7 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
                         echo '<td>' . $theme->get('lim_theme') . '€</td>'; // Assurez-vous que la colonne 'theme_prix' existe dans votre base de données
                         echo '<td>
                         <div class="boutons-container">
-                            <form method="POST" action="../controllers/controleurmodifTheme.php" style="display:inline;">
+                            <form method="GET" action="modifTheme.php" style="display:inline;">
                                 <input type="hidden" name="theme_id" value="' . $theme->get('theme_id') . '" />
                                 <input type="hidden" name="group_id" value="' . $groupeId . '" />
                                 <button type="submit" name="modify_theme" class="btn-modify">Modifier</button>
@@ -237,7 +240,13 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
     
     <?php include 'footer.php'; ?>
 
-    <!-- Lien vers un fichier JavaScript -->
-    <script src="script.js"></script>
+    <script>
+    // Afficher le message de succès s'il existe dans sessionStorage
+    const successMessage = sessionStorage.getItem('message');
+    if (successMessage) {
+        document.getElementById('successMessage').innerText = successMessage;
+        sessionStorage.removeItem('message');
+    }
+    </script>
 </body>
 </html>

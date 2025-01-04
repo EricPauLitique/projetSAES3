@@ -117,7 +117,7 @@ table img {
 
 @media screen and (max-width: 768px) {
     table {
-        display: block; /* Rend la table dÃ©filable horizontalement */
+        /* display: block; */ /* Rend la table dÃ©filable horizontalement */
         overflow-x: auto;
         white-space: nowrap;
     }

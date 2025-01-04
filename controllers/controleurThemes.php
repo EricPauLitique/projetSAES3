@@ -3,6 +3,7 @@ session_start();
 require_once(__DIR__ . "/../config/connexion.php");
 require_once(__DIR__ . "/../modele/theme.php");
 require_once(__DIR__ . "/../modele/comporte.php");
+require_once(__DIR__ . "/../modele/groupe.php");
 
 Connexion::connect();
 
@@ -29,14 +30,22 @@ switch ($requestMethod) {
         $nom_du_theme = ucfirst(strtolower(htmlspecialchars($data['theme_nom'])));
         $limite_theme = intval($data['limite_theme']);
         $group_id = intval($data['group_id']);
-        $limite_grp = intval($data['limite_grp']);
+
+        // Vérifier si le groupe existe
+        $groupe = Groupe::getGroupByIdUnique2($group_id);
+        if (!$groupe) {
+            echo json_encode(['status' => 'error', 'message' => 'Groupe non trouvé.']);
+            exit;
+        }
+        $limite_grp = $groupe->get('grp_lim_an');
 
         // Vérifier si le thème existe déjà dans la base de données
         $existingTheme = Theme::getThemeByName($nom_du_theme);
         $incrementID = Theme::getMaxTheme() + 1;
 
-        if ($limite_theme + Comporte::getSumLimiteThemeByGroupId($group_id) > $limite_grp) {
-            echo json_encode(['status' => 'error', 'message' => 'La limite annuelle des thèmes ne doit pas dépasser la limite annuelle du groupe.']);
+        $currentSumLimiteTheme = Comporte::getSumLimiteThemeByGroupId($group_id);
+        if ($limite_theme + $currentSumLimiteTheme > $limite_grp) {
+            echo json_encode(['status' => 'error', 'message' => 'La limite annuelle des thèmes ne doit pas dépasser la limite annuelle du groupe. Limite actuelle des thèmes : ' . $currentSumLimiteTheme . ', Limite du groupe : ' . $limite_grp]);
             exit;
         }
 
@@ -66,11 +75,44 @@ switch ($requestMethod) {
     case 'PUT':
         $data = json_decode(file_get_contents("php://input"), true);
         $themeId = intval($data['theme_id']);
+        $group_id = intval($data['group_id']);
+
+        // Vérifier si le groupe existe
+        $groupe = Groupe::getGroupByIdUnique($group_id);
+        if (!$groupe) {
+            echo json_encode(['status' => 'error', 'message' => 'Groupe non trouvé.']);
+            exit;
+        }
+
+        // Vérifier si le nom du thème existe déjà
+        $existingTheme = Theme::getThemeByName($data['theme_nom']);
+        if ($existingTheme) {
+            $themeId = $existingTheme->get('theme_id');
+        }
+
         $theme = Theme::getThemeById($themeId);
         if ($theme) {
-            $theme->set('theme_nom', $data['theme_nom']);
-            $result = Theme::updateTheme($themeId, $data['theme_nom']);
-            if ($result) {
+            $updateSuccess = true;
+
+            if (isset($data['theme_nom'])) {
+                $theme->set('theme_nom', $data['theme_nom']);
+                $result = Theme::updateTheme($themeId, $data['theme_nom']);
+                if (!$result) {
+                    $updateSuccess = false;
+                }
+                else $updateSuccess = true;
+            }
+
+            if (isset($data['limite_theme'])) {
+                $updateComporte = Comporte::updateThemeLimitOnly($group_id, $themeId, intval($data['limite_theme']));
+                if (!$updateComporte) {
+                    $updateSuccess = false;
+                }
+                else $updateSuccess = true;
+            }
+
+
+            if ($updateSuccess) {
                 echo json_encode(['status' => 'success', 'message' => 'Thème mis à jour avec succès.']);
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Erreur lors de la mise à jour du thème.']);

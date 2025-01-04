@@ -86,6 +86,32 @@ class Theme implements JsonSerializable {
         }
     }
 
+    // Mettre à jour un thème
+    public static function updateTheme($themeId, $theme_nom) {
+        try {
+            $requete = "UPDATE theme SET theme_nom = :theme_nom WHERE theme_id = :theme_id";
+            $stmt = Connexion::pdo()->prepare($requete);
+            $stmt->execute(['theme_nom' => $theme_nom, 'theme_id' => $themeId]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }
+
+    // Supprimer un thème par son ID
+    public static function deleteThemeById($themeId) {
+        try {
+            $requete = "DELETE FROM theme WHERE theme_id = :theme_id";
+            $stmt = Connexion::pdo()->prepare($requete);
+            $stmt->execute(['theme_id' => $themeId]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }
+
     // LE max de thème
     public static function getMaxTheme() {
         try {

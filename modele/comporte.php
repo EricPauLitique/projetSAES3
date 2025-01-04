@@ -5,13 +5,13 @@ require_once(__DIR__ . "/../config/connexion.php");
 class Comporte implements JsonSerializable {
     protected int $grp_id;
     protected int $theme_id;
-    protected float $lim_theme;
+    protected int $lim_theme;
 
     // Constructeur
     public function __construct(
         int $grp_id = NULL,
         int $theme_id = NULL,
-        float $lim_theme = NULL
+        int $lim_theme = NULL
     ) {
         if (!is_null($grp_id)) {
             $this->grp_id = $grp_id;
@@ -133,13 +133,13 @@ class Comporte implements JsonSerializable {
         }
     }
 
-    // Mettre à jour le thème
-    public static function updateTheme($themeId, $grp_id, $prixTheme) {
+    // Mettre à jour uniquement la limite du thème
+    public static function updateThemeLimitOnly($grp_id, $theme_id, $lim_theme) {
         try {
-            $requete = "UPDATE comporte SET lim_theme = :lim_theme WHERE theme_id = :theme_id AND grp_id = :grp_id";
-            $stmt = connexion::pdo()->prepare($requete);
-            $stmt->execute(['theme_id' => $themeId, 'grp_id' => $grp_id, 'lim_theme' => $prixTheme]);
-            return true;
+            $requete = "UPDATE comporte SET lim_theme = :lim_theme WHERE grp_id = :grp_id AND theme_id = :theme_id";
+            $stmt = Connexion::pdo()->prepare($requete);
+            $stmt->execute(['lim_theme' => $lim_theme, 'grp_id' => $grp_id, 'theme_id' => $theme_id]);
+            return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();
             return false;
