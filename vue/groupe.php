@@ -158,11 +158,7 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
                                   <td>' . htmlspecialchars($membre->get('role')) . '</td>';
                             if ($isProprietaire) {
                                 echo '<td>
-                                        <form method="POST" action="../controllers/controleurSupprimerMembre.php">
-                                            <input type="hidden" name="user_id" value="' . $membre->get('user_id') . '">
-                                            <input type="hidden" name="grp_id" value="' . $groupeId . '" />
-                                            <button type="submit" class="btn-delete" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce membre ?\');">Supprimer</button>
-                                        </form>
+                                        <button class="btn-delete" onclick="deleteMembre(' . $membre->get('user_id') . ', ' . $groupeId . ')">Supprimer</button>
                                       </td>';
                             }
                             echo '</tr>';
@@ -255,6 +251,22 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
     if (successMessage) {
         document.getElementById('successMessage').innerText = successMessage;
         sessionStorage.removeItem('message');
+    }
+
+    function deleteMembre(userId, grpId) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer ce membre ?')) {
+            fetch(`../api.php?endpoint=membres&user_id=${userId}&grp_id=${grpId}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    location.reload();
+                }
+            })
+            .catch(error => console.error('Erreur:', error));
+        }
     }
     </script>
 </body>

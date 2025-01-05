@@ -1,5 +1,14 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+$message = '';
+if (isset($_SESSION['message'])) {
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']); // Supprime le message après l'affichage
+}
+
 require_once(__DIR__ . "/../config/connexion.php");
 
 // Utiliser les valeurs POST si elles existent
@@ -89,6 +98,9 @@ $nomRue = isset($_POST['nom_rue']) ? htmlspecialchars($_POST['nom_rue']) : '';
 
     <main>
         <h2><b>Création du compte</b></h2>
+        <?php if ($message): ?>
+            <div id="success-message" style="color: green; font-weight: bold;"><?php echo $message; ?></div>
+        <?php endif; ?>
         <div id="error-message" style="color: red; font-weight: bold;"></div>
         <form onsubmit="handleSubmit(event)">
             <div class="form-group">

@@ -2,9 +2,10 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-require_once("../config/connexion.php");
-require_once("../modele/groupe.php");
-require_once("../modele/membre.php");
+require_once(__DIR__ . "/../config/connexion.php");
+require_once(__DIR__ . "/../modele/groupe.php");
+require_once(__DIR__ . "/../modele/membre.php");
+
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {

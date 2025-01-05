@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once(__DIR__ . "/../config/connexion.php");
 
 Connexion::connect();
@@ -99,6 +100,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'password' => $passwordHashed, // Insère le mot de passe haché
             'idAdresse' => $resultIdAdresse
         ]);
+
+        $_SESSION['prenom'] = $prenom;
+        $_SESSION['nom'] = $nom;
+        $_SESSION['id'] = $resultIdUtilisateur;
 
         // Réponse JSON pour succès
         echo json_encode(['status' => 'success', 'message' => 'Votre compte a été créé avec succès.']);

@@ -47,7 +47,7 @@ function confirmDeleteAccount() {
 
 async function deleteAccount() {
     const response = await fetch('../api.php?endpoint=supprimercompte', {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         }

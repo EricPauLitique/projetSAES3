@@ -20,6 +20,11 @@ switch ($requestMethod) {
         Membre::addMembre($data);
         echo json_encode(["message" => "Membre ajouté avec succès"]);
         break;
+    case 'PUT':
+        $data = json_decode(file_get_contents("php://input"), true);
+        Membre::updateMembre($data);
+        echo json_encode(["message" => "Membre mis à jour avec succès"]);
+        break;
     case 'DELETE':
         if (isset($_GET['user_id']) && isset($_GET['grp_id'])) {
             Membre::deleteMembre($_GET['user_id'], $_GET['grp_id']);

@@ -1,5 +1,6 @@
-<?php 
+<?php
 require_once(__DIR__ . "/../config/connexion.php");
+
 
 class Membre implements JsonSerializable {
     protected int $user_id;
@@ -58,29 +59,19 @@ class Membre implements JsonSerializable {
 
     // Récupérer tous les membres
     public static function getAllMembres() {
-        $requete = "SELECT * FROM membre";
-        try {
-            $resultat = connexion::pdo()->query($requete);
-            $resultat->setFetchMode(PDO::FETCH_CLASS, "Membre");
-            return $resultat->fetchAll();
-        } catch (PDOException $e) {
-            echo 'Erreur : ' . $e->getMessage();
-            return null;
-        }
+        $db = Connexion::getInstance();
+        $stmt = $db->query("SELECT * FROM membres");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Récupérer un membre spécifique par `user_id` et `grp_id`
     public static function getMembreByIds(int $user_id, int $grp_id) {
-        try {
-            $requete = "SELECT * FROM membre WHERE user_id = :user_id AND grp_id = :grp_id";
-            $stmt = connexion::pdo()->prepare($requete);
-            $stmt->execute(['user_id' => $user_id, 'grp_id' => $grp_id]);
-            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Membre');
-            return $stmt->fetch();
-        } catch (PDOException $e) {
-            echo 'Erreur : ' . $e->getMessage();
-            return null;
-        }
+        $db = Connexion::getInstance();
+        $stmt = $db->prepare("SELECT * FROM membres WHERE user_id = :user_id AND grp_id = :grp_id");
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':grp_id', $grp_id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // Récupérer les groupes par `user_id`
@@ -142,28 +133,35 @@ class Membre implements JsonSerializable {
 
     // Ajouter un nouveau membre
     public static function addMembre(array $data) {
-        try {
-            $requete = "INSERT INTO membre (user_id, grp_id, coche_reac, coche_new_prop, coche_res_vote, role) 
-                        VALUES (:user_id, :grp_id, :coche_reac, :coche_new_prop, :coche_res_vote, :role)";
-            $stmt = connexion::pdo()->prepare($requete);
-            return $stmt->execute($data);
-        } catch (PDOException $e) {
-            echo 'Erreur : ' . $e->getMessage();
-            return false;
-        }
+        $db = Connexion::getInstance();
+        $stmt = $db->prepare("INSERT INTO membres (prenom, nom, email, groupe_id) VALUES (:prenom, :nom, :email, :groupe_id)");
+        $stmt->bindParam(':prenom', $data['prenom']);
+        $stmt->bindParam(':nom', $data['nom']);
+        $stmt->bindParam(':email', $data['email']);
+        $stmt->bindParam(':groupe_id', $data['groupe_id']);
+        return $stmt->execute();
     }
 
     // Méthode pour supprimer un membre par `user_id` et `grp_id`
     public static function deleteMembre(int $user_id, int $grp_id) {
-        try {
-            $requete = "DELETE FROM membre WHERE user_id = :user_id AND grp_id = :grp_id";
-            $stmt = connexion::pdo()->prepare($requete);
-            $stmt->execute(['user_id' => $user_id, 'grp_id' => $grp_id]);
+        $db = Connexion::getInstance();
+        $stmt = $db->prepare("DELETE FROM membres WHERE user_id = :user_id AND grp_id = :grp_id");
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':grp_id', $grp_id);
+        return $stmt->execute();
+    }
 
-            return $stmt->rowCount() > 0;
-        } catch (PDOException $e) {
-            throw new Exception('Erreur : ' . $e->getMessage());
-        }
+    // Méthode pour mettre à jour un membre
+    public static function updateMembre($data) {
+        $db = Connexion::getInstance();
+        $stmt = $db->prepare("UPDATE membres SET prenom = :prenom, nom = :nom, email = :email, groupe_id = :groupe_id WHERE user_id = :user_id AND grp_id = :grp_id");
+        $stmt->bindParam(':user_id', $data['user_id']);
+        $stmt->bindParam(':grp_id', $data['grp_id']);
+        $stmt->bindParam(':prenom', $data['prenom']);
+        $stmt->bindParam(':nom', $data['nom']);
+        $stmt->bindParam(':email', $data['email']);
+        $stmt->bindParam(':groupe_id', $data['groupe_id']);
+        return $stmt->execute();
     }
 }
 ?>

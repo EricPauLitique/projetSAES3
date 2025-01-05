@@ -8,7 +8,7 @@ require_once(__DIR__ . "/../modele/adresse.php");
 
 Connexion::connect();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     // Vérification si l'ID utilisateur est passé dans la requête POST
     if (isset($_SESSION['id'])) {
         $idUtilisateur = htmlspecialchars($_SESSION['id']);
@@ -25,22 +25,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Suppression de l'utilisateur de la base de données
         try {
             // Récupérer l'adresse de l'utilisateur
-            $utilisateur = Utilisateur::getUtilisateurByLogin($idUtilisateur);
-            $adrId = $utilisateur->get('adr_id');
+            $utilisateur = Utilisateur::getUtilisateurById($idUtilisateur);
+            if ($utilisateur) {
+                $adrId = $utilisateur->get('adr_id');   
 
-            // Supprimer l'utilisateur
-            $result = Utilisateur::deleteUtilisateur($idUtilisateur);
+                // Supprimer l'utilisateur
+                $result = Utilisateur::deleteUtilisateur($idUtilisateur);
 
-            if ($result) {
-                // Supprimer l'adresse associée
-                Adresse::deleteAdresse($adrId);
+                if ($result) {
+                    // Supprimer l'adresse associée
+                    Adresse::deleteAdresse($adrId);
 
-                // Réponse JSON pour succès
-                echo json_encode(['status' => 'success', 'message' => 'Votre compte a été supprimé avec succès.']);
-                session_destroy(); // Détruire la session après suppression du compte
-                exit;
+                    // Définir un message de succès dans la session
+                    $_SESSION['message'] = 'Votre compte ' . $prenom . ' ' . $nom . ' a été supprimé avec succès.';
+
+                    // Réponse JSON pour succès
+                    echo json_encode(['status' => 'success', 'message' => 'Votre compte a été supprimé avec succès.']);
+                    session_destroy(); // Détruire la session après suppression du compte
+                    exit;
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Erreur lors de la suppression du compte.']);
+                    exit;
+                }
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Erreur lors de la suppression du compte.']);
+                echo json_encode(['status' => 'error', 'message' => 'Utilisateur non trouvé.']);
                 exit;
             }
         } catch (Exception $e) {
@@ -52,4 +60,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
-?>  
+?>
