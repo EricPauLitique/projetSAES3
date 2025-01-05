@@ -77,6 +77,8 @@ try {
     Adresse::updateAdresse($adresse);
 
     echo json_encode(['status' => 'success', 'message' => 'Votre compte a été modifié avec succès.']);
+    $_SESSION['prenom'] = $prenom;
+    $_SESSION['nom'] = $nom;
     exit();
 
 } catch (Exception $e) {

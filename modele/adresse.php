@@ -1,48 +1,67 @@
 <?php
 require_once(__DIR__ . "/../config/connexion.php");
 
-class Adresse {
-    private ?int $adr_id;
-    private string $code_postal;
-    private string $ville;
-    private string $numero_rue;
-    private string $nom_rue;
+class Adresse implements JsonSerializable {
+    protected int $adr_id;
+    protected int $adr_cp;
+    protected string $adr_ville;
+    protected string $adr_rue;
+    protected ?int $adr_num; // Peut être NULL
 
-    public function __construct(?int $adr_id, string $code_postal, string $ville, string $numero_rue, string $nom_rue) {
-        $this->adr_id = $adr_id;
-        $this->code_postal = $code_postal;
-        $this->ville = $ville;
-        $this->numero_rue = $numero_rue;
-        $this->nom_rue = $nom_rue;
+    // Constructeur
+    public function __construct(
+        int $adr_id = NULL,
+        int $adr_cp = NULL,
+        string $adr_ville = NULL,
+        string $adr_rue = NULL,
+        ?int $adr_num = NULL
+    ) {
+        if (!is_null($adr_id)) {
+            $this->adr_id = $adr_id;
+            $this->adr_cp = $adr_cp;
+            $this->adr_ville = $adr_ville;
+            $this->adr_rue = $adr_rue;
+            $this->adr_num = $adr_num;
+        }
     }
 
-    public function getId(): ?int {
-        return $this->adr_id;
+    // Méthodes GET et SET
+    public function get($attribut) {
+        return $this->$attribut ?? null;
     }
 
-    public function get($property) {
-        return $this->$property;
+    public function set($attribut, $valeur) {
+        $this->$attribut = $valeur;
     }
 
-    public function set($property, $value) {
-        $this->$property = $value;
+    // Implémentation de JsonSerializable
+    public function jsonSerialize() {
+        return get_object_vars($this);
     }
 
-    public static function createAdresse($adresse) {
-        $db = Connexion::pdo();
-        $stmt = $db->prepare("INSERT INTO adresses (code_postal, ville, numero_rue, nom_rue) VALUES (:code_postal, :ville, :numero_rue, :nom_rue)");
-        $stmt->bindParam(':code_postal', $adresse->code_postal);
-        $stmt->bindParam(':ville', $adresse->ville);
-        $stmt->bindParam(':numero_rue', $adresse->numero_rue);
-        $stmt->bindParam(':nom_rue', $adresse->nom_rue);
-        $stmt->execute();
-        $adresse->adr_id = $db->lastInsertId();
+    // Méthode magique __toString
+    public function __toString() {
+        return "{$this->adr_id}, {$this->adr_num}, {$this->adr_rue}, {$this->adr_cp} {$this->adr_ville}";
     }
 
+    // Récupérer toutes les adresses
+    public static function getAllAdresse() {
+        $requete = "SELECT * FROM adresse";
+        try {
+            $resultat = connexion::pdo()->query($requete);
+            $resultat->setFetchMode(PDO::FETCH_CLASS, "Adresse");
+            return $resultat->fetchAll();
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
+    }
+
+    // Récupérer une adresse par son ID
     public static function getAdresseById($id) {
         try {
             $requete = "SELECT * FROM adresse WHERE adr_id = :adr_id";
-            $stmt = Connexion::pdo()->prepare($requete);
+            $stmt = connexion::pdo()->prepare($requete);
             $stmt->execute(['adr_id' => $id]);
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Adresse');
             return $stmt->fetch();

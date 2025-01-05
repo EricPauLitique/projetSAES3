@@ -21,6 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    // Vérifiez si l'utilisateur est dans le groupe
+
     // Générer un lien d'invitation unique
     $token = bin2hex(random_bytes(16));
     $_SESSION['invite_token'] = $token;

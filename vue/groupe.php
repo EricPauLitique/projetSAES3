@@ -114,7 +114,7 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
     <section>
         <br>
         <button id="showInviteFormButton" class="right-button">Inviter un utilisateur</button>
-        <form id="inviteUserForm" style="display: none;">
+        <form id="inviteUserForm" style="display: block; padding: 20px;">
             <label for="inviteEmail">Saisissez l'adresse e-mail de l'utilisateur que vous souhaitez inviter :</label>
             <input type="email" id="inviteEmail" name="inviteEmail" placeholder="Adresse e-mail de l'utilisateur" required>
             <button class="right-button" type="submit">Inviter</button>
