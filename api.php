@@ -59,6 +59,12 @@ switch ($endpoint) {
     case 'inviteUser':
         require_once(BASE_PATH . "/controllers/controleurInviteUser.php");
         break;
+    case 'supprimergroupe':
+        require_once(BASE_PATH . "/controllers/controleurSuppGroupe.php");
+        break;
+    case 'quitterGroupe':
+        require_once(BASE_PATH . "/controllers/controleurQuitterGroupe.php");
+        break;
     default:
         header("HTTP/1.1 404 Not Found");
         echo json_encode(["message" => "Endpoint non trouvé"]);

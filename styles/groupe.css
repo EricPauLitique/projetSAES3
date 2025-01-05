@@ -470,4 +470,5 @@ nav ul li a.active {
 #inviteUserForm {
     clear: both; /* Assure que le formulaire ne flotte pas à côté du bouton */
     margin-top: 10px;
+    float: right;
 }

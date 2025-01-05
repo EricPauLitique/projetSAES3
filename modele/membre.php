@@ -59,15 +59,15 @@ class Membre implements JsonSerializable {
 
     // Récupérer tous les membres
     public static function getAllMembres() {
-        $db = Connexion::getInstance();
-        $stmt = $db->query("SELECT * FROM membres");
+        $db = Connexion::pdo();
+        $stmt = $db->query("SELECT * FROM membre");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Récupérer un membre spécifique par `user_id` et `grp_id`
     public static function getMembreByIds(int $user_id, int $grp_id) {
-        $db = Connexion::getInstance();
-        $stmt = $db->prepare("SELECT * FROM membres WHERE user_id = :user_id AND grp_id = :grp_id");
+        $db = Connexion::pdo();
+        $stmt = $db->prepare("SELECT * FROM membre WHERE user_id = :user_id AND grp_id = :grp_id");
         $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':grp_id', $grp_id);
         $stmt->execute();
@@ -78,7 +78,7 @@ class Membre implements JsonSerializable {
     public static function getGrpById(int $user_id) {
         try {
             $requete = "SELECT * FROM membre m INNER JOIN utilisateur u ON u.user_id = m.user_id INNER JOIN groupe g ON g.grp_id = m.grp_id WHERE u.user_id = :user_id";
-            $stmt = connexion::pdo()->prepare($requete);
+            $stmt = Connexion::pdo()->prepare($requete);
             $stmt->execute(['user_id' => $user_id]);
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Membre');
             return $stmt->fetchAll();
@@ -91,7 +91,7 @@ class Membre implements JsonSerializable {
     public static function siMembreInconnu(int $user_id, int $grp_id) {
         try {
             $requete = "SELECT count(*) as count FROM membre m INNER JOIN utilisateur u ON u.user_id = m.user_id INNER JOIN groupe g ON g.grp_id = m.grp_id WHERE m.grp_id = :grp_id AND u.user_id = :user_id";
-            $stmt = connexion::pdo()->prepare($requete);
+            $stmt = Connexion::pdo()->prepare($requete);
             $stmt->execute(['user_id' => $user_id, 'grp_id' => $grp_id]);
             
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -105,7 +105,7 @@ class Membre implements JsonSerializable {
     public static function siMembreAgrp(int $user_id) {
         try {
             $requete = "SELECT count(*) as count FROM membre m INNER JOIN utilisateur u ON u.user_id = m.user_id INNER JOIN groupe g ON g.grp_id = m.grp_id WHERE u.user_id = :user_id";
-            $stmt = connexion::pdo()->prepare($requete);
+            $stmt = Connexion::pdo()->prepare($requete);
             $stmt->execute(['user_id' => $user_id]);
             
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -116,12 +116,11 @@ class Membre implements JsonSerializable {
         }
     }
 
-
     // Récupérer les membres par `grp_id`
     public static function getMembresByGroupeId(int $grp_id) {
         try {
             $requete = "SELECT m.*, u.user_prenom, u.user_nom, role FROM membre m INNER JOIN utilisateur u ON u.user_id = m.user_id WHERE m.grp_id = :grp_id ORDER BY role DESC";
-            $stmt = connexion::pdo()->prepare($requete);
+            $stmt = Connexion::pdo()->prepare($requete);
             $stmt->execute(['grp_id' => $grp_id]);
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Membre');
             return $stmt->fetchAll();
@@ -133,7 +132,7 @@ class Membre implements JsonSerializable {
 
  /*   // Ajouter un nouveau membre
     public static function addMembre(array $data) {
-        $db = Connexion::getInstance();
+        $db = Connexion::pdo();
         $stmt = $db->prepare("INSERT INTO membres (prenom, nom, email, groupe_id) VALUES (:prenom, :nom, :email, :groupe_id)");
         $stmt->bindParam(':prenom', $data['prenom']);
         $stmt->bindParam(':nom', $data['nom']);
@@ -144,8 +143,8 @@ class Membre implements JsonSerializable {
 
     // Méthode pour supprimer un membre par `user_id` et `grp_id`
     public static function deleteMembre(int $user_id, int $grp_id) {
-        $db = Connexion::getInstance();
-        $stmt = $db->prepare("DELETE FROM membres WHERE user_id = :user_id AND grp_id = :grp_id");
+        $db = Connexion::pdo();
+        $stmt = $db->prepare("DELETE FROM membre WHERE user_id = :user_id AND grp_id = :grp_id");
         $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':grp_id', $grp_id);
         return $stmt->execute();
@@ -153,8 +152,8 @@ class Membre implements JsonSerializable {
 
     // Méthode pour mettre à jour un membre
     public static function updateMembre($data) {
-        $db = Connexion::getInstance();
-        $stmt = $db->prepare("UPDATE membres SET prenom = :prenom, nom = :nom, email = :email, groupe_id = :groupe_id WHERE user_id = :user_id AND grp_id = :grp_id");
+        $db = Connexion::pdo();
+        $stmt = $db->prepare("UPDATE membre SET prenom = :prenom, nom = :nom, email = :email, groupe_id = :groupe_id WHERE user_id = :user_id AND grp_id = :grp_id");
         $stmt->bindParam(':user_id', $data['user_id']);
         $stmt->bindParam(':grp_id', $data['grp_id']);
         $stmt->bindParam(':prenom', $data['prenom']);

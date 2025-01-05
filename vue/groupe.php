@@ -111,21 +111,13 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
         <div id="successMessage" style="color: green; font-weight: bold;"></div>
 
         <?php if ($isProprietaire) { ?>
-            <section>
-                <button id="showInviteFormButton">Inviter un utilisateur</button>
-                <form id="inviteUserForm" style="display: none;">
-                    <input type="email" id="inviteEmail" name="inviteEmail" placeholder="Adresse e-mail de l'utilisateur" required>
-                    <button type="submit">Inviter</button>
-                </form>
-            </section>
-        <?php } ?>
-
-        <?php if ($isProprietaire) { ?>
     <section>
+        <br>
         <button id="showInviteFormButton" class="right-button">Inviter un utilisateur</button>
         <form id="inviteUserForm" style="display: none;">
+            <label for="inviteEmail">Saisissez l'adresse e-mail de l'utilisateur que vous souhaitez inviter :</label>
             <input type="email" id="inviteEmail" name="inviteEmail" placeholder="Adresse e-mail de l'utilisateur" required>
-            <button type="submit">Inviter</button>
+            <button class="right-button" type="submit">Inviter</button>
         </form>
     </section>
 <?php } ?>

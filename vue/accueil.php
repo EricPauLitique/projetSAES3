@@ -38,42 +38,66 @@ $id = htmlspecialchars($_SESSION['id']);
                 const groupesList = document.getElementById('groupes-list');
                 groupesList.innerHTML = '';
 
-                groupes.forEach(groupe => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `
-                        <div class="group-item">
-                            <div class="group-image">
-                                <a href="groupe.php?id=${groupe.id}">
-                                    <img src="${groupe.image}" alt="Logo ${groupe.nom}" class="image-small" />
-                                </a>
+                if (groupes.length === 0) {
+                    groupesList.innerHTML = '<p>Vous n\'avez aucun groupe. <a href="creagroupe.php"><b>Créer un groupe</b></a> ou <i>rejoindre un groupe via un lien invitation faite par le créateur</i></a>.</p>';
+                } else {
+                    groupes.forEach(groupe => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                            <div class="group-item">
+                                <div class="group-image">
+                                    <a href="groupe.php?id=${groupe.id}">
+                                        <img src="${groupe.image}" alt="Logo ${groupe.nom}" class="image-small" />
+                                    </a>
+                                </div>
+                                <h2 class="group-title" style="color: ${groupe.couleur};">
+                                    <a href="groupe.php?id=${groupe.id}" class="group-link">${groupe.nom}</a>
+                                </h2>
                             </div>
-                            <h2 class="group-title" style="color: ${groupe.couleur};">
-                                <a href="groupe.php?id=${groupe.id}" class="group-link">${groupe.nom}</a>
-                            </h2>
-                        </div>
-                        <div class="boutons-container">
-                            ${groupe.proprietaire ? `
-                                <form method="post" action="../controllers/controleurmodifGroupe.php">
-                                    <input type="hidden" name="group_id" value="${groupe.id}">
-                                    <button type="submit" class="btn-modify">Modifier</button>
-                                </form>
-                                <form method="POST" style="display:inline;">
-                                    <input type="hidden" name="group_id" value="${groupe.id}" />
-                                    <button type="button" name="delete_group" class="btn-delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce groupe ?');">Supprimer</button>
-                                </form>
-                            ` : `
-                                <form method="POST" action="../controllers/controleurQuitterGroupe.php" style="display:inline;">
-                                    <input type="hidden" name="user_id" value="${<?php echo $id; ?>}">
-                                    <input type="hidden" name="grp_id" value="${groupe.id}">
-                                    <button type="submit" class="btn-delete btn-quitter" style="width: 93.81px; height: 35px;" onclick="return confirm('Êtes-vous sûr de vouloir quitter ce groupe ?');">Quitter</button>
-                                </form>
-                            `}
-                        </div>
-                    `;
-                    groupesList.appendChild(li);
-                });
+                            <div class="boutons-container">
+                                ${groupe.proprietaire ? `
+                                    <form method="post" action="../controllers/controleurmodifGroupe.php">
+                                        <input type="hidden" name="group_id" value="${groupe.id}">
+                                        <button type="submit" class="btn-modify">Modifier</button>
+                                    </form>
+                                    <form method="POST" style="display:inline;">
+                                        <input type="hidden" name="group_id" value="${groupe.id}" />
+                                        <button type="button" name="delete_group" class="btn-delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce groupe ?');">Supprimer</button>
+                                    </form>
+                                ` : `
+                                    <form method="POST" style="display:inline;">
+                                        <input type="hidden" name="user_id" value="${<?php echo $id; ?>}">
+                                        <input type="hidden" name="grp_id" value="${groupe.id}">
+                                        <button type="button" class="btn-delete btn-quitter" style="width: 93.81px; height: 35px;" onclick="quitterGroupe(${<?php echo $id; ?>}, ${groupe.id})">Quitter</button>
+                                    </form>
+                                `}
+                            </div>
+                        `;
+                        groupesList.appendChild(li);
+                    });
+                }
             } else {
                 document.getElementById('error-message').innerText = result.message;
+            }
+        }
+
+        async function quitterGroupe(userId, grpId) {
+            if (confirm('Êtes-vous sûr de vouloir quitter ce groupe ?')) {
+                const response = await fetch('../api.php?endpoint=quitterGroupe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ user_id: userId, grp_id: grpId })
+                });
+
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert(result.message);
+                    fetchGroupes(); // Rafraîchir la liste des groupes
+                } else {
+                    alert(result.message);
+                }
             }
         }
 
@@ -133,63 +157,6 @@ $id = htmlspecialchars($_SESSION['id']);
             });
         });
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.btn-modify').forEach(function(button) {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const groupId = event.target.closest('form').querySelector('input[name="group_id"]').value;
-                    console.log("ID du groupe récupéré : " + groupId); // Ajoutez ce message de débogage
-
-                    // Ajoutez un délai avant d'appeler la fonction modifyGroup
-                    setTimeout(function() {
-                        modifyGroup(groupId);
-                    }, 500); // Délai de 500 ms
-                });
-            });
-        });
-
-        function modifyGroup(groupId) {
-            if (!groupId) {
-                console.error("Aucun ID de groupe fourni.");
-                return;
-            }
-
-            // Rediriger vers la page de modification du groupe avec l'ID du groupe
-            window.location.href = 'modifgroupe.php?group_id=' + groupId;
-        }
-    </script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.btn-modify').forEach(function(button) {
-            button.addEventListener('click', async function(event) {
-                event.preventDefault();
-                const form = event.target.closest('form');
-                const groupId = form.querySelector('input[name="group_id"]').value;
-                console.log("ID du groupe récupéré : " + groupId); // Ajoutez ce message de débogage
-
-                // Récupérer les informations du groupe via AJAX
-                const response = await fetch('../controllers/controleurmodifGroupe.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams({
-                        'group_id': groupId
-                    })
-                });
-
-                const result = await response.json();
-                if (result.status === 'success') {
-                    // Rediriger vers la page de modification du groupe
-                    window.location.href = '../vue/modifgroupe.php';
-                } else {
-                    console.error(result.message);
-                }
-            });
-        });
-    });
-</script>
 </head>
 <body>
     <?php include 'header.php'; ?>

@@ -1,39 +1,43 @@
 <?php
-session_start();
 require_once(__DIR__ . "/../config/connexion.php");
-require_once("../modele/membre.php");
-require_once("../modele/groupe.php");
+require_once(__DIR__ . "/../modele/membre.php");
+require_once(__DIR__ . "/../modele/groupe.php");
 
-// Vérification si les IDs utilisateur et groupe sont passés dans la requête POST
-if (isset($_POST['user_id']) && isset($_POST['grp_id'])) {
-    $userId = intval($_POST['user_id']);
-    $grpId = intval($_POST['grp_id']);
+Connexion::connect();
 
-    // Connexion à la base de données
-    Connexion::connect();
+$requestMethod = $_SERVER["REQUEST_METHOD"];
 
-    // Récupérer le nom du groupe
-    $groupe = Groupe::getGroupByIdUnique($grpId);
-    $nomGroupe = $groupe['grp_nom'];
+if ($requestMethod === 'POST') {
+    $data = json_decode(file_get_contents("php://input"), true);
 
-    // Suppression du membre de la base de données
-    try {
-        $result = Membre::deleteMembre($userId, $grpId);
+    // Ajoutez des messages de débogage
+    error_log("Données reçues : " . print_r($data, true));
 
-        if ($result) {
-            $_SESSION['message'] = '<span style="color: green; font-weight: bold;">Vous avez quitté le groupe "' . htmlspecialchars($nomGroupe) . '" avec succès.</span>';
-        } else {
-            $_SESSION['message'] = '<b><i style="color: red;">Erreur lors de la tentative de quitter le groupe "' . htmlspecialchars($nomGroupe) . '".</i></b>';
+    if (isset($data['user_id']) && isset($data['grp_id'])) {
+        $userId = intval($data['user_id']);
+        $grpId = intval($data['grp_id']);
+
+        // Récupérer le nom du groupe
+        $groupe = Groupe::getGroupByIdUnique($grpId);
+        $nomGroupe = $groupe['grp_nom'];
+
+        // Suppression du membre de la base de données
+        try {
+            $result = Membre::deleteMembre($userId, $grpId);
+
+            if ($result) {
+                echo json_encode(['status' => 'success', 'message' => 'Vous avez quitté le groupe "' . htmlspecialchars($nomGroupe) . '" avec succès.']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Erreur lors de la tentative de quitter le groupe "' . htmlspecialchars($nomGroupe) . '".']);
+            }
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => 'Erreur : ' . $e->getMessage()]);
         }
-    } catch (Exception $e) {
-        $_SESSION['message'] = '<b><i style="color: red;">Erreur : ' . $e->getMessage() . '</i></b>';
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'ID utilisateur ou groupe manquant.']);
     }
-
-    // Redirection vers la page d'accueil après avoir quitté le groupe
-    header("Location: ../vue/accueil.php");
-    exit();
 } else {
-    $_SESSION['message'] = '<b><i style="color: red;">ID utilisateur ou groupe manquant.</i></b>';
-    header("Location: ../vue/accueil.php");
-    exit();
+    header("HTTP/1.1 405 Method Not Allowed");
+    echo json_encode(['message' => 'Méthode non autorisée']);
 }
+?>
