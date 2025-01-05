@@ -96,6 +96,9 @@ document.getElementById('ajoutThemeForm').addEventListener('submit', async funct
 
     if (result.status === 'success') {
         messageDiv.innerHTML = '<p style="color: green; font-weight: bold;"><b>Le thème a été ajouté avec succès.</b></p>';
+        setTimeout(() => {
+            window.location.href = 'groupe.php?id=' + data.group_id;
+        }, 2000);
     } else {
         messageDiv.innerHTML = '<p style="color: red; font-weight: bold;"><b>' + result.message + '</b></p>';
     }

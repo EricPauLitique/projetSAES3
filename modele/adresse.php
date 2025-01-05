@@ -83,6 +83,8 @@ class Adresse implements JsonSerializable {
         }
     }
 
+
+
     // Mettre à jour une adresse
     public static function updateAdresse(Adresse $adresse) {
         try {

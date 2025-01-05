@@ -33,9 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 $result = Utilisateur::deleteUtilisateur($idUtilisateur);
 
                 if ($result) {
-                    // Supprimer l'adresse associée
-                    Adresse::deleteAdresse($adrId);
-
+                    // Vérifier si l'adresse est utilisée par d'autres utilisateurs
+                    if (!Utilisateur::isAdresseUsedByOthers($adrId, $idUtilisateur)) {
+                        // Supprimer l'adresse associée
+                        Adresse::deleteAdresse($adrId);
+                    }
                     // Définir un message de succès dans la session
                     $_SESSION['message'] = 'Votre compte ' . $prenom . ' ' . $nom . ' a été supprimé avec succès.';
 

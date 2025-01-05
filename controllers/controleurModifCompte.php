@@ -13,6 +13,7 @@ error_log("Session démarrée : " . print_r($_SESSION, true));
 if (!isset($_SESSION['id'])) {
     error_log("Utilisateur non connecté.");
     echo json_encode(['status' => 'error', 'message' => 'Utilisateur non connecté.']);
+    header("Location: ../vue/connexion.php");
     exit;
 }
 

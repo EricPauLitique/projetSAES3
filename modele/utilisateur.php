@@ -74,6 +74,19 @@ class Utilisateur {
         return null;
     }
 
+        // Vérifier si une adresse est utilisée par d'autres utilisateurs
+        public static function isAdresseUsedByOthers($adr_id, $user_id) {
+            try {
+                $requete = "SELECT COUNT(*) FROM utilisateur WHERE adr_id = :adr_id AND user_id != :user_id";
+                $stmt = connexion::pdo()->prepare($requete);
+                $stmt->execute(['adr_id' => $adr_id, 'user_id' => $user_id]);
+                return $stmt->fetchColumn() > 0;
+            } catch (PDOException $e) {
+                echo 'Erreur : ' . $e->getMessage();
+                return false;
+            }
+        }
+
     public static function getAllUtilisateur() {
         $pdo = Connexion::pdo();
         $stmt = $pdo->query("SELECT * FROM utilisateur");
