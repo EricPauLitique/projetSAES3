@@ -39,7 +39,7 @@ $id = htmlspecialchars($_SESSION['id']);
                 groupesList.innerHTML = '';
 
                 if (groupes.length === 0) {
-                    groupesList.innerHTML = '<p>Vous n\'avez aucun groupe. <a href="creagroupe.php"><b>Créer un groupe</b></a> ou <i>rejoindre un groupe via un lien invitation faite par le créateur</i></a>.</p>';
+                    groupesList.innerHTML = '<p>Vous n\'avez aucun groupe. <a href="creagroupe.php"><b>Créer un groupe</b></a> ou <i>rejoindre un groupe via un lien invitation faite par le créateur</i>.</p>';
                 } else {
                     groupes.forEach(groupe => {
                         const li = document.createElement('li');
@@ -56,20 +56,10 @@ $id = htmlspecialchars($_SESSION['id']);
                             </div>
                             <div class="boutons-container">
                                 ${groupe.proprietaire ? `
-                                    <form method="post" action="../controllers/controleurmodifGroupe.php">
-                                        <input type="hidden" name="group_id" value="${groupe.id}">
-                                        <button type="submit" class="btn-modify">Modifier</button>
-                                    </form>
-                                    <form method="POST" style="display:inline;">
-                                        <input type="hidden" name="group_id" value="${groupe.id}" />
-                                        <button type="button" name="delete_group" class="btn-delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce groupe ?');">Supprimer</button>
-                                    </form>
+                                    <button type="button" class="btn-modify" onclick="modifyGroup(${groupe.id})">Modifier</button>
+                                    <button type="button" class="btn-delete" onclick="deleteGroup(${groupe.id})">Supprimer</button>
                                 ` : `
-                                    <form method="POST" style="display:inline;">
-                                        <input type="hidden" name="user_id" value="${<?php echo $id; ?>}">
-                                        <input type="hidden" name="grp_id" value="${groupe.id}">
-                                        <button type="button" class="btn-delete btn-quitter" style="width: 93.81px; height: 35px;" onclick="quitterGroupe(${<?php echo $id; ?>}, ${groupe.id})">Quitter</button>
-                                    </form>
+                                    <button type="button" class="btn-delete btn-quitter" onclick="quitterGroupe(${<?php echo $id; ?>}, ${groupe.id})">Quitter</button>
                                 `}
                             </div>
                         `;
@@ -102,20 +92,22 @@ $id = htmlspecialchars($_SESSION['id']);
         }
 
         async function deleteGroup(groupId) {
-            const response = await fetch('../api.php?endpoint=supprimergroupe', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ group_id: groupId })
-            });
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce groupe ?')) {
+                const response = await fetch('../api.php?endpoint=supprimergroupe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ group_id: groupId })
+                });
 
-            const result = await response.json();
-            if (result.status === 'success') {
-                alert(result.message);
-                fetchGroupes(); // Rafraîchir la liste des groupes
-            } else {
-                alert(result.message);
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert(result.message);
+                    fetchGroupes(); // Rafraîchir la liste des groupes
+                } else {
+                    alert(result.message);
+                }
             }
         }
 
@@ -129,7 +121,13 @@ $id = htmlspecialchars($_SESSION['id']);
                 body: JSON.stringify({ group_id: groupId })
             });
 
-            const result = await response.json();
+            const result = await response.json().catch(error => {
+                console.error('Erreur lors de la conversion en JSON:', error);
+                return { status: 'error', message: 'Erreur lors de la conversion en JSON' };
+            });
+
+            console.log("Résultat de la requête : ", result); // Ajoutez ce message de débogage
+
             if (result.status === 'success') {
                 // Rediriger vers la page de modification avec les données du groupe
                 window.location.href = 'modifgroupe.php';
@@ -140,21 +138,6 @@ $id = htmlspecialchars($_SESSION['id']);
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchGroupes();
-
-            document.getElementById('groupes-list').addEventListener('click', (event) => {
-                if (event.target.classList.contains('btn-delete')) {
-                    const groupId = event.target.closest('form').querySelector('input[name="group_id"]').value;
-                    if (confirm('Êtes-vous sûr de vouloir supprimer ce groupe ?')) {
-                        deleteGroup(groupId);
-                    }
-                }
-
-                if (event.target.classList.contains('btn-modify')) {
-                    const groupId = event.target.closest('form').querySelector('input[name="group_id"]').value;
-                    console.log("ID du groupe récupéré : " + groupId); // Ajoutez ce message de débogage
-                    modifyGroup(groupId);
-                }
-            });
         });
     </script>
 </head>

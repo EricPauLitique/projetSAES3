@@ -326,3 +326,19 @@ footer p {
     margin-right: 20px;
     margin-bottom: 100px;
 }
+
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.password-container input {
+    flex: 1;
+}
+.password-container img {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    width: 20px;
+    vertical-align: middle;
+}

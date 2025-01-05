@@ -92,23 +92,6 @@ $nomRue = htmlspecialchars($adresse->get('adr_rue'));
             document.getElementById('modify-account-form').addEventListener('submit', handleSubmit);
         });
     </script>
-    <style>
-        .password-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-        .password-container input {
-            flex: 1;
-        }
-        .password-container img {
-            position: absolute;
-            right: 10px;
-            cursor: pointer;
-            width: 20px;
-            vertical-align: middle;
-        }
-    </style>
 </head>
 <body>
     <?php include 'header.php'; ?>

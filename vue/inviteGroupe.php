@@ -44,6 +44,9 @@ if ($token && $groupId && $email) {
     echo "Informations d'invitation manquantes.";
     exit;
 }
+
+// Inclure le fichier header.php
+include 'header.php';
 ?>
 
 <!DOCTYPE html>
@@ -51,6 +54,7 @@ if ($token && $groupId && $email) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../images/logoVC.ico" rel="shortcut icon" type="image/x-icon" />
     <title>Invitation à rejoindre un groupe</title>
 </head>
 <body>
@@ -73,5 +77,10 @@ if ($token && $groupId && $email) {
         <button type="submit">Accepter</button>
         <button type="submit" name="action" value="decline">Refuser</button>
     </form>
+
+    <?php
+    // Inclure le fichier footer.php
+    include 'footer.php';
+    ?>
 </body>
 </html>

@@ -18,8 +18,8 @@ if ($requestMethod === 'POST') {
         $grpId = intval($data['grp_id']);
 
         // Récupérer le nom du groupe
-        $groupe = Groupe::getGroupByIdUnique($grpId);
-        $nomGroupe = $groupe['grp_nom'];
+        $groupe = Groupe::getGroupByIdUnique2($grpId);
+        $nomGroupe = $groupe->get('grp_nom');
 
         // Suppression du membre de la base de données
         try {

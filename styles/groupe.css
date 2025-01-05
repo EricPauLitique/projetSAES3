@@ -204,7 +204,7 @@ form {
     /* width: 100%; */ /* S'adapte à la largeur de son conteneur */
     max-width: 500px; /* Largeur maximale pour éviter qu'il ne devienne trop grand */
     /* margin: 0 auto; */ /* Centre le formulaire horizontalement */
-    /* padding: 20px; */ /* Ajoute de l'espace à l'intérieur du formulaire */
+    padding: 20px; /* Ajoute de l'espace à l'intérieur du formulaire */
     background-color: #e2e2e2; /* Fond blanc pour le contraste */
     border-radius: 8px; /* Coins arrondis */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre douce */

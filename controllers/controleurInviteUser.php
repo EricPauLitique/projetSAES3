@@ -47,8 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Contenu de l'email
         $mail->isHTML(true);
-        $mail->Subject = "Invitation à rejoindre le groupe <b>" . $groupe->get('grp_nom'). "</b>";
-        $mail->Body = "Bonjour,<br><br>Vous avez été invité à rejoindre le groupe <b>" . $groupe->get('grp_nom') . "</b>.<br><br>Cliquez sur le lien suivant pour accepter ou refuser l'invitation : <a href='$inviteLink'>$inviteLink</a><br><br>Cordialement,<br>L'équipe Voix Citoyenne";
+        $mail->Subject = "Invitation à rejoindre le groupe " . $groupe->get('grp_nom');
+        $mail->Body = utf8_encode("Bonjour,<br><br>Vous avez été invité à rejoindre le groupe <b>" . $groupe->get('grp_nom') . "</b>.<br><br>Cliquez sur le lien suivant pour accepter ou refuser l'invitation : <a href='$inviteLink'>$inviteLink</a><br><br>Cordialement,<br>L'équipe Voix Citoyenne");
 
         $mail->send();
         echo json_encode(['status' => 'success', 'message' => 'Invitation envoyée avec succès.']);

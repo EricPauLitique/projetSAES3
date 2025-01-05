@@ -4,7 +4,7 @@
 session_start();
 
 // Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
+if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom']) || !isset($_SESSION['id'])) {
     echo json_encode(['status' => 'error', 'message' => 'Utilisateur non connecté.']);
     exit;
 }
@@ -19,7 +19,9 @@ error_log("Données de session : " . print_r($_SESSION, true));
 
 // Vérifier si l'ID du groupe est envoyé via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $groupId = isset($_POST['group_id']) ? $_POST['group_id'] : null;
+    // Vérifier si l'ID du groupe est envoyé via JSON
+    $data = json_decode(file_get_contents("php://input"), true);
+    $groupId = isset($data['group_id']) ? $data['group_id'] : null;
 
     // Ajoutez un message de débogage pour vérifier l'ID du groupe
     error_log("ID du groupe reçu : " . $groupId);
@@ -43,8 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['image_name'] = '';
             }
 
-            // Rediriger vers la page de modification du groupe
-            header("Location: ../vue/modifgroupe.php");
+            // Renvoie une réponse JSON indiquant le succès
+            echo json_encode(['status' => 'success', 'message' => 'Données du groupe récupérées avec succès.']);
             exit;
         } else {
             echo json_encode(['status' => 'error', 'message' => "Le groupe n'a pas été trouvé."]);
