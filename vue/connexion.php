@@ -45,7 +45,8 @@ if (isset($_SESSION['message'])) {
 
             const result = await response.json();
             if (result.status === 'success') {
-                window.location.href = '../vue/accueil.php';
+                const redirectUrl = '<?php echo $_SESSION['redirect_after_login'] ?? "../vue/accueil.php"; ?>';
+                window.location.href = redirectUrl;
             } else {
                 document.getElementById('error-message').innerText = result.message;
             }

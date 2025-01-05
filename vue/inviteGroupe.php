@@ -1,6 +1,5 @@
 <?php
-// filepath: /Users/ericse/ProjetS3/projetSAES3/vue/inviteGroupe.php
-
+session_start();
 require_once(__DIR__ . "/../config/connexion.php");
 require_once(__DIR__ . "/../modele/utilisateur.php");
 require_once(__DIR__ . "/../modele/groupe.php");
@@ -13,8 +12,24 @@ $groupId = $_GET['groupId'] ?? '';
 $email = $_GET['email'] ?? '';
 
 if ($token && $groupId && $email) {
-    if (!isset($_SESSION['invite_token']) || $_SESSION['invite_token'] !== $token) {
+    $tokenFile = __DIR__ . "/../tokens/$token.json";
+    if (!file_exists($tokenFile)) {
         echo "Invitation invalide ou déjà utilisée.";
+        exit;
+    }
+
+    $tokenData = json_decode(file_get_contents($tokenFile), true);
+    if ($tokenData['group_id'] !== intval($groupId) || $tokenData['email'] !== $email) {
+        echo "Invitation invalide.";
+        exit;
+    }
+
+    $tokenTime = $tokenData['created_at'];
+    $currentTime = time();
+    $tokenExpiry = 86400; // 1 jour (86400 secondes)
+
+    if (($currentTime - $tokenTime) > $tokenExpiry) {
+        echo "Invitation expirée.";
         exit;
     }
 
@@ -27,6 +42,7 @@ if ($token && $groupId && $email) {
                 $_SESSION['invite_token'] = $token;
                 $_SESSION['invite_groupId'] = $groupId;
                 $_SESSION['invite_email'] = $email;
+                $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
                 header("Location: connexion.php");
                 exit;
             }
@@ -39,17 +55,13 @@ if ($token && $groupId && $email) {
 
             Membre::addMembre($userId, $groupId, $cocheReac, $cocheNewProp, $cocheResVote);
 
-            // Supprimer les informations d'invitation de la session
-            unset($_SESSION['invite_token']);
-            unset($_SESSION['invite_groupId']);
-            unset($_SESSION['invite_email']);
+            // Supprimer le token du fichier
+            unlink($tokenFile);
 
             echo "Vous avez accepté l'invitation.";
         } elseif ($action === 'decline') {
-            // Supprimer les informations d'invitation de la session
-            unset($_SESSION['invite_token']);
-            unset($_SESSION['invite_groupId']);
-            unset($_SESSION['invite_email']);
+            // Supprimer le token du fichier
+            unlink($tokenFile);
 
             echo "Vous avez refusé l'invitation.";
         }
@@ -58,6 +70,16 @@ if ($token && $groupId && $email) {
     }
 } else {
     echo "Informations d'invitation manquantes.";
+    exit;
+}
+
+// Vérifier si l'utilisateur est connecté
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['invite_token'] = $token;
+    $_SESSION['invite_groupId'] = $groupId;
+    $_SESSION['invite_email'] = $email;
+    $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
+    header("Location: connexion.php");
     exit;
 }
 

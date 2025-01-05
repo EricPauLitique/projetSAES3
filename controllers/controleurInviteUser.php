@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once(__DIR__ . "/../vendor/autoload.php");
 require_once(__DIR__ . "/../config/connexion.php");
 require_once(__DIR__ . "/../modele/utilisateur.php");
@@ -21,13 +22,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Vérifiez si l'utilisateur est dans le groupe
-
     // Générer un lien d'invitation unique
     $token = bin2hex(random_bytes(16));
-    $_SESSION['invite_token'] = $token;
-    $_SESSION['invite_groupId'] = $groupId;
-    $_SESSION['invite_email'] = $email;
+    $createdAt = time();
+
+    // Stocker le token dans un fichier
+    $tokenData = [
+        'token' => $token,
+        'group_id' => $groupId,
+        'email' => $email,
+        'created_at' => $createdAt
+    ];
+    file_put_contents(__DIR__ . "/../tokens/$token.json", json_encode($tokenData));
+
     $inviteLink = "https://beloved-accepted-squid.ngrok-free.app/projetSAES3/vue/inviteGroupe.php?token=$token&groupId=$groupId&email=$email";
 
     // Envoyer l'email d'invitation avec PHPMailer
@@ -52,8 +59,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Contenu de l'email
         $mail->isHTML(true);
         $mail->Subject = "Invitation à rejoindre le groupe " . htmlspecialchars($groupe->get('grp_nom'));
-        $mail->Body = "Bonjour,<br><br>Vous avez été invité à rejoindre le groupe <b>" . htmlspecialchars($groupe->get('grp_nom')) . "</b>.<br><br>Cliquez sur le lien suivant pour accepter ou refuser l'invitation : <a href='$inviteLink'>$inviteLink</a><br><br>Cordialement,<br>L'équipe Voix Citoyenne";
+        $mail->Body = "Bonjour,<br><br>Vous avez été invité à rejoindre le groupe <b>" . htmlspecialchars($groupe->get('grp_nom')) . "</b>.<br><br>Cliquez sur le lien suivant pour accepter ou refuser l'invitation : <a href='$inviteLink'>$inviteLink</a><br><br>Cordialement,<br>L'équipe Voix Citoyenne<br><br><img src='cid:logo_voix_citoyenne'>";
 
+        // Ajouter l'image en pièce jointe
+        $mail->addEmbeddedImage(__DIR__ . '/../images/logo_mail.png', 'logo_voix_citoyenne');
+        
         $mail->send();
         echo json_encode(['status' => 'success', 'message' => 'Invitation envoyée avec succès.']);
     } catch (Exception $e) {
