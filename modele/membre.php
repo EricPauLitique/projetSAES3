@@ -131,7 +131,7 @@ class Membre implements JsonSerializable {
         }
     }
 
-    // Ajouter un nouveau membre
+ /*   // Ajouter un nouveau membre
     public static function addMembre(array $data) {
         $db = Connexion::getInstance();
         $stmt = $db->prepare("INSERT INTO membres (prenom, nom, email, groupe_id) VALUES (:prenom, :nom, :email, :groupe_id)");
@@ -140,7 +140,7 @@ class Membre implements JsonSerializable {
         $stmt->bindParam(':email', $data['email']);
         $stmt->bindParam(':groupe_id', $data['groupe_id']);
         return $stmt->execute();
-    }
+    }*/
 
     // Méthode pour supprimer un membre par `user_id` et `grp_id`
     public static function deleteMembre(int $user_id, int $grp_id) {
@@ -162,6 +162,18 @@ class Membre implements JsonSerializable {
         $stmt->bindParam(':email', $data['email']);
         $stmt->bindParam(':groupe_id', $data['groupe_id']);
         return $stmt->execute();
+    }
+
+    // Ajouter un nouveau membre avec coche_reac, coche_new_prop, coche_res_vote
+    public static function addMembre($userId, $groupId, $cocheReac, $cocheNewProp, $cocheResVote) {
+        $db = Connexion::pdo();
+        $stmt = $db->prepare("INSERT INTO membre (user_id, grp_id, coche_reac, coche_new_prop, coche_res_vote) VALUES (:user_id, :grp_id, :coche_reac, :coche_new_prop, :coche_res_vote)");
+        $stmt->bindParam(':user_id', $userId);
+        $stmt->bindParam(':grp_id', $groupId);
+        $stmt->bindParam(':coche_reac', $cocheReac);
+        $stmt->bindParam(':coche_new_prop', $cocheNewProp);
+        $stmt->bindParam(':coche_res_vote', $cocheResVote);
+        $stmt->execute();
     }
 }
 ?>

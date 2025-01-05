@@ -75,7 +75,6 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
             <?php echo 'Groupe :&nbsp;<b><i><u>' . htmlspecialchars($groupe->get('grp_nom')) . '</u></i></b>'; ?>
         </h1>
 
-        
         <nav>
             <ul>
                 <li><a href="groupe.php?id=<?php echo $groupeId; ?>" class="active">Groupe</a></li>
@@ -110,6 +109,26 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
 
         <!-- Ajoutez cette section pour afficher le message de succès -->
         <div id="successMessage" style="color: green; font-weight: bold;"></div>
+
+        <?php if ($isProprietaire) { ?>
+            <section>
+                <button id="showInviteFormButton">Inviter un utilisateur</button>
+                <form id="inviteUserForm" style="display: none;">
+                    <input type="email" id="inviteEmail" name="inviteEmail" placeholder="Adresse e-mail de l'utilisateur" required>
+                    <button type="submit">Inviter</button>
+                </form>
+            </section>
+        <?php } ?>
+
+        <?php if ($isProprietaire) { ?>
+    <section>
+        <button id="showInviteFormButton" class="right-button">Inviter un utilisateur</button>
+        <form id="inviteUserForm" style="display: none;">
+            <input type="email" id="inviteEmail" name="inviteEmail" placeholder="Adresse e-mail de l'utilisateur" required>
+            <button type="submit">Inviter</button>
+        </form>
+    </section>
+<?php } ?>
 
         <aside>
             <h3>Liste des membres :</h3>
@@ -245,6 +264,9 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
     
     <?php include 'footer.php'; ?>
 
+    <!-- Bouton de défilement -->
+    <button onclick="topFunction()" id="scrollButton" title="Go to top">Top</button>
+
     <script>
     // Afficher le message de succès s'il existe dans sessionStorage
     const successMessage = sessionStorage.getItem('message');
@@ -252,6 +274,29 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
         document.getElementById('successMessage').innerText = successMessage;
         sessionStorage.removeItem('message');
     }
+
+    document.getElementById('inviteUserForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const email = document.getElementById('inviteEmail').value;
+        const groupId = <?php echo $groupeId; ?>;
+
+        fetch('../api.php?endpoint=inviteUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, groupId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Invitation envoyée avec succès.');
+            } else {
+                alert('Erreur lors de l\'envoi de l\'invitation : ' + data.message);
+            }
+        })
+        .catch(error => console.error('Erreur:', error));
+    });
 
     function deleteMembre(userId, grpId) {
         if (confirm('Êtes-vous sûr de vouloir supprimer ce membre ?')) {
@@ -268,6 +313,32 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
             .catch(error => console.error('Erreur:', error));
         }
     }
+
+    // Bouton de défilement
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("scrollButton").style.display = "block";
+        } else {
+            document.getElementById("scrollButton").style.display = "none";
+        }
+    }
+
+    function topFunction() {
+        document.body.scrollTop = 0; // Pour Safari
+        document.documentElement.scrollTop = 0; // Pour Chrome, Firefox, IE et Opera
+    }
+
+    // Afficher/Masquer le formulaire d'invitation
+    document.getElementById('showInviteFormButton').addEventListener('click', function() {
+        const inviteForm = document.getElementById('inviteUserForm');
+        if (inviteForm.style.display === 'none') {
+            inviteForm.style.display = 'block';
+        } else {
+            inviteForm.style.display = 'none';
+        }
+    });
     </script>
 </body>
 </html>

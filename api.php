@@ -56,6 +56,9 @@ switch ($endpoint) {
     case 'utilisateurs':
         require_once(BASE_PATH . "/controllers/utilisateurController.php");
         break;    
+    case 'inviteUser':
+        require_once(BASE_PATH . "/controllers/controleurInviteUser.php");
+        break;
     default:
         header("HTTP/1.1 404 Not Found");
         echo json_encode(["message" => "Endpoint non trouvé"]);

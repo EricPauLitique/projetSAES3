@@ -24,16 +24,6 @@ switch ($requestMethod) {
         }
         break;
 
-    case 'POST':
-        $data = json_decode(file_get_contents("php://input"), true);
-        $result = Membre::addMembre($data);
-        if ($result) {
-            echo json_encode(['status' => 'success', 'message' => 'Membre ajouté avec succès.']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Erreur lors de l\'ajout du membre.']);
-        }
-        break;
-
     case 'DELETE':
         if (isset($_GET['user_id']) && isset($_GET['grp_id'])) {
             $userId = intval($_GET['user_id']);
