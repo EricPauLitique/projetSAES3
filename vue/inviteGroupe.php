@@ -13,6 +13,11 @@ $groupId = $_GET['groupId'] ?? '';
 $email = $_GET['email'] ?? '';
 
 if ($token && $groupId && $email) {
+    if (!isset($_SESSION['invite_token']) || $_SESSION['invite_token'] !== $token) {
+        echo "Invitation invalide ou déjà utilisée.";
+        exit;
+    }
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $action = $_POST['action'];
 
@@ -33,8 +38,19 @@ if ($token && $groupId && $email) {
             $cocheResVote = isset($_POST['coche_res_vote']) ? 1 : 0;
 
             Membre::addMembre($userId, $groupId, $cocheReac, $cocheNewProp, $cocheResVote);
+
+            // Supprimer les informations d'invitation de la session
+            unset($_SESSION['invite_token']);
+            unset($_SESSION['invite_groupId']);
+            unset($_SESSION['invite_email']);
+
             echo "Vous avez accepté l'invitation.";
         } elseif ($action === 'decline') {
+            // Supprimer les informations d'invitation de la session
+            unset($_SESSION['invite_token']);
+            unset($_SESSION['invite_groupId']);
+            unset($_SESSION['invite_email']);
+
             echo "Vous avez refusé l'invitation.";
         }
 
