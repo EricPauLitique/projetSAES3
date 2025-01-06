@@ -70,6 +70,19 @@ class Commentaire implements JsonSerializable {
             return null;
         }
     }
+
+    public static function getCommentairesByPropositionId($propId) {
+        try {
+            $requete = "SELECT * FROM commentaire WHERE prop_id = :prop_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['prop_id' => $propId]);
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Commentaire');
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
+    }
 }
 
 ?>
