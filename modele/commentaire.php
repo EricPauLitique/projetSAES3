@@ -77,7 +77,7 @@ class Commentaire implements JsonSerializable {
             $stmt = connexion::pdo()->prepare($requete);
             $stmt->execute(['prop_id' => $propId]);
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Commentaire');
-            return $stmt->fetch();
+            return $stmt->fetchAll();
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();
             return null;

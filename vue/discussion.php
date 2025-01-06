@@ -54,6 +54,17 @@ if (Membre::siMembreInconnu($id, $groupeId) == 0 && Groupe::siProprioInconnu($id
 // Vérifier si l'utilisateur est le propriétaire du groupe
 $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
 
+// Récupérer les informations de la proposition
+$proposition = Proposition::getPropositionById($propId);
+if (!$proposition) {
+    // Redirige vers la page d'accueil si la proposition n'existe pas
+    $_SESSION['messageC'] = "La proposition n'a pas été trouvée.";
+    header("Location: accueil.php");
+    exit;
+}
+
+// Récupérer les commentaires de la proposition
+$lesCommentaires = Commentaire::getCommentairesByPropositionId($propId);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
