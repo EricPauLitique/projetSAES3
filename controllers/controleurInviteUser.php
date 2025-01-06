@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
     file_put_contents(__DIR__ . "/../tokens/$token.json", json_encode($tokenData));
 
-    $inviteLink = "https://beloved-accepted-squid.ngrok-free.app/projetSAES3/vue/inviteGroupe.php?token=$token&groupId=$groupId&email=$email";
+    $inviteLink = "https://projets.iut-orsay.fr/saes3-ese/projetSAES3/vue/inviteGroupe.php?token=$token&groupId=$groupId";
 
     // Envoyer l'email d'invitation avec PHPMailer
     $mail = new PHPMailer(true);

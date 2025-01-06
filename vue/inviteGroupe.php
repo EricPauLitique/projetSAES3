@@ -9,9 +9,8 @@ Connexion::connect();
 
 $token = $_GET['token'] ?? '';
 $groupId = $_GET['groupId'] ?? '';
-$email = $_GET['email'] ?? '';
 
-if ($token && $groupId && $email) {
+if ($token && $groupId) {
     $tokenFile = __DIR__ . "/../tokens/$token.json";
     if (!file_exists($tokenFile)) {
         echo "Invitation invalide ou déjà utilisée.";
@@ -19,7 +18,7 @@ if ($token && $groupId && $email) {
     }
 
     $tokenData = json_decode(file_get_contents($tokenFile), true);
-    if ($tokenData['group_id'] !== intval($groupId) || $tokenData['email'] !== $email) {
+    if ($tokenData['group_id'] !== intval($groupId)) {
         echo "Invitation invalide.";
         exit;
     }
@@ -41,7 +40,6 @@ if ($token && $groupId && $email) {
             if (!isset($_SESSION['user_id'])) {
                 $_SESSION['invite_token'] = $token;
                 $_SESSION['invite_groupId'] = $groupId;
-                $_SESSION['invite_email'] = $email;
                 $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
                 header("Location: connexion.php");
                 exit;
@@ -77,7 +75,6 @@ if ($token && $groupId && $email) {
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['invite_token'] = $token;
     $_SESSION['invite_groupId'] = $groupId;
-    $_SESSION['invite_email'] = $email;
     $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
     header("Location: connexion.php");
     exit;
