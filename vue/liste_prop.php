@@ -139,8 +139,8 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
             <?php                
                     foreach ($lesPropositions as $proposotion) {
                         echo '<tr>';
-                        echo '<td>' . $theme->get('theme_nom') . '</td>';            
-                        echo '</tr>'
+                        echo '<td>' . $proposotion->get('prop_titre') . '</td>';            
+                        echo '</tr>';
                     }           
                     ?>
                 </tbody>
