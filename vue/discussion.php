@@ -50,6 +50,9 @@ if (Membre::siMembreInconnu($id, $groupeId) == 0 && Groupe::siProprioInconnu($id
     exit;
 } 
 
+// Vérifier si l'utilisateur est le propriétaire du groupe
+$isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
