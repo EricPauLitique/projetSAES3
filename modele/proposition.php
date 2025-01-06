@@ -80,7 +80,7 @@ class Proposition implements JsonSerializable {
 
     public static function getPropositionsByGroupeId($id) {
         try {
-            $requete = "SELECT * FROM proposition WHERE grp_id = :grp_id";
+            $requete = "SELECT * FROM proposition natural join theme natural join comporte WHERE grp_id = :grp_id";
             $stmt = connexion::pdo()->prepare($requete);
             $stmt->execute(['grp_id' => $id]);
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Proposition');
