@@ -140,11 +140,8 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
                     foreach ($lesPropositions as $proposotion) {
                         echo '<p>' . $proposotion->get('prop_titre') . '</p>';            
                         echo '<br>';
-                    }           
-                    ?>
-                </tbody>
-            </table>
-        </section>
+                    }      
+            ?>    
         </section>
     </main>
 
