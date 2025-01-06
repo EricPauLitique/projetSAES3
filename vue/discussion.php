@@ -140,6 +140,16 @@ if (Membre::siMembreInconnu($id, $groupeId) == 0 && Groupe::siProprioInconnu($id
         </aside>
 
         <section>
+        <?php            
+        $lesCommentaires = Commentaire::getCommentairesByPropositionId($propId);    
+        foreach ($lesCommentaires as $commentaire) {
+            $comTxt = $commentaire->get('com_txt'); 
+            $comDate = $commentaire->get('com_date');
+            echo '<p>' . htmlspecialchars($comTxt) . '</p>';            
+            echo '<p><small>' . htmlspecialchars($comDate) . '</small></p>';
+            echo '<br>';
+            }      
+        ?>
             <img src="../images/user.png" /><p>Alexandra Lamy</p>
             <p>Je suis d'accord avec cette proposition !</p>
             <p>00h00</p>
