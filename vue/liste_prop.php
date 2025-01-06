@@ -3,6 +3,7 @@
 require_once("../config/connexion.php");
 require_once("../modele/groupe.php");
 require_once("../modele/membre.php");
+require_once("../modele/proposition.php");
 
 Connexion::connect();
 
@@ -129,11 +130,22 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
                 </tbody>
             </table>
         </aside>
+        
 
         <!-- Contenu principal -->
         <section>
             <h2>Propositions</h2>
             <!-- Ajoutez ici le contenu des propositions -->
+            <?php                
+                    foreach ($lesPropositions as $proposotion) {
+                        echo '<tr>';
+                        echo '<td>' . $theme->get('theme_nom') . '</td>';            
+                        echo '</tr>'
+                    }           
+                    ?>
+                </tbody>
+            </table>
+        </section>
         </section>
     </main>
 
