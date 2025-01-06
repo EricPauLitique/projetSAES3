@@ -141,7 +141,7 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
             foreach ($lesPropositions as $proposition) {
                 $propId = $proposition->get('prop_id'); 
                 $propTitre = $proposition->get('prop_titre');
-                echo '<p><a href="discussion.php?id=' . $groupeId . '&propId='.$propId">' . $propTitre . '</a></p>';            
+                echo '<p><a href="discussion.php?id=' . $groupeId . '&propId='.$propId'">' . $propTitre . '</a></p>';            
                 echo '<br>';
                 }      
             ?>    
