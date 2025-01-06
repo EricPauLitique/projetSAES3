@@ -25,13 +25,6 @@ $id = htmlspecialchars($_SESSION['id']);
 // Récupérer l'ID du groupe depuis l'URL
 $groupeId = $_GET['groupeId'] ?? 0; // Assurez-vous que $groupeId est défini
 
-if ($groupeId === 0) {
-    // Redirige vers la page d'accueil si l'ID du groupe est invalide
-    $_SESSION['messageC'] = "L'ID du groupe est invalide.";
-    header("Location: accueil.php");
-    exit;
-}
-
 // Connexion à la base de données
 Connexion::connect();
 
