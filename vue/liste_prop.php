@@ -137,11 +137,13 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
             <h2>Propositions</h2>
             <!-- Ajoutez ici le contenu des propositions -->
             <?php            
-                    $lesPropositions = Proposition::getPropositionsByGroupeId($groupeId);    
-                    foreach ($lesPropositions as $proposotion) {
-                        echo '<p>' . $proposotion->get('prop_titre') . '</p>';            
-                        echo '<br>';
-                    }      
+            $lesPropositions = Proposition::getPropositionsByGroupeId($groupeId);    
+            foreach ($lesPropositions as $proposition) {
+                $propId = $proposition->get('prop_id'); 
+                $propTitre = $proposition->get('prop_titre');
+                echo '<p><a href="discussion.php?id=' . $propId . '">' . $propTitre . '</a></p>';            
+                echo '<br>';
+                }      
             ?>    
         </section>
     </main>
