@@ -58,7 +58,7 @@ if (Membre::siMembreInconnu($id, $groupeId) == 0 && Groupe::siProprioInconnu($id
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($groupe->get('grp_nom')); ?></title>
     <link href="<?php echo htmlspecialchars($groupe->get('grp_img')); ?>" rel="shortcut icon" type="image/x-icon" />
-    <link rel="stylesheet" href="../styles/groupe.css">
+    <link rel="stylesheet" href="../styles/discussion.css">
 </head>
 <body>
     <?php include 'header.php'; ?>

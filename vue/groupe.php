@@ -79,7 +79,7 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
             <ul>
                 <li><a href="groupe.php?id=<?php echo $groupeId; ?>" class="active">Groupe</a></li>
                 <li><a href="liste_prop.php?id=<?php echo $groupeId; ?>">Propositions</a></li>
-                <li><a href="vote.php?id=<?php echo $groupeId; ?>">Vote</a></li>
+                <li><a href="liste_vote.php?id=<?php echo $groupeId; ?>">Vote</a></li>
             </ul>
         </nav>  
 
