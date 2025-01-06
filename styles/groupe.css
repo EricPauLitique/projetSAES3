@@ -464,6 +464,29 @@ nav ul li a.active {
 .right-button {
     float: right;
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: #3a1768;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.right-button:hover {
+    background-color: #6a2a88;
+}
+
+.right-button img {
+    margin-right: 10px;
+    width: 3em; /* Utilisez des unités relatives pour la taille de l'image */
+    height: 3em; /* Utilisez des unités relatives pour la taille de l'image */
+    vertical-align: middle;
+    max-width: 200%; /* Assurez-vous que l'image ne dépasse pas la taille du bouton */
+    max-height: 200%; /* Assurez-vous que l'image ne dépasse pas la taille du bouton */
 }
 
 /* Style pour le conteneur du formulaire d'invitation */
