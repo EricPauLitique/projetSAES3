@@ -23,7 +23,7 @@ $nom = htmlspecialchars($_SESSION['nom']);
 $id = htmlspecialchars($_SESSION['id']);
 
 // Récupérer l'ID du groupe depuis l'URL
-$groupeId = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$groupeId = $_GET['groupeId'] ?? 0; // Assurez-vous que $groupeId est défini
 
 if ($groupeId === 0) {
     // Redirige vers la page d'accueil si l'ID du groupe est invalide
@@ -137,11 +137,11 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
             <h2>Propositions</h2>
             <!-- Ajoutez ici le contenu des propositions -->
             <?php            
-                    $lesPropositions = Proposition::getPropositionsByGroupeId($groupeId);    
-                    foreach ($lesPropositions as $proposotion) {
-                        echo '<p>' . $proposotion->get('prop_titre') . '</p>';            
-                        echo '<br>';
-                    }      
+                $lesPropositions = Proposition::getPropositionsByGroupeId($groupeId);    
+                foreach ($lesPropositions as $proposition) {
+                    echo '<p>' . htmlspecialchars($proposition->get('prop_titre')) . '</p>';            
+                    echo '<br>';
+                }      
             ?>    
         </section>
     </main>
