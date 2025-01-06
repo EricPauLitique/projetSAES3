@@ -138,9 +138,8 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
             <!-- Ajoutez ici le contenu des propositions -->
             <?php                
                     foreach ($lesPropositions as $proposotion) {
-                        echo '<tr>';
-                        echo '<td>' . $proposotion->get('prop_titre') . '</td>';            
-                        echo '</tr>';
+                        echo '<p>' . $proposotion->get('prop_titre') . '</p>';            
+                        echo '<br>';
                     }           
                     ?>
                 </tbody>
