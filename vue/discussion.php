@@ -22,6 +22,7 @@ $id = htmlspecialchars($_SESSION['id']);
 
 // Récupérer l'ID du groupe depuis l'URL
 $groupeId = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$propId = isset($_GET['prop_id']) ? intval($_GET['prop_id']) : 0;
 
 if ($groupeId === 0) {
     // Redirige vers la page d'accueil si l'ID du groupe est invalide
