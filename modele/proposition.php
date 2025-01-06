@@ -77,6 +77,20 @@ class Proposition implements JsonSerializable {
         }
     }
 
+
+    public static function getPropositionsByGroupeId($id) {
+        try {
+            $requete = "SELECT * FROM proposition WHERE grp_id = :grp_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['grp_id' => $id]);
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Proposition');
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
+    }
+
     
 
 }
