@@ -43,8 +43,8 @@ function sendDeletionEmail($email, $commentText) {
 
 switch ($requestMethod) {
     case 'GET':
-        if (isset($_GET['id'])) {
-            $commentaire = Commentaire::getCommentaireById($_GET['id']);
+        if (isset($_GET['id']) && !empty($_GET['id'])) {
+            $commentaire = Commentaire::getCommentaireById(intval($_GET['id']));
             echo json_encode($commentaire);
         } else {
             $commentaires = Commentaire::getAllCommentaires();
@@ -54,7 +54,7 @@ switch ($requestMethod) {
     case 'POST':
         $data = json_decode(file_get_contents("php://input"), true);
         error_log("Données reçues : " . print_r($data, true)); // Debugging line
-        if (isset($data['com_txt'], $data['user_id'], $data['prop_id'])) {
+        if (isset($data['com_txt'], $data['user_id'], $data['prop_id']) && !empty($data['com_txt']) && !empty($data['user_id']) && !empty($data['prop_id'])) {
             $com_txt = htmlspecialchars($data['com_txt']);
             $user_id = intval($data['user_id']);
             $prop_id = intval($data['prop_id']);
@@ -70,8 +70,8 @@ switch ($requestMethod) {
         break;
     case 'PUT':
         $data = json_decode(file_get_contents("php://input"), true);
-        if (isset($data['com_id'], $data['com_txt'])) {
-            $commentaire = Commentaire::getCommentaireById($data['com_id']);
+        if (isset($data['com_id'], $data['com_txt']) && !empty($data['com_id']) && !empty($data['com_txt'])) {
+            $commentaire = Commentaire::getCommentaireById(intval($data['com_id']));
             if ($commentaire) {
                 $commentaire->set('com_txt', htmlspecialchars($data['com_txt']));
                 try {
@@ -88,12 +88,12 @@ switch ($requestMethod) {
         }
         break;
     case 'DELETE':
-        if (isset($_GET['id'])) {
+        if (isset($_GET['id']) && !empty($_GET['id'])) {
             try {
-                $commentaire = Commentaire::getCommentaireById($_GET['id']);
+                $commentaire = Commentaire::getCommentaireById(intval($_GET['id']));
                 if ($commentaire) {
                     $user = Utilisateur::getUtilisateurById($commentaire->get('user_id'));
-                    Commentaire::deleteCommentaire($_GET['id']);
+                    Commentaire::deleteCommentaire(intval($_GET['id']));
                     sendDeletionEmail($user->get('user_mail'), $commentaire->get('com_txt'));
                     echo json_encode(["status" => "success", "message" => "Commentaire supprimé avec succès"]);
                 } else {

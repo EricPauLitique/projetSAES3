@@ -180,7 +180,7 @@ error_log("Nombre de commentaires récupérés : " . count($lesCommentaires));
                         <div class="commentaire">
                             <div class="commentaire-header">
                                 <img src="../images/user.png" alt="User" class="commentaire-avatar">
-                                <span class="commentaire-username"><?php echo htmlspecialchars($commentaire->get('user_prenom')) . ' ' . htmlspecialchars($commentaire->get('user_nom')); ?></span>
+                                    <span class="commentaire-username"><?php echo htmlspecialchars($commentaire->get('user_prenom')) . ' ' . htmlspecialchars($commentaire->get('user_nom')); ?></span>
                                 <span class="commentaire-date"><?php echo htmlspecialchars($commentaire->get('com_date')); ?></span>
                             </div>
                             <div class="commentaire-body">
