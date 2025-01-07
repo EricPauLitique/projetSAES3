@@ -8,7 +8,6 @@ require_once("../modele/comporte.php");
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
-    // Redirige vers la page de connexion si non connecté
     header("Location: connexion.php");
     exit;
 }
@@ -21,7 +20,6 @@ $id = htmlspecialchars($_SESSION['id']);
 $groupeId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($groupeId === 0) {
-    // Redirige vers la page d'accueil si l'ID du groupe est invalide
     $_SESSION['messageC'] = "L'ID du groupe est invalide.";
     header("Location: accueil.php");
     exit;
@@ -183,7 +181,7 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
             </table>
         </aside>
 
-        <?php $lesThemes = Comporte::getThemesbyidGroupe(($groupeId)); ?>
+        <?php $lesThemes = Comporte::getThemesbyidGroupe($groupeId); ?>
 
         <section>
             

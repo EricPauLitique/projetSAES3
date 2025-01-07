@@ -8,7 +8,13 @@ require_once(__DIR__ . "/../modele/groupe.php");
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 Connexion::connect();
+
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
@@ -17,13 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Si Utilisateur existe déjà dans le mail de la base de données
     $mailExist = Utilisateur::siMailExisteGrp($email, $groupId);
-    $getUser = Utilisateur::getIdUtilisateur($email);
+    $getUser = Utilisateur::getNameUser($email);
     if ($mailExist) {
-        echo json_encode(['status' => 'error', 'message' => 'Cet utilisateur' . $getUser->get('user_prenom') . 'est déjà membre du groupe.']);
+        echo json_encode(['status' => 'error', 'message' => 'Cet utilisateur ' . $getUser->get('user_prenom') . ' est déjà membre du groupe.']);
         exit;
     }
-
-    
 
     // Vérifiez si le groupe existe
     $groupe = Groupe::getGroupByIdUnique2($groupId);
