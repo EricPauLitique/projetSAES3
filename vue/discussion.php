@@ -8,6 +8,7 @@ require_once("../modele/comporte.php");
 require_once("../modele/commentaire.php");
 require_once("../modele/reaction.php");
 require_once("../modele/proposition.php");
+require_once("../modele/notifUtilisateur.php");
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
@@ -178,6 +179,7 @@ $lesCommentaires = Commentaire::getCommentairesByPropositionId($propId);
                                 <button class="btn-like">J'aime</button>
                                 <button class="btn-dislike">Je n'aime pas</button>
                                 <button class="btn-reply">Répondre</button>
+                                <button class="btn-report">Signaler</button>
                             </div>
                         </div>
                     <?php } ?>

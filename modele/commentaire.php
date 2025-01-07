@@ -73,7 +73,7 @@ class Commentaire implements JsonSerializable {
 
     public static function getCommentairesByPropositionId($propId) {
         try {
-            $requete = "SELECT * FROM commentaire WHERE prop_id = :prop_id";
+            $requete = "SELECT * FROM commentaire natural join utilisateur WHERE prop_id = :prop_id";
             $stmt = connexion::pdo()->prepare($requete);
             $stmt->execute(['prop_id' => $propId]);
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Commentaire');
@@ -83,6 +83,37 @@ class Commentaire implements JsonSerializable {
             return null;
         }
     }
-}
 
+    // Afficher son id Maximum commentaire
+    public static function getMaxIdCommentaire() {
+        $requete = "SELECT MAX(com_id) FROM commentaire";
+        try {
+            $resultat = connexion::pdo()->query($requete);
+            return $resultat->fetchColumn();
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
+    }
+
+    // Ajouter un commentaire
+    public static function addCommentaire(string $com_txt, int $user_id, int $prop_id) {
+        try {
+            $lastId = self::getMaxIdCommentaire();
+            $newId = $lastId ? $lastId + 1 : 1;
+            $requete = "INSERT INTO commentaire (com_id, com_txt, com_date, user_id, prop_id) VALUES (:com_id, :com_txt, CURRENT_TIMESTAMP, :user_id, :prop_id)";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute([
+                'com_id' => $newId,
+                'com_txt' => $com_txt,
+                'user_id' => $user_id,
+                'prop_id' => $prop_id
+            ]);
+            return $newId;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
+    }
+}
 ?>

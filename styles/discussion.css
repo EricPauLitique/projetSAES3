@@ -7,17 +7,13 @@ body {
     color: #333;
 }
 
-label {
-    font-weight: bold;
-}
-
 header {
     background-color: #3a1768;
     color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 10px;
+    padding: 10px 20px;
 }
 
 header img {
@@ -26,154 +22,56 @@ header img {
     margin-right: 10px;
 }
 
-#titre {
-    color: rgb(130, 157, 238);
-}
-
-.accueil {
+#titreGroupe {
     display: flex;
     align-items: center;
-}
-
-a img {
-    width: 100px; /* Exemple de redimensionnement */
-}
-
-a:hover img {
-    opacity: 0.7; /* Effet lors du survol */
-}
-a {
-    display: inline-block;
-    /* margin-top: 10px; */
-    text-decoration: none;
-    color: #333;
-    text-align : center;
-}
-
-h1 {
-    /* display: inline; */
+    justify-content: center;
+    margin: 20px 0;
     font-size: 2em;
-    margin: 0;
+    color: #3a1768;
 }
 
-/* Menu déroulant des paramètres */
-.menu-parametres {
-    position: relative;
-    display: inline-block;
+#titreGroupe .image-gauche {
+    margin-right: 10px;
+    width: 100px;
+    height: auto;
 }
 
-.parametres-icon {
-    width: 40px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.parametres-icon:hover {
-    transform: rotate(180deg);
-}
-
-table {
-    width: 100%;
-    max-width: 800px; /* Pour limiter la taille de la table */
-    margin: 20px auto; /* Ajoute un espacement avec le reste de la page */
-    border-collapse: separate; /* Sépare les bordures des cellules */
-    border-spacing: 10px; /* Ajoute de l'espace entre les cellules */
-    background-color: #ffffff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px; /* Arrondit les bords de la table */
-}
-
-table th,
-table td {
+nav {
+    background-color: #3a1768;
     text-align: center;
-    padding: 10px 15px; /* Ajoute un padding pour aérer les cellules */
-    vertical-align: middle; /* Centre verticalement le texte */
-    font-weight: bold;
-    background-color: #e2e2e2;
+    border-radius: 25px;
+    margin: 20px auto;
+    padding: 10px;
+    width: max-content;
 }
 
-table th {
-    background-color: #3a1768;
-    color: white;
-    font-weight: bold;
-    border-radius: 8px 8px 0 0; /* Coin supérieur arrondi */
-}
-
-table td {
-    border-bottom: 1px solid #e6e6e6; /* Ligne séparatrice entre les lignes */
-}
-
-table td:last-child {
-    text-align: center; /* Centre le contenu de la dernière colonne */
-}
-
-table img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover; /* Pour s'assurer que l'image couvre bien l'espace de 50x50 */
-    border-radius: 50%; /* Pour rendre les images circulaires, si désiré */
-
-}
-
-@media screen and (max-width: 768px) {
-    table {
-        /* display: block; */ /* Rend la table défilable horizontalement */
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-    table th, table td {
-        padding: 8px 10px; /* Réduit l'espacement pour les petits écrans */
-    }
-}
-
-.menu-options {
-    display: none;
-    position: absolute;
-    top: 75%; /* Décale le menu en dessous */
-    left: 46%;
-    transform: translateX(-50%);
-    background-color: #3a1768;
-    color: white;
-    padding: 10px 20px;
-    list-style: none;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0s 0.3s;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-}
-
-.menu-options li {
+nav ul {
+    list-style-type: none;
     margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 10px;
 }
 
-.menu-options li a {
-    text-decoration: none;
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
     color: white;
-    font-size: 14px;
-    padding: 8px 12px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
 }
 
-.menu-options li a:hover {
+nav ul li a:hover,
+nav ul li a.active {
     background-color: #ffcc00;
     color: #3a1768;
 }
 
-.menu-parametres:hover .menu-options {
-    display: flex;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease, visibility 0s 0s;
-}
-
-/* Section principale */
 main {
     margin: 20px;
     padding: 20px;
@@ -186,41 +84,158 @@ h2, h3 {
     font-size: 1.8em;
     color: #3a1768;
     margin-bottom: 20px;
-    position: relative; /* Pour permettre de positionner la puce */
-    padding-left: 30px; /* Crée un espace pour la puce à gauche */
+    padding-left: 30px;
+    position: relative;
 }
 
 h2::before, h3::before {
-    content: "\2022"; /* Code Unicode pour la puce */
+    content: "\2022";
     position: absolute;
-    left: 0; /* Positionne la puce à gauche du titre */
-    top: 50%; /* Centre verticalement la puce */
-    transform: translateY(-50%); /* Ajuste verticalement la position de la puce */
-    font-size: 1.8em; /* Taille de la puce */
-    color: #3a1768; /* Couleur de la puce */
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.8em;
+    color: #3a1768;
 }
 
-form {
-    /* width: 100%; */ /* S'adapte à la largeur de son conteneur */
-    max-width: 500px; /* Largeur maximale pour éviter qu'il ne devienne trop grand */
-    /* margin: 0 auto; */ /* Centre le formulaire horizontalement */
-    /* padding: 20px; */ /* Ajoute de l'espace à l'intérieur du formulaire */
-    background-color: #e2e2e2; /* Fond blanc pour le contraste */
-    border-radius: 8px; /* Coins arrondis */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre douce */
+.retour {
     display: flex;
-    flex-direction: column;
-    gap: 10px; /* Espace entre les champs */
+    align-items: center;
+    gap: 10px;
 }
 
-input[type="text"],
-input[type="number"],
-input[type="email"],
-input[type="password"],
-select,
-textarea {
-    width: 100%; /* Prend toute la largeur disponible */
-    padding: 12px;
+.retour-icon {
+    width: 20px;
+    height: auto;
+}
+
+.retour a {
+    text-decoration: none;
+    color: #3a1768;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.retour a:hover {
+    color: #ffcc00;
+}
+
+table {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    border-collapse: separate;
+    border-spacing: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+table th,
+table td {
+    text-align: center;
+    padding: 10px 15px;
+    vertical-align: middle;
+    font-weight: bold;
+    background-color: #e2e2e2;
+}
+
+table th {
+    background-color: #3a1768;
+    color: white;
+    border-radius: 8px 8px 0 0;
+}
+
+table td {
+    border-bottom: 1px solid #e6e6e6;
+}
+
+table td:last-child {
+    text-align: center;
+}
+
+table img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+@media screen and (max-width: 768px) {
+    table {
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    table th, table td {
+        padding: 8px 10px;
+    }
+}
+
+.commentaire {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.commentaire-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.commentaire-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.commentaire-username {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.commentaire-date {
+    color: #999;
+}
+
+.commentaire-body {
+    margin-bottom: 10px;
+}
+
+.commentaire-footer {
+    display: flex;
+    gap: 10px;
+}
+
+.commentaire-footer button {
+    background-color: #3a1768;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.commentaire-footer button:hover {
+    background-color: #6a2a88;
+}
+
+.ajouter-commentaire {
+    background-color: #e2e2e2;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.ajouter-commentaire textarea {
+    width: 100%;
+    padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 1em;
@@ -228,17 +243,12 @@ textarea {
     transition: border-color 0.3s ease;
 }
 
-input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-select:focus,
-textarea:focus {
-    border-color: #3a1768; /* Couleur de bordure au focus */
-    outline: none; /* Supprime le contour par défaut */
+.ajouter-commentaire textarea:focus {
+    border-color: #3a1768;
+    outline: none;
 }
 
-button {
+.ajouter-commentaire button {
     padding: 10px;
     background-color: #3a1768;
     color: white;
@@ -247,21 +257,17 @@ button {
     font-size: 1.2em;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 10px;
 }
 
-button:hover {
+.ajouter-commentaire button:hover {
     background-color: #6a2a88;
 }
 
-/* Footer */
 footer {
     background-color: #3a1768;
     color: #fff;
     padding: 15px;
-    position: sticky;
-    /* position: fixed; */
-    bottom: 0;
-    /* width: auto; */
     text-align: center;
     font-weight: normal;
 }
@@ -270,197 +276,26 @@ footer p {
     margin: 0;
 }
 
-/* Responsive design */
-@media screen and (max-width: 768px) {
-    header img {
-        width: 40px;
-    }
-
-    h1 {
-        font-size: 1.8em;
-    }
-
-    main {
-        margin: 10px;
-        padding: 15px;
-    }
-
-    .menu-options {
-        flex-direction: column;
-        width: 100%;
-        padding: 15px;
-    }
-
-    .menu-options li {
-        margin: 10px 0;
-    }
-}
-
-.retour {
-    display: flex;
-    align-items: center; /* Aligne l'image et le texte verticalement */
-    gap: 10px; /* Espacement entre l'image et le texte */
-}
-
-.retour-icon {
-    width: 20px; /* Taille de l'icône */
-    height: auto;
-}
-
-.retour a {
-    text-decoration: none; /* Supprime la décoration de lien */
-    color: #3a1768; /* Couleur du texte */
-    font-size: 16px; /* Taille du texte */
-    font-weight: bold; /* Met le texte en gras */
-    transition: color 0.3s ease; /* Ajoute un effet de transition pour la couleur */
-}
-
-.retour a:hover {
-    color: #ffcc00; /* Change la couleur du texte lors du survol */
-}
-
-.username {
-    display: inline;
-    margin-right: 20px;
-    margin-bottom: 100px;
-}
-
-/* Styles pour centrer le titre h1 et positionner l'image à gauche */
-#titreGroupe {
-    display: flex;
-    align-items: center; /* Aligne verticalement l'image et le texte */
-    justify-content: center; /* Centre le contenu horizontalement */
-    margin: 20px 0; /* Ajoute un espace au-dessus et en dessous du titre */
-    font-size: 2em; /* Taille de la police */
-    color: #3a1768; /* Couleur du texte */
-}
-
-#titreGroupe .image-gauche {
-    margin-right: 10px; /* Ajoute un espace entre l'image et le texte */
-    width: 100px; /* Ajustez la taille de l'image selon vos besoins */
-    height: auto;
-    margin-left: 10px;
-}
-
-/* Styles pour le bouton de suppression */
-.btn-delete {
-    background-color: #ff0000; /* Rouge */
-    color: white;
+#scrollButton {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
     border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-.btn-delete:hover {
-    background-color: #cc0000; /* Rouge plus foncé au survol */
-}
-
-
-.boutons-container {
-    display: flex;
-    flex-direction: column; /* Organiser les boutons en colonne */
-    gap: 10px; /* Espacement entre les boutons */
-    align-items: stretch; /* Les boutons prennent toute la largeur du conteneur */
-}
-
-/* Styles des boutons */
-.boutons-container button {
-    padding: 10px;
+    outline: none;
+    background-color: #555;
     color: white;
-    border: none;
-    /* border-radius: 5px; */
     cursor: pointer;
-    font-size: 16px;
-    width: 100%; /* Les boutons prennent toute la largeur disponible */
-    height: 35px; /* Fixer la même hauteur pour tous les boutons */
-    box-sizing: border-box; /* Prendre en compte les paddings dans la largeur totale */
+    padding: 15px;
+    border-radius: 4px;
 }
 
-/* Bouton pour modifier */
-.boutons-container .btn-modify {
-    background-color: #3a1768; /* Violet */
+#scrollButton:hover {
+    background-color: #333;
 }
 
-.boutons-container .btn-modify:hover {
-    background-color: #6a2a88; /* Violet plus clair au survol */
-}
-
-/* Bouton pour supprimer */
-.boutons-container .btn-delete {
-    background-color: #ff0000; /* Rouge */
-}
-
-.boutons-container .btn-delete:hover {
-    background-color: #cc0000; /* Rouge plus foncé au survol */
-}
-
-/* Styles pour la barre de navigation */
-nav {
-    background-color: #3a1768;
-    /* padding: 10px; */
-    text-align: center; /* Centre le conteneur parent */
-    width: max-content;
-    align-content: center;
-    margin: auto;
-    border-radius: 25px;
-}
-
-nav ul {
-    list-style-type: none;
-    margin: 0 auto; /* Centre la liste horizontalement */
-    padding: 0;
-    display: inline-block; /* Réduit la largeur à la taille des boutons */
-}
-
-nav ul li {
-    display: inline-block; /* Affiche les éléments en ligne */
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 40px;
-    border-radius: 20px; /* Rend les éléments ovales */
-    transition: background-color 0.3s ease;
-    background-color: #3a1768; /* Couleur de fond initiale */
-    /* border: 2px solid white; */ /* Bordure blanche */
-    /* margin: 5px; */ /* Ajoute de l'espace autour des éléments */
-}
-
-nav ul li a:hover {
-    background-color: #ffcc00;
-    color: #3a1768;
-}
-
-/* Styles pour le lien actif */
-nav ul li a.active {
-    background-color: #ffcc00;
-    color: #3a1768;
-}
-
-        /* Style pour le bouton de défilement */
-        #scrollButton {
-            display: none; /* Masqué par défaut */
-            position: fixed;
-            bottom: 20px;
-            right: 30px;
-            z-index: 99;
-            font-size: 18px;
-            border: none;
-            outline: none;
-            background-color: #555;
-            color: white;
-            cursor: pointer;
-            padding: 15px;
-            border-radius: 4px;
-        }
-
-        #scrollButton:hover {
-            background-color: #333;
-        }
-
-/* Style pour le bouton d'invitation */
 .right-button {
     float: right;
     margin-bottom: 10px;
@@ -482,16 +317,15 @@ nav ul li a.active {
 
 .right-button img {
     margin-right: 10px;
-    width: 3em; /* Utilisez des unités relatives pour la taille de l'image */
-    height: 3em; /* Utilisez des unités relatives pour la taille de l'image */
+    width: 3em;
+    height: 3em;
     vertical-align: middle;
-    max-width: 200%; /* Assurez-vous que l'image ne dépasse pas la taille du bouton */
-    max-height: 200%; /* Assurez-vous que l'image ne dépasse pas la taille du bouton */
+    max-width: 200%;
+    max-height: 200%;
 }
 
-/* Style pour le conteneur du formulaire d'invitation */
 #inviteUserForm {
-    clear: both; /* Assure que le formulaire ne flotte pas à côté du bouton */
+    clear: both;
     margin-top: 10px;
     float: right;
 }

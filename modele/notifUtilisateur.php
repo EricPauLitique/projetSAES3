@@ -64,9 +64,10 @@ class NotifUtilisateur implements JsonSerializable {
     // Récupérer les notifications par date et utilisateur
     public static function getNotificationsByUserIdAndDate(int $user_id, string $date) {
         try {
-            $requete = "SELECT n.* FROM notifUtilisateur nu
-                        JOIN notification n ON nu.notif_id = n.notif_id
-                        WHERE nu.user_id = :user_id AND DATE(n.notif_date) = :notif_date";
+            $requete = "SELECT * FROM notifUtilisateur
+                        NATURAL JOIN notification 
+                        NATURAL JOIN utilisateur 
+                        WHERE user_id = :user_id AND DATE(notif_date) = :notif_date";
             $stmt = connexion::pdo()->prepare($requete);
             $stmt->execute(['user_id' => $user_id, 'notif_date' => $date]);
             $stmt->setFetchMode(PDO::FETCH_CLASS, "Notification");

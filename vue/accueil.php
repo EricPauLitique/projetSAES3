@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
 require_once(__DIR__ . "/../config/connexion.php");
 require_once(__DIR__ . "/../modele/groupe.php");
 require_once(__DIR__ . "/../modele/membre.php");
-
+require_once(__DIR__ . "/../modele/notifUtilisateur.php");
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
@@ -171,7 +171,7 @@ $id = htmlspecialchars($_SESSION['id']);
             </a>    
         </section>
         <?php
-            $user_id = $_SESSION['user_id']; // Exemple d'obtention de l'ID utilisateur depuis la session
+            $user_id = $_SESSION['id']; // Exemple d'obtention de l'ID utilisateur depuis la session
             $dateActuelle = date('Y-m-d');
             $notifications = NotifUtilisateur::getNotificationsByUserIdAndDate($user_id, $dateActuelle);
         ?>
