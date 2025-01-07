@@ -1,0 +1,100 @@
+/* Styles pour le header */
+header {
+    background-color: #3a1768;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+}
+
+header img {
+    width: 50px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+/* Styles pour le menu des paramètres */
+.menu-parametres {
+    position: relative;
+    display: inline-block;
+}
+
+.parametres-icon {
+    width: 40px;  /* Taille de l'icône des paramètres */
+    cursor: pointer;  /* Pointeur pour l'icône */
+    transition: transform 0.3s ease;  /* Effet de rotation pour l'icône au survol */
+}
+
+.parametres-icon:hover {
+    transform: rotate(180deg); /* Rotation de l'icône au survol */
+}
+
+.username {
+    display: inline;
+    margin-right: 20px;
+    margin-bottom: 100px;
+}
+
+/* Menu déroulant caché par défaut */
+.menu-options {
+    display: none;
+    position: absolute;
+    top: 90%;  /* Positionne le menu au centre vertical de l'icône */
+    background-color: #3a1768;
+    color: white;
+    padding: 8px;
+    list-style: none;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;  /* Menu invisible par défaut */
+    transition: opacity 0.3s ease, visibility 0s 0.3s;  /* Transition fluide */
+
+    /* Forcer l'affichage horizontal pur */
+    display: flex;
+    flex-direction: row;  /* Alignement horizontal */
+    justify-content: flex-start; /* Aligner à gauche les éléments */
+    gap: 10px;  /* Espacement entre les éléments */
+    align-items: center;  /* Assurez-vous que les éléments sont bien alignés au centre */
+}
+
+.menu-options li {
+    margin: 0;
+}
+
+.menu-options li a {
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menu-options li a:hover {
+    background-color: #ffcc00;
+    color: #3a1768;
+}
+
+.menu-parametres:hover .menu-options {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0s 0s;
+}
+
+/* Styles pour le footer */
+footer {
+    text-align: center;
+    background-color: #3a1768;
+    color: #fff;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
