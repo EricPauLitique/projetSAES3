@@ -155,29 +155,46 @@ $lesCommentaires = Commentaire::getCommentairesByPropositionId($propId);
         </aside>
 
         <section>
-        <?php            
-        $lesCommentaires = Commentaire::getCommentairesByPropositionId($propId);    
-        foreach ($lesCommentaires as $commentaire) {
-            $comTxt = $commentaire->get('com_txt'); 
-            $comDate = $commentaire->get('com_date');
-            echo '<p>' . htmlspecialchars($comTxt) . '</p>';            
-            echo '<p><small>' . htmlspecialchars($comDate) . '</small></p>';
-            echo '<br>';
-            }      
-        ?>
-            <img src="../images/user.png" /><p>Alexandra Lamy</p>
-            <p>Je suis d'accord avec cette proposition !</p>
-            <p>00h00</p>
-            <img src="../images/signaler.png" /><p>signaler</p>
-            <p>1</p><img src="../images/poucehaut2.png" /><p>0</p><img src="../images/poucebas.png" />
-            <br>
-            <img src="../images/user.png" /><p>Vous</p>
-            <p>Pas moi</p>
-            <p>00h12</p>
-            <img src="../images/signaler.png" /><p>signaler</p>
-            <p>0</p><img src="../images/poucehaut.png" /><p>0</p><img src="../images/poucebas.png" />
+            <h2>Discussion sur la proposition</h2>
+            <div class="proposition-details">
+                <h3><?php echo htmlspecialchars($proposition->get('prop_titre')); ?></h3>
+                <p><?php echo htmlspecialchars($proposition->get('prop_desc')); ?></p>
+            </div>
+
+            <div class="commentaires">
+                <h3>Commentaires</h3>
+                <?php if (!empty($lesCommentaires)) { ?>
+                    <?php foreach ($lesCommentaires as $commentaire) { ?>
+                        <div class="commentaire">
+                            <div class="commentaire-header">
+                                <img src="../images/user.png" alt="User" class="commentaire-avatar">
+                                <span class="commentaire-username"><?php echo htmlspecialchars($commentaire->get('user_prenom')) . ' ' . htmlspecialchars($commentaire->get('user_nom')); ?></span>
+                                <span class="commentaire-date"><?php echo htmlspecialchars($commentaire->get('com_date')); ?></span>
+                            </div>
+                            <div class="commentaire-body">
+                                <p><?php echo htmlspecialchars($commentaire->get('com_txt')); ?></p>
+                            </div>
+                            <div class="commentaire-footer">
+                                <button class="btn-like">J'aime</button>
+                                <button class="btn-dislike">Je n'aime pas</button>
+                                <button class="btn-reply">Répondre</button>
+                            </div>
+                        </div>
+                    <?php } ?>
+                <?php } else { ?>
+                    <p>Aucun commentaire trouvé.</p>
+                <?php } ?>
+            </div>
+
+            <div class="ajouter-commentaire">
+                <h3>Ajouter un commentaire</h3>
+                <form id="ajouterCommentaireForm">
+                    <textarea id="commentaireTexte" name="commentaireTexte" placeholder="Écrire un commentaire..." required></textarea>
+                    <button type="submit">Ajouter</button>
+                </form>
+            </div>
         </section>
-        </main>
+    </main>
     
     <?php include 'footer.php'; ?>
 
@@ -255,6 +272,31 @@ $lesCommentaires = Commentaire::getCommentairesByPropositionId($propId);
         } else {
             inviteForm.style.display = 'none';
         }
+    });
+
+    // Ajouter un commentaire
+    document.getElementById('ajouterCommentaireForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const commentaireTexte = document.getElementById('commentaireTexte').value;
+        const propId = <?php echo $propId; ?>;
+        const userId = <?php echo $id; ?>;
+
+        fetch('../api.php?endpoint=commentaires', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ commentaireTexte, propId, userId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                location.reload();
+            } else {
+                alert('Erreur lors de l\'ajout du commentaire : ' + data.message);
+            }
+        })
+        .catch(error => console.error('Erreur:', error));
     });
     </script>
 </body>
