@@ -5,14 +5,14 @@ require_once(__DIR__ . "/../config/connexion.php");
 class Notification implements JsonSerializable {   
     protected int $notif_id;
     protected ?string $notif_contenu; // Peut être NULL
-    protected ?string $notif_date; // Peut être NULL
+    protected ?string $notif_date; 
 
     // Constructeur
     public function __construct(int $notif_id = NULL, ?string $notif_contenu = NULL, ?string $notif_date = NULL) {
         if (!is_null($notif_id)) {
             $this->notif_id = $notif_id;
             $this->notif_contenu = $notif_contenu;
-            $this->notif_date = $notif_date;
+            $this->notif_date = $notif_date ?? date('Y-m-d H:i:s'); // Utiliser la date actuelle si non fournie
         }
     }
 
