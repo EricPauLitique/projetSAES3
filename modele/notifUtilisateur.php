@@ -4,12 +4,14 @@ require_once(__DIR__ . "/../config/connexion.php");
 class NotifUtilisateur implements JsonSerializable {
     protected int $user_id;
     protected int $notif_id;
+    protected ?string $notif_date; // Peut être NULL
 
     // Constructeur
-    public function __construct(int $user_id = NULL, int $notif_id = NULL) {
+    public function __construct(int $user_id = NULL, int $notif_id = NULL, ?string $notif_date = NULL) {
         if (!is_null($user_id) && !is_null($notif_id)) {
             $this->user_id = $user_id;
             $this->notif_id = $notif_id;
+            $this->notif_date = $notif_date;
         }
     }
 
@@ -24,7 +26,7 @@ class NotifUtilisateur implements JsonSerializable {
 
     // Méthode magique __toString
     public function __toString() {
-        return "Utilisateur ID {$this->user_id} - Notification ID {$this->notif_id}";
+        return "Utilisateur ID {$this->user_id} - Notification ID {$this->notif_id}, Date: {$this->notif_date}";
     }
 
     // Implémentation de JsonSerializable
@@ -59,12 +61,28 @@ class NotifUtilisateur implements JsonSerializable {
         }
     }
 
-    // Associer une notification à un utilisateur
-    public static function addNotifUtilisateur(int $user_id, int $notif_id) {
+    // Récupérer les notifications par date et utilisateur
+    public static function getNotificationsByUserIdAndDate(int $user_id, string $date) {
         try {
-            $requete = "INSERT INTO notifUtilisateur (user_id, notif_id) VALUES (:user_id, :notif_id)";
+            $requete = "SELECT n.* FROM notifUtilisateur nu
+                        JOIN notification n ON nu.notif_id = n.notif_id
+                        WHERE nu.user_id = :user_id AND DATE(n.notif_date) = :notif_date";
             $stmt = connexion::pdo()->prepare($requete);
-            return $stmt->execute(['user_id' => $user_id, 'notif_id' => $notif_id]);
+            $stmt->execute(['user_id' => $user_id, 'notif_date' => $date]);
+            $stmt->setFetchMode(PDO::FETCH_CLASS, "Notification");
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
+    }
+
+    // Associer une notification à un utilisateur
+    public static function addNotifUtilisateur(int $user_id, int $notif_id, string $notif_date) {
+        try {
+            $requete = "INSERT INTO notifUtilisateur (user_id, notif_id, notif_date) VALUES (:user_id, :notif_id, :notif_date)";
+            $stmt = connexion::pdo()->prepare($requete);
+            return $stmt->execute(['user_id' => $user_id, 'notif_id' => $notif_id, 'notif_date' => $notif_date]);
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();
             return false;
@@ -83,6 +101,4 @@ class NotifUtilisateur implements JsonSerializable {
         }
     }
 }
-
-
 ?>
