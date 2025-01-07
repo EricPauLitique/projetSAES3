@@ -22,13 +22,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $groupId = intval($data['groupId']);
 
     // Si Utilisateur existe déjà dans le mail de la base de données
-    $mailExist = Utilisateur::siMailExisteGrp($email, $groupId);
+    $mailExist = Utilisateur::siMailExisteGrp($email, $groupId); // Coté Membre
     $getUser = Utilisateur::getNameUser($email);
+
+    // Si l'utilisateur est déjà membre du groupe
     if ($mailExist) {
-        echo json_encode(['status' => 'error', 'message' => 'Cet utilisateur ' . $getUser->get('user_prenom') . ' est déjà membre du groupe.']);
+        echo json_encode(['status' => 'error', 'message' => 'Cet utilisateur ' . $getUser->get('user_prenom') . ' ' . $getUser->get('user_nom') . ' est déjà membre du groupe.']);
         exit;
     }
 
+
+    // Si l'utilisateur est déjà propriétaire du groupe
+    if ($getUser) {
+        $proprio = Groupe::siProprioInconnu($getUser->get('user_id'), $groupId); // Coté propriétaire
+        if ($proprio) {
+            echo json_encode(['status' => 'error', 'message' => 'Vous ne pouvez pas, vous invitez vous-même en tant que propriétaire du groupe.']);
+            exit;
+        }
+    }
     // Vérifiez si le groupe existe
     $groupe = Groupe::getGroupByIdUnique2($groupId);
     if (!$groupe) {
