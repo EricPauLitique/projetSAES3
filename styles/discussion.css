@@ -524,7 +524,8 @@ nav ul li a.active {
 }
 
 .commentaire-footer button {
-    size: 1.2em;
+    width: 1.2em;
+    height: 1.2em;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
@@ -533,16 +534,19 @@ nav ul li a.active {
 }
 
 .commentaire-footer button:hover {
-    size: 1.2em;
+    width: 1.2em;
+    height: 1.2em;
 }
 
 .commentaire-signalement {
-    size: 1.2em;
+    width: 1.2em;
+    height: 1.2em;
     text-align: right;
 }
 
 .commentaire-signalement button {
-    size: 1.2em;
+    width: 1.2em;
+    height: 1.2em;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
@@ -551,5 +555,6 @@ nav ul li a.active {
 }
 
 .commentaire-signalement button:hover {
-    size: 1.2em;
+    width: 1.2em;
+    height: 1.2em;
 }
