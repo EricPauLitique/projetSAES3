@@ -170,15 +170,27 @@ $id = htmlspecialchars($_SESSION['id']);
                 <img src="../images/ajouter.png" alt="Créer un groupe" />
             </a>    
         </section>
+        <?php
+            $user_id = $_SESSION['user_id']; // Exemple d'obtention de l'ID utilisateur depuis la session
+            $dateActuelle = date('Y-m-d');
+            $notifications = NotifUtilisateur::getNotificationsByUserIdAndDate($user_id, $dateActuelle);
+        ?>
 
         <section>
             <h3>Notifications :</h3>
             <ul>
-                <li>Notif 1</li>
-                <li>Notif 2</li>
-                <li>Notif 3</li>
+                <?php
+                if (!empty($notifications)) {
+                    foreach ($notifications as $notification) {
+                        echo '<li>' . htmlspecialchars($notification->get('notif_contenu')) . '</li>';
+                    }
+                } else {
+                    echo '<li>Aucune notification pour aujourd\'hui.</li>';
+                }
+                ?>
             </ul>
         </section>
+
     </main>
 
     <footer>

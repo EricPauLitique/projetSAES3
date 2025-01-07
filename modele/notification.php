@@ -5,12 +5,14 @@ require_once(__DIR__ . "/../config/connexion.php");
 class Notification implements JsonSerializable {   
     protected int $notif_id;
     protected ?string $notif_contenu; // Peut être NULL
+    protected ?string $notif_date; 
 
     // Constructeur
-    public function __construct(int $notif_id = NULL, ?string $notif_contenu = NULL) {
+    public function __construct(int $notif_id = NULL, ?string $notif_contenu = NULL, ?string $notif_date = NULL) {
         if (!is_null($notif_id)) {
             $this->notif_id = $notif_id;
             $this->notif_contenu = $notif_contenu;
+            $this->notif_date = $notif_date ?? date('Y-m-d H:i:s'); // Utiliser la date actuelle si non fournie
         }
     }
 
@@ -25,7 +27,7 @@ class Notification implements JsonSerializable {
 
     // Méthode magique __toString
     public function __toString() {
-        return "Notification ID {$this->notif_id} : {$this->notif_contenu}";
+        return "Notification ID {$this->notif_id} : {$this->notif_contenu}, Date: {$this->notif_date}";
     }
 
     // Implémentation de JsonSerializable
@@ -61,11 +63,11 @@ class Notification implements JsonSerializable {
     }
 
     // Ajouter une nouvelle notification
-    public static function addNotification(string $notif_contenu) {
+    public static function addNotification(string $notif_contenu, string $notif_date) {
         try {
-            $requete = "INSERT INTO notification (notif_contenu) VALUES (:notif_contenu)";
+            $requete = "INSERT INTO notification (notif_contenu, notif_date) VALUES (:notif_contenu, :notif_date)";
             $stmt = connexion::pdo()->prepare($requete);
-            return $stmt->execute(['notif_contenu' => $notif_contenu]);
+            return $stmt->execute(['notif_contenu' => $notif_contenu, 'notif_date' => $notif_date]);
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();
             return false;
@@ -84,7 +86,4 @@ class Notification implements JsonSerializable {
         }
     }
 }
-
-
-
 ?>
