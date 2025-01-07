@@ -59,8 +59,8 @@ switch ($endpoint) {
     case 'inviteUser':
         require_once(BASE_PATH . "/controllers/controleurInviteUser.php");
         break;
-    case 'supprimergroupe':
-        require_once(BASE_PATH . "/controllers/controleurSuppGroupe.php");
+    case 'propositions':
+        require_once(BASE_PATH . "/controllers/modelControllers/propositionController.php");
         break;
     case 'quitterGroupe':
         require_once(BASE_PATH . "/controllers/controleurQuitterGroupe.php");

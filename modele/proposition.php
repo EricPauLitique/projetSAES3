@@ -14,7 +14,7 @@ class Proposition implements JsonSerializable {
     public function __construct(
         int $prop_id = NULL,
         string $prop_titre = NULL,
-        string $prop_desc = NULL,
+        string $prop_descé = NULL,
         ?string $prop_date_min = NULL,
         int $user_id = NULL,
         int $theme_id = NULL,
@@ -88,6 +88,40 @@ class Proposition implements JsonSerializable {
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();
             return null;
+        }
+    }
+
+    // Récuperer le dernier id proposition
+    public static function getLastId() {
+        try {
+            $requete = "SELECT MAX(prop_id) FROM proposition";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute();
+            return $stmt->fetch();
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
+    }
+
+    // Ajouter une proposition
+    public static function addProposition($prop_titre, $prop_desc, $prop_date_min, $user_id, $theme_id, $prop_cout) {
+        try {
+            $requete = "INSERT INTO proposition (prop_titre, prop_desc, prop_date_min, user_id, theme_id, prop_cout) VALUES (:prop_titre, :prop_desc, :prop_date_min, :user_id, :theme_id, :prop_cout)";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute([
+                'prop_id' => $getLastId()+1,
+                'prop_titre' => $prop_titre,
+                'prop_desc' => $prop_desc,
+                'prop_date_min' => $prop_date_min,
+                'user_id' => $user_id,
+                'theme_id' => $theme_id,
+                'prop_cout' => $prop_cout
+            ]);
+            return true;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
         }
     }
 
