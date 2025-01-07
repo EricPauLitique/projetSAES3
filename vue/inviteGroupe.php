@@ -111,7 +111,7 @@ include 'header.php';
 </head>
     <body>
         <main>
-            <h1>Invitation à rejoindre le groupe de <?php echo htmlspecialchars($groupe->get('grp_nom')); ?></h1>
+            <h1>Invitation à rejoindre le groupe de <?php echo htmlspecialchars($groupe->get('grp_nom')); ?> <img src="<?php echo htmlspecialchars($groupe->get('grp_img')); ?>" alt="Image du groupe" style="max-width: 100%; height: auto;"> </h1>
             <p>Vous avez été invité à rejoindre le groupe de <?php echo htmlspecialchars($groupe->get('grp_nom')); ?>. Voulez-vous accepter ou refuser l'invitation ?</p>
                     <form method="POST">
                     <input type="hidden" name="action" value="accept">
