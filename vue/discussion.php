@@ -186,16 +186,15 @@ error_log("Nombre de commentaires récupérés : " . count($lesCommentaires));
                             <div class="commentaire-body">
                                 <p><?php echo htmlspecialchars($commentaire->get('com_txt')); ?></p>
                                 <div class="commentaire-signalement">
-                                    <button class="btn-report">Signaler</button>
+                                    <button class="btn-report"><img src="../images/signaler.png"></button>
                                     <?php if ($isProprietaire) { ?>
-                                        <button class="btn-delete" onclick="deleteCommentaire(<?php echo $commentaire->get('com_id'); ?>)">Supprimer</button>
+                                        <button class="btn-delete" onclick="deleteCommentaire(<?php echo $commentaire->get('com_id'); ?>)"><img src="../images/supprimer.png"></button>
                                     <?php } ?>
                                 </div>
                             </div>
                             <div class="commentaire-footer">
-                                <button class="btn-like">J'aime</button>
-                                <button class="btn-dislike">Je n'aime pas</button>
-                                <button class="btn-reply">Répondre</button>
+                                <button class="btn-like"><img src="../images/poucehaut.png"></button>
+                                <button class="btn-dislike"><img src="../images/poucebas.png"></button>
                             </div>
                         </div>
                     <?php } ?>
