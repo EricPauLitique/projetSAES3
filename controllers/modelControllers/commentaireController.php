@@ -53,6 +53,7 @@ switch ($requestMethod) {
         break;
     case 'POST':
         $data = json_decode(file_get_contents("php://input"), true);
+        error_log("Données reçues : " . print_r($data, true)); // Debugging line
         if (isset($data['com_txt'], $data['user_id'], $data['prop_id'])) {
             $com_txt = htmlspecialchars($data['com_txt']);
             $user_id = intval($data['user_id']);
