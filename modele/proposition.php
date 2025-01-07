@@ -1,5 +1,10 @@
 <?php
 require_once(__DIR__ . "/../config/connexion.php");
+require_once(__DIR__ . "/../modele/membre.php");
+require_once(__DIR__ . "/../modele/notifUtilisateur.php");      
+require_once(__DIR__ . "/../modele/groupe.php");
+require_once(__DIR__ . "/../modele/notification.php");
+
 
 class Proposition implements JsonSerializable {
     protected int $prop_id;
