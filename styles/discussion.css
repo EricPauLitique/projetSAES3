@@ -219,11 +219,9 @@ input[type="email"],
 input[type="password"],
 select,
 textarea {
-    width: 100%; /* Prend toute la largeur disponible */
     padding: 12px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    font-size: 1em;
     box-sizing: border-box;
     transition: border-color 0.3s ease;
 }
@@ -240,17 +238,10 @@ textarea:focus {
 
 button {
     padding: 10px;
-    background-color: #3a1768;
-    color: white;
     border: none;
     border-radius: 5px;
-    font-size: 1.2em;
     cursor: pointer;
     transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #6a2a88;
 }
 
 /* Footer */
@@ -344,8 +335,6 @@ footer p {
 
 /* Styles pour le bouton de suppression */
 .btn-delete {
-    background-color: #ff0000; /* Rouge */
-    color: white;
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
@@ -353,7 +342,7 @@ footer p {
 }
 
 .btn-delete:hover {
-    background-color: #cc0000; /* Rouge plus foncé au survol */
+    color: #cc0000; /* Rouge plus foncé au survol */
 }
 
 
@@ -377,22 +366,12 @@ footer p {
     box-sizing: border-box; /* Prendre en compte les paddings dans la largeur totale */
 }
 
-/* Bouton pour modifier */
-.boutons-container .btn-modify {
-    background-color: #3a1768; /* Violet */
-}
-
 .boutons-container .btn-modify:hover {
-    background-color: #6a2a88; /* Violet plus clair au survol */
-}
-
-/* Bouton pour supprimer */
-.boutons-container .btn-delete {
-    background-color: #ff0000; /* Rouge */
+    color: #6a2a88; /* Violet plus clair au survol */
 }
 
 .boutons-container .btn-delete:hover {
-    background-color: #cc0000; /* Rouge plus foncé au survol */
+    color: #cc0000; /* Rouge plus foncé au survol */
 }
 
 /* Styles pour la barre de navigation */
@@ -545,7 +524,8 @@ nav ul li a.active {
 }
 
 .commentaire-footer button {
-    size: 1.2em;
+    width: 1.2em;
+    height: 1.2em;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
@@ -554,16 +534,19 @@ nav ul li a.active {
 }
 
 .commentaire-footer button:hover {
-    size: 1.2em;
+    width: 1.2em;
+    height: 1.2em;
 }
 
 .commentaire-signalement {
-    size: 1.2em;
+    width: 1.2em;
+    height: 1.2em;
     text-align: right;
 }
 
 .commentaire-signalement button {
-    size: 1.2em;
+    width: 1.2em;
+    height: 1.2em;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
@@ -572,5 +555,6 @@ nav ul li a.active {
 }
 
 .commentaire-signalement button:hover {
-    size: 1.2em;
+    width: 1.2em;
+    height: 1.2em;
 }
