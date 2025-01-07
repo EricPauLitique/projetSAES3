@@ -31,6 +31,9 @@ if ($endpoint === 'commentaires' && $requestMethod === 'POST') {
 }
 
 switch ($endpoint) {
+    case 'votes':
+        require_once(BASE_PATH . "/controllers/modelControllers/voteController.php");
+        break;
     case 'connexion':
         require_once(BASE_PATH . "/controllers/controleurconnexion.php");
         break;

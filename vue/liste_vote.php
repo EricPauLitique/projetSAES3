@@ -153,17 +153,34 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
         <!-- Contenu principal -->
         <section>
             <h2>Votes</h2>
-            <!-- Ajoutez ici le contenu des votes -->
-            <button onclick="window.location.href='creavote.php?id=<?php echo $groupeId; ?>';">Créer un vote</button>
-            <?php            
-            $lesVotes = Vote::getVotesByGroupeId($groupeId);    
-            foreach ($lesVotes as $vote) {
-                $voteId = $vote->get('vote_id'); 
-                $voteTitre = $vote->get('vote_type_scrutin');
-                echo '<p><a href="resultat_vote.php?id=' . $groupeId . '&vote_id=' . $voteId . '">' . $voteTitre . '</a></p>';            
-                echo '<br>';
-                }      
-            ?>    
+            <button onclick="window.location.href='creaVote.php?id=<?php echo $groupeId; ?>';">Créer un vote</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom du Vote</th>
+                        <th>Durée</th>
+                        <th>Valide</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php            
+                    $lesVotes = Vote::getVotesByGroupeId($groupeId);    
+                    foreach ($lesVotes as $vote) {
+                        $voteId = $vote->get('vote_id'); 
+                        $voteTitre = htmlspecialchars($vote->get('vote_type_scrutin'));
+                        $voteDuree = htmlspecialchars($vote->get('vote_duree'));
+                        $voteValide = htmlspecialchars($vote->get('vote_valide')) ? 'Oui' : 'Non';
+                        echo '<tr>';
+                        echo '<td><a href="resultat_vote.php?id=' . $groupeId . '&vote_id=' . $voteId . '">' . $voteTitre . '</a></td>';
+                        echo '<td>' . $voteDuree . '</td>';
+                        echo '<td>' . $voteValide . '</td>';
+                        echo '<td><a href="modifier_vote.php?id=' . $voteId . '">Modifier</a> | <a href="supprimer_vote.php?id=' . $voteId . '">Supprimer</a></td>';
+                        echo '</tr>';
+                    }      
+                    ?>    
+                </tbody>
+            </table>
         </section>
     </main>
 
