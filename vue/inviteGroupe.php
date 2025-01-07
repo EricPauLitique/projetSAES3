@@ -61,19 +61,19 @@ if ($token && $groupId) {
             $cocheNewProp = isset($_POST['coche_new_prop']) ? 1 : 0;
             $cocheResVote = isset($_POST['coche_res_vote']) ? 1 : 0;
 
-            Membre::addMembre($userId, $groupId, $cocheReac, $cocheNewProp, $cocheResVote);
+            Membre::addMembre($userId, $groupId, $cocheReac, $cocheNewProp, $cocheResVote, 'Membre');
 
             // Supprimer le token du fichier
             unlink($tokenFile);
 
             $_SESSION['message'] = 'Vous avez accepté l\'invitation.';
-            header("Location: accueil.php");
+            header("Location: groupe.php?id=$groupId");
             exit;
         } elseif ($action === 'decline') {
             // Supprimer le token du fichier
             unlink($tokenFile);
 
-            $_SESSION['message'] = 'Vous avez refusé l\'invitation. Vous devez redemandez au créateur du groupe qu\'il vous refasse la demande d\'invitation.';
+            $_SESSION['messageC'] = 'Vous avez refusé l\'invitation. Vous devez redemandez au créateur du groupe qu\'il vous refasse la demande d\'invitation.';
             header("Location: accueil.php");
             exit;
         }

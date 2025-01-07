@@ -81,14 +81,6 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
             </ul>
         </nav>  
 
-        <?php
-        // Afficher le message d'erreur s'il existe
-        if (isset($_SESSION['message'])) {
-            echo '<div class="message">' . $_SESSION['message'] . '</div>';
-            unset($_SESSION['message']);
-        }
-        ?>
-
         <?php if (isset($_SESSION['messageC'])): ?>
             <div style="color: red;">
                 <b>

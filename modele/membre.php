@@ -163,15 +163,16 @@ class Membre implements JsonSerializable {
         return $stmt->execute();
     }
 
-    // Ajouter un nouveau membre avec coche_reac, coche_new_prop, coche_res_vote
-    public static function addMembre($userId, $groupId, $cocheReac, $cocheNewProp, $cocheResVote) {
+    // Ajouter un nouveau membre avec coche_reac, coche_new_prop, coche_res_vote, role
+    public static function addMembre($userId, $groupId, $cocheReac, $cocheNewProp, $cocheResVote, $role) {
         $db = Connexion::pdo();
-        $stmt = $db->prepare("INSERT INTO membre (user_id, grp_id, coche_reac, coche_new_prop, coche_res_vote) VALUES (:user_id, :grp_id, :coche_reac, :coche_new_prop, :coche_res_vote)");
+        $stmt = $db->prepare("INSERT INTO membre (user_id, grp_id, coche_reac, coche_new_prop, coche_res_vote, role) VALUES (:user_id, :grp_id, :coche_reac, :coche_new_prop, :coche_res_vote, :role)");
         $stmt->bindParam(':user_id', $userId);
         $stmt->bindParam(':grp_id', $groupId);
         $stmt->bindParam(':coche_reac', $cocheReac);
         $stmt->bindParam(':coche_new_prop', $cocheNewProp);
         $stmt->bindParam(':coche_res_vote', $cocheResVote);
+        $stmt->bindParam(':role', $role);
         $stmt->execute();
     }
 }

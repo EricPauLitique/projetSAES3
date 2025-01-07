@@ -152,6 +152,14 @@ $id = htmlspecialchars($_SESSION['id']);
             <p>Bienvenue sur Voix Citoyenne, proposez des idées, débattez et votez ! Veillez à rester respectueux entre vous.</p>
         </section>
 
+        <body>
+            <?php if (isset($_SESSION['message'])): ?>
+                <div class="message-error" style="color: red; font-weight: bold;">
+                    <?php echo $_SESSION['message']; ?>
+                </div>
+                <?php unset($_SESSION['message']); ?>
+            <?php endif; ?>
+        </body>
         <section>
             <h3>Liste de vos groupes :</h3>
             <ul id="groupes-list">
