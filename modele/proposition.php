@@ -119,6 +119,18 @@ class Proposition implements JsonSerializable {
                 'theme_id' => $theme_id,
                 'prop_cout' => $prop_cout
             ]);
+
+            // Récupérer le nom du groupe et les membres du groupe
+            $membres = Membre::getMembresByUserId($user_id);
+            foreach ($membres as $membre) {
+                if ($membre->get('coche_new_prop')) {
+                    $grp_nom = Groupe::getGroupeById($membre->get('grp_id'))->get('grp_nom');
+                    $notif_contenu = "Nouvelle proposition: $prop_titre dans le groupe $grp_nom";
+                    $notif_id = Notification::addNotification($notif_contenu);
+                    NotifUtilisateur::addNotifUtilisateur($membre->get('user_id'), $notif_id, date('Y-m-d H:i:s'));
+                }
+            }
+
             return $newId;
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();

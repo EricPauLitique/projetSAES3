@@ -74,6 +74,20 @@ class Membre implements JsonSerializable {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // Récupérer les membres par ID utilisateur
+    public static function getMembresByUserId(int $user_id) {
+        try {
+            $requete = "SELECT * FROM membre WHERE user_id = :user_id";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute(['user_id' => $user_id]);
+            $stmt->setFetchMode(PDO::FETCH_CLASS, "Membre");
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return null;
+        }
+    }
+
     // Récupérer les groupes par `user_id`
     public static function getGrpById(int $user_id) {
         try {

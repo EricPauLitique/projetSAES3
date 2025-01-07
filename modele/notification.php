@@ -63,11 +63,13 @@ class Notification implements JsonSerializable {
     }
 
     // Ajouter une nouvelle notification
-    public static function addNotification(string $notif_contenu, string $notif_date) {
+    public static function addNotification(string $notif_contenu, ?string $notif_date = null) {
         try {
+            $notif_date = $notif_date ?? date('Y-m-d H:i:s'); // Utiliser la date actuelle si non fournie
             $requete = "INSERT INTO notification (notif_contenu, notif_date) VALUES (:notif_contenu, :notif_date)";
             $stmt = connexion::pdo()->prepare($requete);
-            return $stmt->execute(['notif_contenu' => $notif_contenu, 'notif_date' => $notif_date]);
+            $stmt->execute(['notif_contenu' => $notif_contenu, 'notif_date' => $notif_date]);
+            return $stmt->lastInsertId();
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();
             return false;
