@@ -96,7 +96,7 @@ $lesCommentaires = Commentaire::getCommentairesByPropositionId($propId);
                 <li><a href="vote.php?id=<?php echo $groupeId; ?>">Vote</a></li>
             </ul>
         </nav>  
-        < <aside>
+        <aside>
             <h3>Liste des membres :</h3>
             <table>
                 <thead>

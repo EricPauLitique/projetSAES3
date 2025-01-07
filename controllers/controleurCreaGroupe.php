@@ -120,20 +120,13 @@ if (isset($_SESSION['themes']) && !empty($_SESSION['themes'])) {
             $themeNom = $theme['theme_nom'];
             $themeLim = $theme['limite_theme'];
 
-            // Vérifie si le thème existe déjà
-            $stmt = $pdo->prepare("SELECT theme_id FROM theme WHERE theme_nom = :theme_nom");
-            $stmt->execute(['theme_nom' => $themeNom]);
-            $resultIdTheme = $stmt->fetchColumn();
-
-            // Si le thème n'existe pas, l'insérer
-            if (!$resultIdTheme) {
                 $stmt = $pdo->query("SELECT MAX(theme_id) FROM theme");
                 $maxIdTheme = $stmt->fetchColumn();
                 $resultIdTheme = $maxIdTheme + 1;
 
                 $stmt = $pdo->prepare("INSERT INTO theme (theme_id, theme_nom) VALUES (:theme_id, :theme_nom)");
                 $stmt->execute(['theme_id' => $resultIdTheme, 'theme_nom' => $themeNom]);
-            }
+            
 
             // Lier le thème au groupe
             $stmt = $pdo->prepare("

@@ -153,6 +153,7 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
         <section>
             <h2>Propositions</h2>
             <!-- Ajoutez ici le contenu des propositions -->
+            <button onclick="window.location.href='creaprop.php?id=<?php echo $groupeId; ?>';">Créer une proposition</button>
             <?php            
             $lesPropositions = Proposition::getPropositionsByGroupeId($groupeId);    
             foreach ($lesPropositions as $proposition) {

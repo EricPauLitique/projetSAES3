@@ -25,15 +25,14 @@ switch ($requestMethod) {
         if (isset($data['prop_titre'], $data['prop_desc'], $data['user_id'], $data['theme_id'])) {
             $prop_date_min = $data['prop_date_min'] ?? null;
             $prop_cout = $data['prop_cout'] ?? null;
-            $proposition = new Proposition(null, $data['prop_titre'], $data['prop_desc'], $prop_date_min, $data['user_id'], $data['theme_id'], $prop_cout);
             try {
                 $prop_id = Proposition::addProposition($data['prop_titre'], $data['prop_desc'], $prop_date_min, $data['user_id'], $data['theme_id'], $prop_cout);
-                echo json_encode(["message" => "Proposition créée avec succès", "prop_id" => $prop_id]);
+                echo json_encode(["status" => "success", "message" => "Proposition créée avec succès", "prop_id" => $prop_id]);
             } catch (Exception $e) {
-                echo json_encode(["message" => "Erreur lors de la création de la proposition", "error" => $e->getMessage()]);
+                echo json_encode(["status" => "error", "message" => "Erreur lors de la création de la proposition", "error" => $e->getMessage()]);
             }
         } else {
-            echo json_encode(["message" => "Données manquantes pour créer la proposition"]);
+            echo json_encode(["status" => "error", "message" => "Données manquantes pour créer la proposition"]);
         }
         break;
     case 'PUT':
@@ -49,32 +48,32 @@ switch ($requestMethod) {
                 $proposition->set('prop_cout', $data['prop_cout'] ?? null);
                 try {
                     Proposition::updateProposition($proposition);
-                    echo json_encode(["message" => "Proposition mise à jour avec succès"]);
+                    echo json_encode(["status" => "success", "message" => "Proposition mise à jour avec succès"]);
                 } catch (Exception $e) {
-                    echo json_encode(["message" => "Erreur lors de la mise à jour de la proposition", "error" => $e->getMessage()]);
+                    echo json_encode(["status" => "error", "message" => "Erreur lors de la mise à jour de la proposition", "error" => $e->getMessage()]);
                 }
             } else {
-                echo json_encode(["message" => "Proposition non trouvée"]);
+                echo json_encode(["status" => "error", "message" => "Proposition non trouvée"]);
             }
         } else {
-            echo json_encode(["message" => "Données manquantes pour mettre à jour la proposition"]);
+            echo json_encode(["status" => "error", "message" => "Données manquantes pour mettre à jour la proposition"]);
         }
         break;
     case 'DELETE':
         if (isset($_GET['id'])) {
             try {
                 Proposition::deleteProposition($_GET['id']);
-                echo json_encode(["message" => "Proposition supprimée avec succès"]);
+                echo json_encode(["status" => "success", "message" => "Proposition supprimée avec succès"]);
             } catch (Exception $e) {
-                echo json_encode(["message" => "Erreur lors de la suppression de la proposition", "error" => $e->getMessage()]);
+                echo json_encode(["status" => "error", "message" => "Erreur lors de la suppression de la proposition", "error" => $e->getMessage()]);
             }
         } else {
-            echo json_encode(["message" => "ID de la proposition manquant"]);
+            echo json_encode(["status" => "error", "message" => "ID de la proposition manquant"]);
         }
         break;
     default:
         header("HTTP/1.1 405 Method Not Allowed");
-        echo json_encode(["message" => "Méthode non autorisée"]);
+        echo json_encode(["status" => "error", "message" => "Méthode non autorisée"]);
         break;
 }
 ?>

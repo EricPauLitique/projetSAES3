@@ -2,6 +2,9 @@
 require_once("../config/connexion.php");
 require_once("../modele/groupe.php");
 require_once("../modele/theme.php");
+require_once("../modele/proposition.php");
+require_once("../modele/comporte.php");
+
 Connexion::connect();
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -21,7 +24,7 @@ $user_id = htmlspecialchars($_SESSION['id']);
 $groupeId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 // Récupérer les thèmes du groupe
-$themes = Theme::getThemesByGroupeId($groupeId);
+$themes = Comporte::getThemesbyidGroupe($groupeId);
 ?>
 
 <!DOCTYPE html>
