@@ -524,8 +524,8 @@ nav ul li a.active {
 }
 
 .commentaire-footer button {
-    width: 1.2em;
-    height: 1.2em;
+    width: 5em;
+    height: 5em;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
@@ -534,19 +534,19 @@ nav ul li a.active {
 }
 
 .commentaire-footer button:hover {
-    width: 1.2em;
-    height: 1.2em;
+    width: 5em;
+    height: 5em;
 }
 
 .commentaire-signalement {
-    width: 1.2em;
-    height: 1.2em;
+    width: 5em;
+    height: 5em;
     text-align: right;
 }
 
 .commentaire-signalement button {
-    width: 1.2em;
-    height: 1.2em;
+    width: 5em;
+    height: 5em;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
@@ -555,6 +555,6 @@ nav ul li a.active {
 }
 
 .commentaire-signalement button:hover {
-    width: 1.2em;
-    height: 1.2em;
+    width: 5em; 
+    height: 5em;
 }
