@@ -545,8 +545,7 @@ nav ul li a.active {
 }
 
 .commentaire-footer button {
-    background-color: #3a1768;
-    color: white;
+    size: 1.2em;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
@@ -555,16 +554,16 @@ nav ul li a.active {
 }
 
 .commentaire-footer button:hover {
-    background-color: #6a2a88;
+    size: 1.2em;
 }
 
 .commentaire-signalement {
+    size: 1.2em;
     text-align: right;
 }
 
 .commentaire-signalement button {
-    background-color: #ff0000;
-    color: white;
+    size: 1.2em;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
@@ -573,5 +572,5 @@ nav ul li a.active {
 }
 
 .commentaire-signalement button:hover {
-    background-color: #cc0000;
+    size: 1.2em;
 }
