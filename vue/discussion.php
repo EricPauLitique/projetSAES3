@@ -186,15 +186,15 @@ error_log("Nombre de commentaires récupérés : " . count($lesCommentaires));
                             <div class="commentaire-body">
                                 <p><?php echo htmlspecialchars($commentaire->get('com_txt')); ?></p>
                                 <div class="commentaire-signalement">
-                                    <button class="btn-report"><img src="../images/signaler.png"></button>
+                                    <button class="btn-report">Signaler</button>
                                     <?php if ($isProprietaire) { ?>
-                                        <button class="btn-delete" onclick="deleteCommentaire(<?php echo $commentaire->get('com_id'); ?>)"><img src="../images/supprimer.png"></button>
+                                        <button class="btn-delete" onclick="deleteCommentaire(<?php echo $commentaire->get('com_id'); ?>)">Supprimer</button>
                                     <?php } ?>
                                 </div>
                             </div>
                             <div class="commentaire-footer">
-                                <button class="btn-like"><img src="../images/poucehaut.png"></button>
-                                <button class="btn-dislike"><img src="../images/poucebas.png"></button>
+                                <button class="btn-like">J'aime</button>
+                                <button class="btn-dislike">Je n'aime pas</button>
                             </div>
                         </div>
                     <?php } ?>
@@ -307,7 +307,7 @@ function closeSignalementModal() {
                 .then(data => {
                     if (data.status === 'success') {
                         alert('Commentaire supprimé avec succès.');
-                        fetchCommentaires();
+                        location.reload();
                     } else {
                         alert('Erreur lors de la suppression du commentaire : ' + data.message);
                     }
@@ -316,49 +316,6 @@ function closeSignalementModal() {
                     console.error('Erreur:', error);
                 });
             }
-        }
-
-        function fetchCommentaires() {
-            const propId = <?php echo $propId; ?>;
-            fetch(`../api.php?endpoint=commentaires&prop_id=${propId}`)
-                .then(response => response.json())
-                .then(data => {
-                    const commentairesDiv = document.querySelector('.commentaires');
-                    commentairesDiv.innerHTML = '<h3>Commentaires</h3>';
-                    if (data.length > 0) {
-                        data.forEach(commentaire => {
-                            const commentaireDiv = document.createElement('div');
-                            commentaireDiv.classList.add('commentaire');
-                            commentaireDiv.innerHTML = `
-                                <div class="commentaire-header">
-                                    <img src="../images/user.png" alt="User" class="commentaire-avatar">
-                                    <span class="commentaire-username">${commentaire.user_prenom} ${commentaire.user_nom}</span>
-                                    <span class="commentaire-date">${commentaire.com_date}</span>
-                                </div>
-                                <div class="commentaire-body">
-                                    <p>${commentaire.com_txt}</p>
-                                    <div class="commentaire-signalement">
-                                        <button class="btn-report">Signaler</button>
-                                        <?php if ($isProprietaire) { ?>
-                                            <button class="btn-delete" onclick="deleteCommentaire(${commentaire.com_id})">Supprimer</button>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                                <div class="commentaire-footer">
-                                    <button class="btn-like">J'aime</button>
-                                    <button class="btn-dislike">Je n'aime pas</button>
-                                    <button class="btn-reply">Répondre</button>
-                                </div>
-                            `;
-                            commentairesDiv.appendChild(commentaireDiv);
-                        });
-                    } else {
-                        commentairesDiv.innerHTML += '<p>Aucun commentaire trouvé.</p>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Erreur:', error);
-                });
         }
 
         // Ajouter un commentaire
@@ -383,7 +340,7 @@ function closeSignalementModal() {
                 console.log("Response received:", data); // Debugging line
                 if (data.status === 'success') {
                     document.getElementById('commentaireTexte').value = '';
-                    fetchCommentaires();
+                    location.reload();
                 } else {
                     alert('Erreur lors de l\'ajout du commentaire : ' + data.message);
                 }
@@ -421,9 +378,6 @@ function closeSignalementModal() {
                 }
             });
         }
-
-        // Initial fetch of comments
-        fetchCommentaires();
     });
     </script>
 </body>
