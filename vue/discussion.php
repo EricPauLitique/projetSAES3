@@ -1,18 +1,20 @@
 <?php
 session_start();
-require_once("../config/connexion.php");
-require_once("../modele/groupe.php");
-require_once("../modele/membre.php");
-require_once("../modele/theme.php");
-require_once("../modele/comporte.php");
-require_once("../modele/commentaire.php");
-require_once("../modele/reaction.php");
-require_once("../modele/proposition.php");
-require_once("../modele/notifUtilisateur.php");
+
+require_once(__DIR__ . "/../config/connexion.php");
+require_once(__DIR__ . "/../modele/groupe.php");
+require_once(__DIR__ . "/../modele/membre.php");
+require_once(__DIR__ . "/../modele/theme.php");
+require_once(__DIR__ . "/../modele/comporte.php");
+require_once(__DIR__ . "/../modele/commentaire.php");
+require_once(__DIR__ . "/../modele/reaction.php");
+require_once(__DIR__ . "/../modele/proposition.php");
+require_once(__DIR__ . "/../modele/notifUtilisateur.php");
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
     // Redirige vers la page de connexion si non connecté
+    error_log("Utilisateur non connecté, redirection vers la page de connexion.");
     header("Location: connexion.php");
     exit;
 }
@@ -20,26 +22,31 @@ if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom'])) {
 $prenom = htmlspecialchars($_SESSION['prenom']);
 $nom = htmlspecialchars($_SESSION['nom']);
 $id = htmlspecialchars($_SESSION['id']);
+error_log("Utilisateur connecté : $prenom $nom (ID: $id)");
 
 // Récupérer l'ID du groupe depuis l'URL
 $groupeId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $propId = isset($_GET['prop_id']) ? intval($_GET['prop_id']) : 0;
+error_log("ID du groupe : $groupeId, ID de la proposition : $propId");
 
 if ($groupeId === 0) {
     // Redirige vers la page d'accueil si l'ID du groupe est invalide
     $_SESSION['messageC'] = "L'ID du groupe est invalide.";
+    error_log("ID du groupe invalide, redirection vers la page d'accueil.");
     header("Location: accueil.php");
     exit;
 }
 
 // Connexion à la base de données
 Connexion::connect();
+error_log("Connexion à la base de données établie.");
 
 // Récupérer les informations du groupe
 $groupe = Groupe::getGroupByIdUnique2($groupeId);
 if (!$groupe) {
     // Redirige vers la page d'accueil si le groupe n'existe pas
     $_SESSION['messageC']= "Le groupe n'a pas été trouvé.";
+    error_log("Groupe non trouvé, redirection vers la page d'accueil.");
     header("Location: accueil.php");
     exit;
 }
@@ -48,24 +55,28 @@ if (Membre::siMembreInconnu($id, $groupeId) == 0 && Groupe::siProprioInconnu($id
     // Redirige vers la page d'accueil si l'utilisateur n'est pas membre du groupe
     $message = "Vous n'êtes pas autorisé à aller dans le groupe.";
     $_SESSION['messageC'] = $message;
+    error_log("Utilisateur non autorisé à accéder au groupe, redirection vers la page d'accueil.");
     header("Location: accueil.php");
     exit;
 } 
 
 // Vérifier si l'utilisateur est le propriétaire du groupe
 $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
+error_log("Utilisateur est propriétaire du groupe : " . ($isProprietaire ? "Oui" : "Non"));
 
 // Récupérer les informations de la proposition
 $proposition = Proposition::getPropositionById($propId);
 if (!$proposition) {
     // Redirige vers la page d'accueil si la proposition n'existe pas
     $_SESSION['messageC'] = "La proposition n'a pas été trouvée.";
+    error_log("Proposition non trouvée, redirection vers la page d'accueil.");
     header("Location: accueil.php");
     exit;
 }
 
 // Récupérer les commentaires de la proposition
 $lesCommentaires = Commentaire::getCommentairesByPropositionId($propId);
+error_log("Nombre de commentaires récupérés : " . count($lesCommentaires));
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -87,7 +98,7 @@ $lesCommentaires = Commentaire::getCommentairesByPropositionId($propId);
         </div>
         <h1 id="titreGroupe">
             <img src="<?php echo htmlspecialchars($groupe->get('grp_img')); ?>" alt="Image associée" class="image-gauche">
-            <?php echo 'Groupe :&nbsp;<b><i><u>' . htmlspecialchars($groupe->get('grp_nom')) . '</u></i></b>'; ?>
+            <?php echo 'Groupe :&nbsp;<b><i><u>' . htmlspecialchars($groupe->get('grp_nom')); ?></u></i></b>
         </h1>
 
         <nav>
@@ -174,12 +185,17 @@ $lesCommentaires = Commentaire::getCommentairesByPropositionId($propId);
                             </div>
                             <div class="commentaire-body">
                                 <p><?php echo htmlspecialchars($commentaire->get('com_txt')); ?></p>
+                                <div class="commentaire-signalement">
+                                    <button class="btn-report">Signaler</button>
+                                    <?php if ($isProprietaire) { ?>
+                                        <button class="btn-delete" onclick="deleteCommentaire(<?php echo $commentaire->get('com_id'); ?>)">Supprimer</button>
+                                    <?php } ?>
+                                </div>
                             </div>
                             <div class="commentaire-footer">
                                 <button class="btn-like">J'aime</button>
                                 <button class="btn-dislike">Je n'aime pas</button>
                                 <button class="btn-reply">Répondre</button>
-                                <button class="btn-report">Signaler</button>
                             </div>
                         </div>
                     <?php } ?>
@@ -204,6 +220,17 @@ $lesCommentaires = Commentaire::getCommentairesByPropositionId($propId);
     <button onclick="topFunction()" id="scrollButton" title="Go to top">Top</button>
 
     <script>
+    function logErrorToPHP(message) {
+        fetch('../api.php?endpoint=logError', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ error: message })
+        })
+        .catch(error => console.error('Erreur lors de l\'envoi du message d\'erreur à PHP:', error));
+    }
+
     // Afficher le message de succès s'il existe dans sessionStorage
     const successMessage = sessionStorage.getItem('message');
     if (successMessage) {
@@ -229,9 +256,13 @@ $lesCommentaires = Commentaire::getCommentairesByPropositionId($propId);
                 alert('Invitation envoyée avec succès.');
             } else {
                 alert('Erreur lors de l\'envoi de l\'invitation : ' + data.message);
+                logErrorToPHP('Erreur lors de l\'envoi de l\'invitation : ' + data.message);
             }
         })
-        .catch(error => console.error('Erreur:', error));
+        .catch(error => {
+            console.error('Erreur:', error);
+            logErrorToPHP('Erreur lors de l\'envoi de l\'invitation : ' + error.message);
+        });
     });
 
     function deleteMembre(userId, grpId) {
@@ -244,11 +275,114 @@ $lesCommentaires = Commentaire::getCommentairesByPropositionId($propId);
                 if (data.message) {
                     alert(data.message);
                     location.reload();
+                } else {
+                    logErrorToPHP('Erreur lors de la suppression du membre : ' + data.message);
                 }
             })
-            .catch(error => console.error('Erreur:', error));
+            .catch(error => {
+                console.error('Erreur:', error);
+                logErrorToPHP('Erreur lors de la suppression du membre : ' + error.message);
+            });
         }
     }
+
+    function deleteCommentaire(comId) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')) {
+            fetch(`../api.php?endpoint=commentaires&id=${comId}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Commentaire supprimé avec succès.');
+                    fetchCommentaires();
+                } else {
+                    alert('Erreur lors de la suppression du commentaire : ' + data.message);
+                    logErrorToPHP('Erreur lors de la suppression du commentaire : ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                logErrorToPHP('Erreur lors de la suppression du commentaire : ' + error.message);
+            });
+        }
+    }
+
+    function fetchCommentaires() {
+        const propId = <?php echo $propId; ?>;
+        fetch(`../api.php?endpoint=commentaires&prop_id=${propId}`)
+            .then(response => response.json())
+            .then(data => {
+                const commentairesDiv = document.querySelector('.commentaires');
+                commentairesDiv.innerHTML = '<h3>Commentaires</h3>';
+                if (data.length > 0) {
+                    data.forEach(commentaire => {
+                        const commentaireDiv = document.createElement('div');
+                        commentaireDiv.classList.add('commentaire');
+                        commentaireDiv.innerHTML = `
+                            <div class="commentaire-header">
+                                <img src="../images/user.png" alt="User" class="commentaire-avatar">
+                                <span class="commentaire-username">${commentaire.user_prenom} ${commentaire.user_nom}</span>
+                                <span class="commentaire-date">${commentaire.com_date}</span>
+                            </div>
+                            <div class="commentaire-body">
+                                <p>${commentaire.com_txt}</p>
+                                <div class="commentaire-signalement">
+                                    <button class="btn-report">Signaler</button>
+                                    <?php if ($isProprietaire) { ?>
+                                        <button class="btn-delete" onclick="deleteCommentaire(${commentaire.com_id})">Supprimer</button>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            <div class="commentaire-footer">
+                                <button class="btn-like">J'aime</button>
+                                <button class="btn-dislike">Je n'aime pas</button>
+                                <button class="btn-reply">Répondre</button>
+                            </div>
+                        `;
+                        commentairesDiv.appendChild(commentaireDiv);
+                    });
+                } else {
+                    commentairesDiv.innerHTML += '<p>Aucun commentaire trouvé.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                logErrorToPHP('Erreur lors de la récupération des commentaires : ' + error.message);
+            });
+    }
+
+    // Ajouter un commentaire
+    document.getElementById('ajouterCommentaireForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        console.log("Form submitted"); // Debugging line
+        const commentaireTexte = document.getElementById('commentaireTexte').value;
+        const propId = <?php echo $propId; ?>;
+        const userId = <?php echo $id; ?>;
+
+        fetch('../api.php?endpoint=commentaires', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ com_txt: commentaireTexte, prop_id: propId, user_id: userId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Debugging line
+            if (data.status === 'success') {
+                document.getElementById('commentaireTexte').value = '';
+                fetchCommentaires();
+            } else {
+                alert('Erreur lors de l\'ajout du commentaire : ' + data.message);
+                logErrorToPHP('Erreur lors de l\'ajout du commentaire : ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            logErrorToPHP('Erreur lors de l\'ajout du commentaire : ' + error.message);
+        });
+    });
 
     // Bouton de défilement
     window.onscroll = function() {scrollFunction()};
@@ -276,30 +410,8 @@ $lesCommentaires = Commentaire::getCommentairesByPropositionId($propId);
         }
     });
 
-    // Ajouter un commentaire
-    document.getElementById('ajouterCommentaireForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const commentaireTexte = document.getElementById('commentaireTexte').value;
-        const propId = <?php echo $propId; ?>;
-        const userId = <?php echo $id; ?>;
-
-        fetch('../api.php?endpoint=commentaires', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ commentaireTexte, propId, userId })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                location.reload();
-            } else {
-                alert('Erreur lors de l\'ajout du commentaire : ' + data.message);
-            }
-        })
-        .catch(error => console.error('Erreur:', error));
-    });
+    // Initial fetch of comments
+    fetchCommentaires();
     </script>
 </body>
 </html>

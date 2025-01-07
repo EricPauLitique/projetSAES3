@@ -64,6 +64,10 @@ class NotifUtilisateur implements JsonSerializable {
     // Récupérer les notifications par date et utilisateur
     public static function getNotificationsByUserIdAndDate(int $user_id, string $date) {
         try {
+            // Assurez-vous que la connexion est établie
+            if (!connexion::pdo()) {
+                throw new PDOException("Connexion à la base de données non établie.");
+            }
             $requete = "SELECT * FROM notifUtilisateur
                         NATURAL JOIN notification 
                         NATURAL JOIN utilisateur 

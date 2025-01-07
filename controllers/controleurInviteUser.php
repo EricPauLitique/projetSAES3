@@ -4,6 +4,7 @@ require_once(__DIR__ . "/../vendor/autoload.php");
 require_once(__DIR__ . "/../config/connexion.php");
 require_once(__DIR__ . "/../modele/utilisateur.php");
 require_once(__DIR__ . "/../modele/groupe.php");
+require_once(__DIR__ . "/../modele/commentaire.php");
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -15,6 +16,36 @@ error_reporting(E_ALL);
 Connexion::connect();
 
 header('Content-Type: application/json');
+
+function sendDeletionEmail($email, $commentText) {
+    $mail = new PHPMailer(true);
+    try {
+        // Paramètres du serveur
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'voixcitoyenne1@gmail.com';
+        $mail->Password = 'tdym vlta yiio fbnv';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        // Définir l'encodage de l'email
+        $mail->CharSet = 'UTF-8';
+
+        // Destinataires
+        $mail->setFrom('no-reply@yourdomain.com', 'Voix Citoyenne');
+        $mail->addAddress($email);
+
+        // Contenu de l'email
+        $mail->isHTML(true);
+        $mail->Subject = "Votre commentaire a été supprimé";
+        $mail->Body = "Bonjour,<br><br>Votre commentaire suivant a été supprimé en raison d'une violation des règles :<br><br><i>$commentText</i><br><br>Cordialement,<br>L'équipe Voix Citoyenne";
+
+        $mail->send();
+    } catch (Exception $e) {
+        // Log the error or handle it as needed
+    }
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
@@ -30,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['status' => 'error', 'message' => 'Cet utilisateur ' . $getUser->get('user_prenom') . ' ' . $getUser->get('user_nom') . ' est déjà membre du groupe.']);
         exit;
     }
-
 
     // Si l'utilisateur est déjà propriétaire du groupe
     if ($getUser) {

@@ -65,6 +65,9 @@ switch ($endpoint) {
     case 'quitterGroupe':
         require_once(BASE_PATH . "/controllers/controleurQuitterGroupe.php");
         break;
+    case 'commentaires':
+        require_once(BASE_PATH . "/controllers/modelControllers/commentaireController.php");
+        break;
     default:
         header("HTTP/1.1 404 Not Found");
         echo json_encode(["message" => "Endpoint non trouvé"]);
