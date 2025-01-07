@@ -8,6 +8,8 @@ if (isset($_SESSION['message'])) {
     $message = $_SESSION['message'];
     unset($_SESSION['message']); // Supprime le message après l'affichage
 }
+
+$redirectUrl = $_SESSION['redirect_after_login'] ?? "../vue/accueil.php";
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -45,7 +47,7 @@ if (isset($_SESSION['message'])) {
 
             const result = await response.json();
             if (result.status === 'success') {
-                const redirectUrl = '<?php echo $_SESSION['redirect_after_login'] ?? "../vue/accueil.php"; ?>';
+                const redirectUrl = document.getElementById('redirectUrl').dataset.url;
                 window.location.href = redirectUrl;
             } else {
                 document.getElementById('error-message').innerText = result.message;
@@ -103,5 +105,8 @@ if (isset($_SESSION['message'])) {
     <footer>
         <p>© 2024 Voix Citoyenne. Tous droits réservés.</p>
     </footer>
+
+    <!-- Hidden element to store the redirect URL -->
+    <div id="redirectUrl" data-url="<?php echo htmlspecialchars($redirectUrl); ?>" style="display: none;"></div>
 </body>
 </html>

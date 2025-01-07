@@ -67,8 +67,10 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
 </head>
 <body>
     <?php include 'header.php'; ?>
+ 
 
-    <div class="retour">    
+    <main>
+        <div class="retour">    
             <img src="../images/retour.png" alt="retour" class="retour-icon"/>
             <a href="accueil.php">Retour</a>
         </div>
@@ -79,13 +81,11 @@ $isProprietaire = Groupe::siProprioInconnu($id, $groupeId) == 1;
 
         <nav>
             <ul>
-                <li><a href="groupe.php?id=<?php echo $groupeId; ?>" class="active">Groupe</a></li>
-                <li><a href="liste_prop.php?id=<?php echo $groupeId; ?>">Propositions</a></li>
+                <li><a href="groupe.php?id=<?php echo $groupeId; ?>" >Groupe</a></li>
+                <li><a href="liste_prop.php?id=<?php echo $groupeId; ?>" class="active">Propositions</a></li>
                 <li><a href="liste_vote.php?id=<?php echo $groupeId; ?>">Vote</a></li>
             </ul>
-        </nav>  
-
-    <main>
+        </nav> 
         <aside>
             <h3>Liste des membres :</h3>
             <table>
