@@ -203,6 +203,31 @@ error_log("Nombre de commentaires récupérés : " . count($lesCommentaires));
                 <?php } ?>
             </div>
 
+            <!-- Fenêtre modale pour le signalement -->
+<div id="signalementModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeSignalementModal()">&times;</span>
+        <h2>Signaler un commentaire</h2>
+        <form id="signalementForm" method="POST" action="traiter_signalement.php">
+            <input type="hidden" name="com_id" id="com_id">
+            <label for="sig_nature">Nature du signalement:</label>
+            <input type="text" name="sig_nature" id="sig_nature" required>
+            <button type="submit">Envoyer</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function openSignalementModal(comId) {
+    document.getElementById('com_id').value = comId;
+    document.getElementById('signalementModal').style.display = 'block';
+}
+
+function closeSignalementModal() {
+    document.getElementById('signalementModal').style.display = 'none';
+}
+</script>
+
             <div class="ajouter-commentaire">
                 <h3>Ajouter un commentaire</h3>
                 <form id="ajouterCommentaireForm" method="POST">

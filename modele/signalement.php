@@ -48,6 +48,21 @@ class Signalement implements JsonSerializable {
         return 'Adresse liée au signalement ' . $this->sig_id;
     }
 
+    public function save() {
+        try {
+            $requete = "INSERT INTO signalement (sig_nature, prop_id, com_id, user_id) VALUES (:sig_nature, :prop_id, :com_id, :user_id)";
+            $stmt = connexion::pdo()->prepare($requete);
+            $stmt->execute([
+                'sig_nature' => $this->sig_nature,
+                'prop_id' => $this->prop_id,
+                'com_id' => $this->com_id,
+                'user_id' => $this->user_id
+            ]);
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+        }
+    }
+
     public static function getAllSignalement() {
         $requete = "SELECT * FROM signalement";
         try {

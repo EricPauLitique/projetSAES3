@@ -42,5 +42,17 @@ switch ($requestMethod) {
         header("HTTP/1.1 405 Method Not Allowed");
         echo json_encode(["message" => "Méthode non autorisée"]);
         break;
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $com_id = $_POST['com_id'];
+    $sig_nature = $_POST['sig_nature'];
+    $user_id = $_SESSION['user_id']; // Assurez-vous que l'utilisateur est connecté et que son ID est stocké dans la session
+
+    $signalement = new Signalement(null, $sig_nature, null, $com_id, $user_id);
+    $signalement->save();
+
+    header('Location: ../vue/discussion.php');
+    exit();
+}
 }
 ?>
