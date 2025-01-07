@@ -8,9 +8,9 @@ require_once(__DIR__ . "/../modele/proposition.php");
 
 
 class Notification implements JsonSerializable {   
-    protected int $notif_id;
-    protected ?string $notif_contenu; // Peut être NULL
-    protected ?string $notif_date; 
+    private $notif_id;
+    private $notif_contenu;
+    private $notif_date;
 
     // Constructeur
     public function __construct(int $notif_id = NULL, ?string $notif_contenu = NULL, ?string $notif_date = NULL) {

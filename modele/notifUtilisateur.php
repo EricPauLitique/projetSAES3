@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . "/../config/connexion.php");
+require_once(__DIR__ . "/../modele/notification.php");
 
 class NotifUtilisateur implements JsonSerializable {
     protected int $user_id;
