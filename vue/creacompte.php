@@ -9,6 +9,8 @@ if (isset($_SESSION['message'])) {
     unset($_SESSION['message']); // Supprime le message après l'affichage
 }
 
+$redirectUrl = $_SESSION['redirect_after_login'] ?? "../vue/accueil.php";
+
 require_once(__DIR__ . "/../config/connexion.php");
 
 // Utiliser les valeurs POST si elles existent
@@ -64,7 +66,8 @@ $nomRue = isset($_POST['nom_rue']) ? htmlspecialchars($_POST['nom_rue']) : '';
 
             const result = await response.json();
             if (result.status === 'success') {
-                window.location.href = '../vue/accueil.php';
+                const redirectUrl = document.getElementById('redirectUrl').dataset.url;
+                window.location.href = redirectUrl;
             } else {
                 document.getElementById('error-message').innerText = result.message;
             }
@@ -140,5 +143,8 @@ $nomRue = isset($_POST['nom_rue']) ? htmlspecialchars($_POST['nom_rue']) : '';
     <footer>
         <p>© 2024 Voix Citoyenne. Tous droits réservés.</p>
     </footer>
+
+    <!-- Hidden element to store the redirect URL -->
+    <div id="redirectUrl" data-url="<?php echo htmlspecialchars($redirectUrl); ?>" style="display: none;"></div>
 </body>
 </html>

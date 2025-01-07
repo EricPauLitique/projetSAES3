@@ -36,6 +36,7 @@ if ($token && $groupId) {
 
     if (($currentTime - $tokenTime) > $tokenExpiry) {
         $_SESSION['message'] = 'Invitation expirée.';
+        $_SESSION['redirect_after_login'] = null;
         header("Location: connexion.php");
         exit;
     }

@@ -462,9 +462,7 @@ nav ul li a.active {
 
 /* Style pour le bouton d'invitation */
 .right-button {
-    float: right;
-    margin-bottom: 10px;
-    display: flex;
+    display: inline-flex; /* Utilisez inline-flex pour éviter les problèmes de flottement */
     align-items: center;
     justify-content: center;
     padding: 10px 20px;
@@ -474,6 +472,7 @@ nav ul li a.active {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-bottom: 10px; /* Ajoutez un espace en bas */
 }
 
 .right-button:hover {
@@ -482,16 +481,32 @@ nav ul li a.active {
 
 .right-button img {
     margin-right: 10px;
-    width: 3em; /* Utilisez des unités relatives pour la taille de l'image */
-    height: 3em; /* Utilisez des unités relatives pour la taille de l'image */
+    width: 1.5em; /* Ajustez la taille de l'image */
+    height: 1.5em; /* Ajustez la taille de l'image */
     vertical-align: middle;
-    max-width: 200%; /* Assurez-vous que l'image ne dépasse pas la taille du bouton */
-    max-height: 200%; /* Assurez-vous que l'image ne dépasse pas la taille du bouton */
 }
 
 /* Style pour le conteneur du formulaire d'invitation */
 #inviteUserForm {
-    clear: both; /* Assure que le formulaire ne flotte pas à côté du bouton */
+    display: none; /* Masquez le formulaire par défaut */
     margin-top: 10px;
-    float: right;
+    padding: 20px;
+    background-color: #e2e2e2;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajoutez un style pour le bouton de soumission du formulaire */
+#inviteUserForm button {
+    background-color: #3a1768;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#inviteUserForm button:hover {
+    background-color: #6a2a88;
 }

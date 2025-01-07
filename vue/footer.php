@@ -1,3 +1,3 @@
 <footer>
-    <p>© 2024 Voix Citoyenne. Tous droits réservés.</p>
+    <p>© 2025 Voix Citoyenne. Tous droits réservés.</p>
 </footer>

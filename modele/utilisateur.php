@@ -143,5 +143,20 @@ class Utilisateur {
 
         return $count > 0;
     }
+
+    public static function siMailExisteGrp($email, $groupeId) {
+        $pdo = Connexion::pdo();
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM utilisateur WHERE user_mail = :email AND user_id IN (SELECT user_id FROM membre WHERE grp_id = :groupeId)");
+        $stmt->execute(['email' => $email, 'groupeId' => $groupeId]);
+        return $stmt->fetchColumn() > 0;
+    }
+
+    public static function getNameUser($email) {
+        $pdo = Connexion::pdo();
+        $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE user_mail = :email");
+        $stmt->execute(['email' => $email]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $data ? new self($data['user_id'], $data['user_mail'], $data['user_mdp'], $data['user_prenom'], $data['user_nom'], $data['adr_id']) : null;
+    }
 }
 ?>

@@ -15,6 +15,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = htmlspecialchars($data['email']);
     $groupId = intval($data['groupId']);
 
+    // Si Utilisateur existe déjà dans le mail de la base de données
+    $mailExist = Utilisateur::siMailExisteGrp($email, $groupId);
+    $getUser = Utilisateur::getIdUtilisateur($email);
+    if ($mailExist) {
+        echo json_encode(['status' => 'error', 'message' => 'Cet utilisateur' . $getUser->get('user_prenom') . 'est déjà membre du groupe.']);
+        exit;
+    }
+
+    
+
     // Vérifiez si le groupe existe
     $groupe = Groupe::getGroupByIdUnique2($groupId);
     if (!$groupe) {
