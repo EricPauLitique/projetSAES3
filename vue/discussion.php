@@ -103,8 +103,8 @@ error_log("Nombre de commentaires récupérés : " . count($lesCommentaires));
 
         <nav>
             <ul>
-                <li><a href="groupe.php?id=<?php echo $groupeId; ?>" class="active">Groupe</a></li>
-                <li><a href="liste_prop.php?id=<?php echo $groupeId; ?>">Propositions</a></li>
+                <li><a href="groupe.php?id=<?php echo $groupeId; ?>" >Groupe</a></li>
+                <li><a href="liste_prop.php?id=<?php echo $groupeId; ?>"class="active">Propositions</a></li>
                 <li><a href="vote.php?id=<?php echo $groupeId; ?>">Vote</a></li>
             </ul>
         </nav>  
@@ -227,30 +227,33 @@ error_log("Nombre de commentaires récupérés : " . count($lesCommentaires));
             sessionStorage.removeItem('message');
         }
 
-        document.getElementById('inviteUserForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const email = document.getElementById('inviteEmail').value;
-            const groupId = <?php echo $groupeId; ?>;
+        const inviteUserForm = document.getElementById('inviteUserForm');
+        if (inviteUserForm) {
+            inviteUserForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const email = document.getElementById('inviteEmail').value;
+                const groupId = <?php echo $groupeId; ?>;
 
-            fetch('../api.php?endpoint=inviteUser', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, groupId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    alert('Invitation envoyée avec succès.');
-                } else {
-                    alert('Erreur lors de l\'envoi de l\'invitation : ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Erreur:', error);
+                fetch('../api.php?endpoint=inviteUser', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, groupId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Invitation envoyée avec succès.');
+                    } else {
+                        alert('Erreur lors de l\'envoi de l\'invitation : ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                });
             });
-        });
+        }
 
         function deleteMembre(userId, grpId) {
             if (confirm('Êtes-vous sûr de vouloir supprimer ce membre ?')) {
@@ -341,6 +344,8 @@ error_log("Nombre de commentaires récupérés : " . count($lesCommentaires));
             const propId = <?php echo $propId; ?>;
             const userId = <?php echo $id; ?>;
 
+            console.log("Sending data:", { com_txt: commentaireTexte, prop_id: propId, user_id: userId }); // Debugging line
+
             fetch('../api.php?endpoint=commentaires', {
                 method: 'POST',
                 headers: {
@@ -350,7 +355,7 @@ error_log("Nombre de commentaires récupérés : " . count($lesCommentaires));
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data); // Debugging line
+                console.log("Response received:", data); // Debugging line
                 if (data.status === 'success') {
                     document.getElementById('commentaireTexte').value = '';
                     fetchCommentaires();
@@ -380,14 +385,17 @@ error_log("Nombre de commentaires récupérés : " . count($lesCommentaires));
         }
 
         // Afficher/Masquer le formulaire d'invitation
-        document.getElementById('showInviteFormButton').addEventListener('click', function() {
-            const inviteForm = document.getElementById('inviteUserForm');
-            if (inviteForm.style.display === 'none') {
-                inviteForm.style.display = 'block';
-            } else {
-                inviteForm.style.display = 'none';
-            }
-        });
+        const showInviteFormButton = document.getElementById('showInviteFormButton');
+        if (showInviteFormButton) {
+            showInviteFormButton.addEventListener('click', function() {
+                const inviteForm = document.getElementById('inviteUserForm');
+                if (inviteForm.style.display === 'none') {
+                    inviteForm.style.display = 'block';
+                } else {
+                    inviteForm.style.display = 'none';
+                }
+            });
+        }
 
         // Initial fetch of comments
         fetchCommentaires();
