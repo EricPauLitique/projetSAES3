@@ -219,11 +219,9 @@ input[type="email"],
 input[type="password"],
 select,
 textarea {
-    width: 100%; /* Prend toute la largeur disponible */
     padding: 12px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    font-size: 1em;
     box-sizing: border-box;
     transition: border-color 0.3s ease;
 }
@@ -244,9 +242,6 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-}
-
-button:hover {
 }
 
 /* Footer */
