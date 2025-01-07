@@ -84,7 +84,7 @@ $redirectUrl = $_SESSION['redirect_after_login'] ?? "../vue/accueil.php";
        <h2><b>Connexion</b></h2>
 
         <?php if ($message): ?>
-            <div id="success-message" style="color: green; font-weight: bold;"><?php echo $message; ?></div>
+            <div id="error-message" style="color: red; font-weight: bold;"><?php echo $message; ?></div>
         <?php endif; ?>
 
         <div id="error-message" style="color: red; font-weight: bold;"></div>

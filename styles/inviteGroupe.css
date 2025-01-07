@@ -1,0 +1,326 @@
+/* Styles généraux */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+label {
+    font-weight: bold;
+}
+
+header {
+    background-color: #3a1768;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+}
+
+header img {
+    width: 50px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+#titre {
+    color: #3a1768;
+    text-align: center; /* Centrer le texte du titre */
+}
+
+.accueil {
+    display: flex;
+    align-items: center;
+}
+
+a img {
+    width: 100px; /* Exemple de redimensionnement */
+}
+
+a:hover img {
+    opacity: 0.7; /* Effet lors du survol */
+}
+a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #333;
+    text-align: center;
+}
+
+h1 {
+    display: inline;
+    font-size: 2em;
+    margin: 0;
+}
+
+/* Menu déroulant des paramètres */
+.menu-parametres {
+    position: relative;
+    display: inline-block;
+}
+
+.parametres-icon {
+    width: 40px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.parametres-icon:hover {
+    transform: rotate(180deg);
+}
+
+table {
+    width: 100%;
+    max-width: 800px; /* Pour limiter la taille de la table */
+    margin: 20px auto; /* Ajoute un espacement avec le reste de la page */
+    border-collapse: separate; /* Sépare les bordures des cellules */
+    border-spacing: 10px; /* Ajoute de l'espace entre les cellules */
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; /* Arrondit les bords de la table */
+}
+
+table th,
+table td {
+    text-align: center;
+    padding: 10px 15px; /* Ajoute un padding pour aérer les cellules */
+    vertical-align: middle; /* Centre verticalement le texte */
+    font-weight: bold;
+    background-color: #e2e2e2;
+}
+
+table th {
+    background-color: #3a1768;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px 8px 0 0; /* Coin supérieur arrondi */
+}
+
+table td {
+    border-bottom: 1px solid #e6e6e6; /* Ligne séparatrice entre les lignes */
+}
+
+table td:last-child {
+    text-align: center; /* Centre le contenu de la dernière colonne */
+}
+
+@media screen and (max-width: 768px) {
+    table {
+        display: block; /* Rend la table défilable horizontalement */
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    table th, table td {
+        padding: 8px 10px; /* Réduit l'espacement pour les petits écrans */
+    }
+}
+
+.menu-options {
+    display: none;
+    position: absolute;
+    top: 75%; /* Décale le menu en dessous */
+    left: 47.2%;
+    transform: translateX(-50%);
+    background-color: #3a1768;
+    color: white;
+    padding: 10px 20px;
+    list-style: none;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s 0.3s;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.menu-options li {
+    margin: 0;
+}
+
+.menu-options li a {
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menu-options li a:hover {
+    background-color: #ffcc00;
+    color: #3a1768;
+}
+
+.menu-parametres:hover .menu-options {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0s 0s;
+}
+
+/* Section principale */
+main {
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+    font-size: 1.8em;
+    color: #3a1768;
+    margin-bottom: 20px;
+    position: relative; /* Pour permettre de positionner la puce */
+    padding-left: 30px; /* Crée un espace pour la puce à gauche */
+}
+
+h2::before, h3::before {
+    content: "\2022"; /* Code Unicode pour la puce */
+    position: absolute;
+    left: 0; /* Positionne la puce à gauche du titre */
+    top: 50%; /* Centre verticalement la puce */
+    transform: translateY(-50%); /* Ajuste verticalement la position de la puce */
+    font-size: 1.8em; /* Taille de la puce */
+    color: #3a1768; /* Couleur de la puce */
+}
+
+form {
+    max-width: 500px; /* Largeur maximale pour éviter qu'il ne devienne trop grand */
+    margin: 0 auto; /* Centre le formulaire horizontalement */
+    padding: 20px; /* Ajoute de l'espace à l'intérieur du formulaire */
+    background-color: #e2e2e2; /* Fond blanc pour le contraste */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espace entre les champs */
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+    width: 100%; /* Prend toute la largeur disponible */
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #3a1768; /* Couleur de bordure au focus */
+    outline: none; /* Supprime le contour par défaut */
+}
+
+button {
+    padding: 15px;
+    background-color: #3a1768;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #6a2a88;
+}
+
+/* Footer */
+footer {
+    background-color: #3a1768;
+    color: #fff;
+    padding: 15px;
+    position: sticky;
+    bottom: 0;
+    text-align: center;
+    font-weight: normal;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    header img {
+        width: 40px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    main {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    .menu-options {
+        flex-direction: column;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .menu-options li {
+        margin: 10px 0;
+    }
+}
+
+.retour {
+    display: flex;
+    align-items: center; /* Aligne l'image et le texte verticalement */
+    gap: 10px; /* Espacement entre l'image et le texte */
+}
+
+.retour-icon {
+    width: 20px; /* Taille de l'icône */
+    height: auto;
+}
+
+.retour a {
+    text-decoration: none; /* Supprime la décoration de lien */
+    color: #3a1768; /* Couleur du texte */
+    font-size: 16px; /* Taille du texte */
+    font-weight: bold; /* Met le texte en gras */
+    transition: color 0.3s ease; /* Ajoute un effet de transition pour la couleur */
+}
+
+.retour a:hover {
+    color: #ffcc00; /* Change la couleur du texte lors du survol */
+}
+
+.username {
+    display: inline;
+    margin-right: 20px;
+    margin-bottom: 100px;
+}
+
+.purple-link {
+    color: #6a2a88; /* Couleur violette */
+    text-decoration: none;
+}
+
+.purple-link:hover {
+    color: #3a1768; /* Couleur violette foncée au survol */
+    text-decoration: underline;
+}
