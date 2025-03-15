@@ -1,13 +1,19 @@
 # Voix Citoyenne - S301
 
-## Durée : Septembre 2024-Janvier 2025
+## Durée : Septembre 2024 - Janvier 2025
+
+## Remerciement
+- SE ERIC
+- GADEWA STÉPHANE  
+- PIVET LUCAS  
+- LUQUET HALIM  
 
 ## Description du projet
 Voix Citoyenne est une plateforme permettant aux utilisateurs de s'exprimer et de voter sur diverses propositions au sein de groupes dédiés. L'application offre un environnement structuré pour la gestion des discussions citoyennes.
 
 ## Fonctionnalités principales
 ### Gestion des utilisateurs
-- Inscription et connexion sécurisée
+- Inscription et connexion sécurisées
 - Modification des informations de compte
 
 ### Gestion des groupes
@@ -37,7 +43,7 @@ Voix Citoyenne est une plateforme permettant aux utilisateurs de s'exprimer et d
 
 ### Serveurs
 - **Base de données et web** : Raspberry Pi et serveur de l'IUT
-- **Protocoles utilisés** : Web (HTTP/HTTPS), SSH, FTPS, MySQL, SFTP
+- **Protocoles utilisés** : HTTP/HTTPS, SSH, FTPS, MySQL, SFTP
 
 ### Envoi d’emails
 - **Outil** : PHPMailer
@@ -61,14 +67,14 @@ Voix Citoyenne est une plateforme permettant aux utilisateurs de s'exprimer et d
 - Mise en place du **Modèle Conceptuel de Traitement (MCT)**
 
 ## Déploiement
-1. **Installation des dépendances**
-   - PHP et MySQL
-   - Serveur Apache
-   - PHPMailer
-2. **Configuration de la base de données**
-   - Importer le script SQL
-3. **Lancement du site web**
-   - Hébergement sur Raspberry Pi ou serveur de l'IUT
+1. **Installation des dépendances**  
+   - PHP et MySQL  
+   - Serveur Apache  
+   - PHPMailer  
+2. **Configuration de la base de données**  
+   - Importer le script SQL  
+3. **Lancement du site web**  
+   - Hébergement sur Raspberry Pi ou serveur de l'IUT  
 
 ## Ports utilisés
 - **Web** : HTTP/HTTPS
