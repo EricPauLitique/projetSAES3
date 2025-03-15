@@ -4,9 +4,9 @@
 
 ## Remerciement
 - SE ERIC
-- GADEWA STÉPHANE  
-- PIVET LUCAS  
-- LUQUET HALIM  
+- GENSBITTEL RAPHAËL
+- BIGIRIMANA JEAN JORIS
+
 
 ## Description du projet
 Voix Citoyenne est une plateforme permettant aux utilisateurs de s'exprimer et de voter sur diverses propositions au sein de groupes dédiés. L'application offre un environnement structuré pour la gestion des discussions citoyennes.
