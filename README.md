@@ -74,6 +74,8 @@ Voix Citoyenne est une plateforme permettant aux utilisateurs de s'exprimer et d
 - Mise en place du **Graphe des Dépendances Fonctionnelles (GDF)**
 ![GDF](https://github.com/user-attachments/assets/b19a8d20-890e-44de-992c-b209c857161c)
 - Élaboration du **Modèle Conceptuel de Traitement (MCT)**
+- Élaborer un diagramme de classe (UML) puis le transcrire en code JAVA.
+![diagramme de classe](https://github.com/user-attachments/assets/de0175b0-1071-40bd-88c4-013a68a6d53e)
 
 ### Planification
 - Élaboration du **Product Breakdown Structure (PBS)**
