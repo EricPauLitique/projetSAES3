@@ -14,8 +14,6 @@ Voix Citoyenne est une plateforme permettant aux utilisateurs de s'exprimer et d
 <img width="1511" alt="Capture d’écran 2025-03-16 à 11 11 25" src="https://github.com/user-attachments/assets/0897344d-1e73-41b4-bb83-077c22cc60bc" />
 <img width="1512" alt="Capture d’écran 2025-03-16 à 11 12 11" src="https://github.com/user-attachments/assets/9ecfd967-7621-49f5-863e-04bff513d3d8" />
 
-
-
 ## Fonctionnalités principales
 ### Gestion des utilisateurs
 - Inscription et connexion sécurisées
@@ -100,3 +98,12 @@ Voix Citoyenne est une plateforme permettant aux utilisateurs de s'exprimer et d
 - **FTPS** : Transfert sécurisé de fichiers
 - **MySQL** : Gestion des bases de données
 - **SFTP** : Accès sécurisé aux fichiers
+
+## Requêtes SQL
+Pour consulter les requêtes SQL, veuillez vous référer au répertoire `requetessql` dans votre espace de travail. Ce répertoire contient les fichiers suivants :
+- `creationTables.sql`
+- `creationTablesVues.sql`
+- `exemplesDeRequetes.sql`
+- `InsertionDesDonnees.sql`
+- `proceduresFonctions.sql`
+- `triggers.sql`
