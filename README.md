@@ -1,15 +1,20 @@
-# Voix Citoyenne - S301
+## Voix Citoyenne - S301 
 
 ## Durée : Septembre 2024 - Janvier 2025
 
-## Remerciement
-- SE ERIC
-- GENSBITTEL RAPHAËL
-- BIGIRIMANA JEAN JORIS
-
+## Remerciements
+- **SE Eric**
+- **Gensbittel Raphaël**
+- **Bigirimana Jean Joris**
 
 ## Description du projet
-Voix Citoyenne est une plateforme permettant aux utilisateurs de s'exprimer et de voter sur diverses propositions au sein de groupes dédiés. L'application offre un environnement structuré pour la gestion des discussions citoyennes.
+Voix Citoyenne est une plateforme permettant aux utilisateurs de s'exprimer et de voter sur diverses propositions au sein de groupes dédiés. L'application offre un environnement structuré pour la gestion des discussions citoyennes et facilite l'organisation démocratique des décisions.
+
+## Aperçu du site
+<img width="1511" alt="Capture d’écran 2025-03-16 à 11 11 25" src="https://github.com/user-attachments/assets/0897344d-1e73-41b4-bb83-077c22cc60bc" />
+<img width="1512" alt="Capture d’écran 2025-03-16 à 11 12 11" src="https://github.com/user-attachments/assets/9ecfd967-7621-49f5-863e-04bff513d3d8" />
+
+
 
 ## Fonctionnalités principales
 ### Gestion des utilisateurs
@@ -38,7 +43,7 @@ Voix Citoyenne est une plateforme permettant aux utilisateurs de s'exprimer et d
 
 ### Base de données
 - **Système** : MySQL
-- **Modélisation** : MCD, Schéma relationnel, Dictionnaire de données, MCT
+- **Modélisation** : MCD, Schéma relationnel, Dictionnaire de données, Graphe des Dépendances Fonctionnelles (GDF)
 - **Accès et gestion** : SQL
 
 ### Serveurs
@@ -62,9 +67,20 @@ Voix Citoyenne est une plateforme permettant aux utilisateurs de s'exprimer et d
 
 ### Modélisation des données
 - Conception du **Modèle Conceptuel des Données (MCD)**
+![MCD](https://github.com/user-attachments/assets/c46f47bb-4a9d-4be1-a5b4-24dd2b92078a)
 - Création du **Schéma relationnel**
+![SR](https://github.com/user-attachments/assets/c4b9c2ef-6c1b-4e77-9ed9-bd46ef9b2eb9)
 - Définition du **Dictionnaire de données**
-- Mise en place du **Modèle Conceptuel de Traitement (MCT)**
+- Mise en place du **Graphe des Dépendances Fonctionnelles (GDF)**
+![GDF](https://github.com/user-attachments/assets/b19a8d20-890e-44de-992c-b209c857161c)
+- Élaboration du **Modèle Conceptuel de Traitement (MCT)**
+
+### Planification
+- Élaboration du **Product Breakdown Structure (PBS)**
+- Construction du **Work Breakdown Structure (WBS)**
+- Liste détaillée des tâches
+- Diagramme de **PERT**
+- Diagramme de **GANTT**
 
 ## Déploiement
 1. **Installation des dépendances**  
@@ -82,10 +98,3 @@ Voix Citoyenne est une plateforme permettant aux utilisateurs de s'exprimer et d
 - **FTPS** : Transfert sécurisé de fichiers
 - **MySQL** : Gestion des bases de données
 - **SFTP** : Accès sécurisé aux fichiers
-
-## Liens et ressources
-- Documentation interne
-- Dépôt GitHub (si applicable)
-
-## Licence
-Ce projet est sous licence open-source, toute contribution est la bienvenue !
